@@ -150,6 +150,7 @@ TrainerPicPointers::
 	dba LawrencePic
 	dba ReiPic
 	dba FirebreatherAshesPic
+	dba GreenPic
 	assert_table_length NUM_TRAINER_CLASSES
 	dba OmastarFossilPic
 	dba KabutopsFossilPic

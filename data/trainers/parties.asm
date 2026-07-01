@@ -9374,3 +9374,20 @@ ReiGroup:
 	end_trainer
 
 ENDSECTION
+
+SECTION "GreenGroup", ROMX
+GreenGroup:
+; FIREBREATHER_ASHES reuses FirebreatherGroup's data and never calls
+; def_trainer_class, leaving _tr_class one behind GREEN's real ordinal.
+; Force it back in sync since GREEN is the last class in the list.
+DEF _tr_class = GREEN
+
+	def_trainer_class GREEN
+	def_trainer 1, "Victoria"
+	tr_mon 50, SYLVEON @ LEFTOVERS, FEMALE
+		tr_extra PIXILATE
+		tr_moves MOONBLAST, PLAY_ROUGH, DRAINING_KISS, LIGHT_SCREEN
+	tr_mon 50, FLAREON @ LIFE_ORB, FEMALE
+		tr_extra FLASH_FIRE
+		tr_moves FLARE_BLITZ, DOUBLE_EDGE, BITE, FLAME_CHARGE
+	end_trainer

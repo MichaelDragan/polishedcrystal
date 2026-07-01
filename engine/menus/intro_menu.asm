@@ -81,7 +81,17 @@ _NewGame_FinishSetup:
 	call NewGame_ClearTileMapEtc
 	call WarnVBA
 	farcall SetInitialOptions
+if DEF(DEBUG)
+	ld a, PLAYER_MALE
+	ld [wPlayerGender], a
+	ld hl, DebugPlayerName
+	ld de, wPlayerName
+	ld bc, NAME_LENGTH
+	rst CopyBytes
+	call DebugGoldVsGreenBattle
+else
 	call ProfElmSpeech
+endc
 	call InitializeWorld
 	ld a, 1
 	ld [wPrevLandmark], a
@@ -92,6 +102,106 @@ _NewGame_FinishSetup:
 	ld a, MAPSETUP_WARP
 	ldh [hMapEntryMethod], a
 	jmp FinishContinueFunction
+
+if DEF(DEBUG)
+DebugPlayerName:
+	rawchar "GOLD@@@@", 0, 0, 0
+
+DebugGoldVsGreenBattle:
+; Test hook: give Gold a fixed party and immediately battle Green.
+	call .GiveUmbreon
+	call .GiveJolteon
+
+	ld a, GREEN
+	ld [wOtherTrainerClass], a
+	ld a, 1
+	ld [wOtherTrainerID], a
+	xor a
+	ld [wTrainerPal], a
+	ld a, (1 << 7) | 1
+	ld [wBattleScriptFlags], a
+	call BufferScreen
+	farcall StartBattle
+	ret
+
+.GiveJolteon:
+	ld a, LOW(JOLTEON)
+	ld [wCurPartySpecies], a
+	ld a, HIGH(JOLTEON) << MON_EXTSPECIES_F
+	ld [wCurForm], a
+	ld a, 50
+	ld [wCurPartyLevel], a
+	xor a
+	ld [wCurItem], a
+	ld [wGiftMonBall], a
+	ld [wCurPlayerMove], a
+	ld b, 0
+	farcall GivePoke
+
+	ld a, THUNDERBOLT
+	ld [wPartyMon2 + MON_MOVES + 0], a
+	ld hl, Moves + MOVE_PP
+	call GetMoveProperty
+	ld [wPartyMon2 + MON_PP + 0], a
+
+	ld a, AGILITY
+	ld [wPartyMon2 + MON_MOVES + 1], a
+	ld hl, Moves + MOVE_PP
+	call GetMoveProperty
+	ld [wPartyMon2 + MON_PP + 1], a
+
+	ld a, THUNDER_WAVE
+	ld [wPartyMon2 + MON_MOVES + 2], a
+	ld hl, Moves + MOVE_PP
+	call GetMoveProperty
+	ld [wPartyMon2 + MON_PP + 2], a
+
+	ld a, DOUBLE_EDGE
+	ld [wPartyMon2 + MON_MOVES + 3], a
+	ld hl, Moves + MOVE_PP
+	call GetMoveProperty
+	ld [wPartyMon2 + MON_PP + 3], a
+	ret
+
+.GiveUmbreon:
+	ld a, LOW(UMBREON)
+	ld [wCurPartySpecies], a
+	ld a, HIGH(UMBREON) << MON_EXTSPECIES_F
+	ld [wCurForm], a
+	ld a, 50
+	ld [wCurPartyLevel], a
+	xor a
+	ld [wCurItem], a
+	ld [wGiftMonBall], a
+	ld [wCurPlayerMove], a
+	ld b, 0
+	farcall GivePoke
+
+	ld a, CALM_MIND
+	ld [wPartyMon1 + MON_MOVES + 0], a
+	ld hl, Moves + MOVE_PP
+	call GetMoveProperty
+	ld [wPartyMon1 + MON_PP + 0], a
+
+	ld a, SUBSTITUTE
+	ld [wPartyMon1 + MON_MOVES + 1], a
+	ld hl, Moves + MOVE_PP
+	call GetMoveProperty
+	ld [wPartyMon1 + MON_PP + 1], a
+
+	ld a, BATON_PASS
+	ld [wPartyMon1 + MON_MOVES + 2], a
+	ld hl, Moves + MOVE_PP
+	call GetMoveProperty
+	ld [wPartyMon1 + MON_PP + 2], a
+
+	ld a, HEALINGLIGHT
+	ld [wPartyMon1 + MON_MOVES + 3], a
+	ld hl, Moves + MOVE_PP
+	call GetMoveProperty
+	ld [wPartyMon1 + MON_PP + 3], a
+	ret
+endc
 
 ResetWRAM_NotPlus:
 	xor a

@@ -152,4 +152,5 @@ TrainerGroups:
 	dba LawrenceGroup
 	dba ReiGroup
 	dba FirebreatherGroup
+	dba GreenGroup
 	assert_table_length NUM_TRAINER_CLASSES

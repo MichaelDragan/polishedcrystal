@@ -1130,6 +1130,8 @@ DEF BETA EQU __trainer_class__
 
 	trainerclass FIREBREATHER_ASHES
 
+	trainerclass GREEN
+
 DEF NUM_TRAINER_CLASSES EQU __trainer_class__ - 1
 
 	trainerclass OMASTAR_FOSSIL

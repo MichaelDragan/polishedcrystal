@@ -149,4 +149,5 @@ TrainerClassNames::
 	li "Collector"        ; LAWRENCE
 	li "Shrine"           ; REI
 	li "Firebreather"     ; FIREBREATHER_ASHES
+	li "<PK><MN> Trainer" ; GREEN
 	assert_list_length NUM_TRAINER_CLASSES
