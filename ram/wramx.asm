@@ -1218,6 +1218,7 @@ wEcruteakGymSceneID:: db
 wEcruteakHouseSceneID:: db
 wRocketHideoutB4FSceneID:: db
 wElmsLabSceneID:: db
+wOaksLabSceneID:: db
 wFarawayIslandSceneID:: db
 wFastShip1FSceneID:: db
 wFastShipB1FSceneID:: db

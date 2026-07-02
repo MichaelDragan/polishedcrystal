@@ -29,14 +29,14 @@ sOptions3:: db
 sSRAMAccessCount:: db
 
 sChecksum:: dw
-	assert sChecksum == $ad0d, "Checksum has shifted."
+	assert sChecksum == $ad0e, "Checksum has shifted."
 
 sCheckValue2:: db ; loaded with 127, used to check save corruption
 
 	; These need to remain constant. Otherwise, the game will fail to
 	; recognize that a save exist.
 	assert sCheckValue1 == $a007, "Save check value 1 has shifted."
-	assert sCheckValue2 == $ad0f, "Save check value 2 has shifted."
+	assert sCheckValue2 == $ad10, "Save check value 2 has shifted."
 
 
 SECTION "Backup Save", SRAM
@@ -56,7 +56,7 @@ sBackupOptions3:: db
 	ds 393 ; unused
 
 sBackupChecksum:: dw
-	assert sBackupChecksum == $bf0d, "Backup checksum has shifted."
+	assert sBackupChecksum == $bf0e, "Backup checksum has shifted."
 
 sBackupCheckValue2:: db ; loaded with 127, used to check save corruption
 

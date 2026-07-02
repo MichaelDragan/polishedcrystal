@@ -81,9 +81,27 @@ for that). Concretely, for this early phase:
   pair (`def_scene_scripts`) and two `coord_event`s at (4,10)/(5,10) — the tiles immediately inside the
   door — gated on the default `SCENE_OAKSLAB_INTRO` state. Stepping onto either tile (your first move
   after entering) fires `OliveNoticesScript`, which shows an emote + a short "come sit with me" text
-  box, then advances the scene so it only fires once. Modeled on the identical `coord_event`
-  mechanism `ElmsLab.asm` uses for its rival-intercept scene (confirmed via the engine's
-  `CheckCurrentMapCoordEvents`/`CheckObjectFlag`-adjacent code path, not just macro syntax).
+  box, applies a short movement so the player walks over and ends up beside her at the table, then
+  advances the scene so it only fires once. Modeled on the identical `coord_event` mechanism
+  `ElmsLab.asm` uses for its rival-intercept scene.
+  - **Fixed: the trigger silently did nothing at first.** Root cause: `coord_event`/`setscene` only
+    work for maps explicitly registered in the separate `MapScenes` table
+    (`data/maps/scenes.asm`) — this is not implied by adding `def_scene_scripts` to a map's own
+    header. `GetMapSceneID` (`home/map.asm`) looks up the current map there to find its WRAM storage
+    address; if the map isn't listed, the lookup just fails silently (no crash, no error, the
+    scene-gated `coord_event` simply never matches). Oak's Lab was never in that table before now.
+    Fixed by adding `scene_var OAKS_LAB, wOaksLabSceneID` to `data/maps/scenes.asm` and declaring
+    `wOaksLabSceneID:: db` in `ram/wramx.asm` (same pattern as every other map with scene support,
+    e.g. `wElmsLabSceneID`).
+  - Adding that WRAM byte shifted the SRAM save-data layout by 1 byte, tripping three hardcoded
+    checksum-address assertions in `ram/sram.asm` (`sChecksum`, `sCheckValue2`, `sBackupChecksum`) that
+    exist to catch accidental save-layout shifts. Updated all three to their new correct addresses
+    (found via the `.sym` file after a build with the asserts temporarily disabled) rather than
+    removing the safety check.
+  - Diagnosed by walking the player physically out of the room and back in through the door under
+    manual control — earlier test attempts kept landing already-inside the room without an actual
+    "step through the door" happening, which never gave the `coord_event` a chance to fire in the
+    first place, and looked identical to the trigger being broken until this was ruled out.
 - **Olive doesn't battle yet**: she was originally wired as `OBJECTTYPE_TRAINER` (auto-battle on
   sight, via the `trainer GREEN, 1, ...` macro/`TrainerVictoria` script) — too aggressive for what's
   meant to be a friendly first meeting ("we are friends" per the user, not rivals yet at this point in
