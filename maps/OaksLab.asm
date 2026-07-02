@@ -45,7 +45,7 @@ OaksLab_MapScriptHeader:
 	const_skip ; OaksAssistant1 (aroma lady)
 	const_skip ; Pokedex book
 	const OAKSLAB_VICTORIA
-	const_skip ; Victoria (trainer form, same tile, active after starter is chosen)
+	const OAKSLAB_VICTORIA_TRAINER ; Victoria (trainer form, same tile, active after starter is chosen)
 	const OAKSLAB_BULBASAUR_BALL
 	const OAKSLAB_CHARMANDER_BALL
 	const OAKSLAB_SQUIRTLE_BALL
@@ -618,6 +618,8 @@ BulbasaurPokeBallScript:
 	disappear OAKSLAB_BULBASAUR_BALL
 	setevent EVENT_GOT_A_POKEMON_FROM_OAK
 	clearevent EVENT_OAKSLAB_AWAITING_STARTER_CHOICE
+	disappear OAKSLAB_VICTORIA
+	appear OAKSLAB_VICTORIA_TRAINER
 	givepoke BULBASAUR, PLAIN_FORM, 5, ORAN_BERRY
 	closetext
 	end
@@ -637,6 +639,8 @@ CharmanderPokeBallScript:
 	disappear OAKSLAB_CHARMANDER_BALL
 	setevent EVENT_GOT_A_POKEMON_FROM_OAK
 	clearevent EVENT_OAKSLAB_AWAITING_STARTER_CHOICE
+	disappear OAKSLAB_VICTORIA
+	appear OAKSLAB_VICTORIA_TRAINER
 	givepoke CHARMANDER, PLAIN_FORM, 5, ORAN_BERRY
 	closetext
 	end
@@ -656,6 +660,8 @@ SquirtlePokeBallScript:
 	disappear OAKSLAB_SQUIRTLE_BALL
 	setevent EVENT_GOT_A_POKEMON_FROM_OAK
 	clearevent EVENT_OAKSLAB_AWAITING_STARTER_CHOICE
+	disappear OAKSLAB_VICTORIA
+	appear OAKSLAB_VICTORIA_TRAINER
 	givepoke SQUIRTLE, PLAIN_FORM, 5, ORAN_BERRY
 	closetext
 	end

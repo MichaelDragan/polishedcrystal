@@ -964,6 +964,7 @@ Script_faceplayer:
 	ld d, 0
 	ld e, a
 	farcall GetRelativeFacing
+	ret c
 	ld a, d
 	add a
 	add a
