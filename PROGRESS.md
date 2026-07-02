@@ -118,6 +118,21 @@ She used to just reuse `SPRITE_LEAF` (Leaf's stock overworld sprite). Forked her
     bug.
 - Olive's `object_event` in `maps/OaksLab.asm` now uses `SPRITE_OLIVE` + `PAL_NPC_OLIVE` instead of
   `SPRITE_LEAF` + `PAL_NPC_DARK_GREEN`.
+- **Fully custom colors, not the shared NPC skin tone**: the first version of `PAL_OW_OLIVE` copied
+  the same shared skin-tone/second-tone RGB values every other named palette uses (only the 3rd
+  "accent" slot actually varies between named colors normally) — user correctly called this out as
+  "way too tan." Realized this sharing was just a stylistic convention in the original data, not a
+  technical requirement: since she already has her own dedicated palette row (not literally shared at
+  the byte level), all 4 RGB slots in her `npc_sprites.pal` entries were changed to fully custom
+  values matching her battle portrait's actual skin tone (`23,19,16`) instead of reusing any other
+  NPC's tones. No "break out of the shared system" work was needed — the system already supported
+  this per-entry.
+- **Tried and reverted: a chair block under her.** No dedicated chair sprite/block exists. Tested one
+  blind guess at an unidentified tileset block (graphic ID 24) at her tile position — rendered as a
+  gray ledge/hospital-bed-like shape, not a chair, and obscured her sprite. Reverted immediately back
+  to the known-good table graphic (ID 27). Same underlying limitation as the earlier table-color
+  question: no way to preview raw tileset blocks in this environment, so finding a real chair graphic
+  would need either proper tooling or the user spotting one while playing.
 
 ## Fixed: Victoria's Eevee was absurdly strong
 `data/trainers/dvs.asm`'s `; green` entry still had `252, PERFECT_DVS` (max IVs + 252 EVs) left over
