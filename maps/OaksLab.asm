@@ -721,10 +721,24 @@ OliveNoticesText:
 
 OliveScript:
 	faceplayer
+	checkevent EVENT_GOT_A_POKEMON_FROM_OAK
+	iftrue_jumptext OliveFriendlyText
 	opentext
-	writetext OliveFriendlyText
+	writetext OliveOffersStarterText
 	closetext
 	end
+
+OliveOffersStarterText:
+	text "See those Poke"
+	line "Balls on the"
+	cont "table over"
+	cont "there?"
+
+	para "Oak said you"
+	line "can take one,"
+	cont "just like he"
+	cont "promised you."
+	done
 
 OliveFriendlyText:
 	text "This place has"
