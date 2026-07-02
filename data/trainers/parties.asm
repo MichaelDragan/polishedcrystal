@@ -7002,7 +7002,7 @@ endc
 	end_trainer
 
 	def_trainer QUINN, "Quinn"
-	tr_mon 8, VENUSAUR
+	tr_mon 8, BULBASAUR
 	tr_mon 7, STARMIE
 	end_trainer
 
