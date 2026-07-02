@@ -2,10 +2,14 @@ PlayerStateSprites:
 	table_width NUM_PLAYER_STATES
 
 ; PLAYER_MALE
-	db SPRITE_CHRIS           ; PLAYER_NORMAL
+; Uses Red's existing overworld sprite (gfx/sprites/red.png) instead of the
+; default Chris/"Gold" design, since Red is this hack's actual protagonist.
+; Red only has normal-walk frames so far (no run/bike/surf art yet) --
+; those states fall back to the default Chris sprites until that art exists.
+	db SPRITE_RED             ; PLAYER_NORMAL
 	db SPRITE_CHRIS_RUN       ; PLAYER_RUN
 	db SPRITE_CHRIS_BIKE      ; PLAYER_BIKE
-	db SPRITE_CHRIS           ; PLAYER_SKATE
+	db SPRITE_RED             ; PLAYER_SKATE
 	db SPRITE_CHRIS_SURF      ; PLAYER_SURF
 	db SPRITE_SURFING_PIKACHU ; PLAYER_SURF_PIKA
 

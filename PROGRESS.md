@@ -17,24 +17,34 @@ Starting **New Game**:
    Silver superboss already in this hack — confirmed intentional, no technical conflict, just a
    narrative coincidence).
 3. Spawns in **Pallet Town** (`SPAWN_PALLET`).
-4. Walk to **Oak's Lab**: three Poke Balls sit in front of Oak (green/red/blue = Bulbasaur/
-   Charmander/Squirtle, `SPRITE_BALL_CUT_TREE`, currently at map coords (2,4)/(3,4)/(4,4) — moved off
-   Oak's direct front tile after feedback that they were blocking him; **still not visually "on a
-   table"** like the classic games, that would need actual map-tile editing, not just object
-   placement, and hasn't been done). Picking one gives it at level 5 and makes the other two
-   disappear, mirroring the exact mechanic used for the Johto starters in `maps/ElmsLab.asm`
-   (`CyndaquilPokeBallScript` etc.) but simplified — no Lyra-style choreography since no one else is
-   present for this moment. Reuses the existing `EVENT_GOT_A_POKEMON_FROM_OAK` flag as the
-   "already chose" gate, which also correctly prevents Oak's other unrelated dialogue from
-   re-offering a starter later.
-5. **Victoria** is a real trainer NPC standing in Oak's Lab too (`SPRITE_LEAF` reused for her overworld
+4. Walk to **Oak's Lab**: three Poke Balls (green/red/blue = Bulbasaur/Charmander/Squirtle,
+   `SPRITE_BALL_CUT_TREE`) sit **inside the glass display case** at (6,3)/(7,3)/(8,3) — this is the
+   same case that used to hold the Eevee doll; the doll was moved to floor tile (2,4) instead so the
+   balls could have the case (real "on display" look, not floor placement). Picking one gives it at
+   level 5 and makes the other two disappear, mirroring the exact mechanic used for the Johto
+   starters in `maps/ElmsLab.asm` (`CyndaquilPokeBallScript` etc.) but simplified — no Lyra-style
+   choreography since no one else is present for this moment. Reuses the existing
+   `EVENT_GOT_A_POKEMON_FROM_OAK` flag as the "already chose" gate, which also correctly prevents
+   Oak's other unrelated dialogue from re-offering a starter later.
+5. **Talking to Oak before picking a starter** now just says "Go ahead and choose a Pokémon to be
+   your partner!" (`OakChooseStarterText`) instead of the vanilla "welcome to Kanto" + Elite Four
+   badge-check dialogue tree, which made no sense this early. Once a starter is picked
+   (`EVENT_GOT_A_POKEMON_FROM_OAK` true), Oak's normal vanilla dialogue resumes as before — confirmed
+   no regression there.
+6. **Victoria** is a real trainer NPC standing in Oak's Lab too (`SPRITE_LEAF` reused for her overworld
    sprite, at (5,6)), trainer class `GREEN`, currently holds a single level 5 Eevee (matching what
    Gold used to auto-receive before the 3-starter change — see "Open question" below, this may now be
    stale/mismatched given Gold picks a real Kanto starter). Talking to her triggers a genuine trainer
    battle via the standard engine (not an instant/scripted battle) — confirmed working end-to-end
-   including a loss.
-6. **Losing to Victoria (blackout) correctly respawns you in Pallet Town**, not some unrelated
+   including a loss. Her dialogue now correctly uses `<PLAYER>` instead of a hardcoded "Gold" (that
+   was a real bug — confirmed fixed, she now says "RED").
+7. **Losing to Victoria (blackout) correctly respawns you in Pallet Town**, not some unrelated
    fallback location. This needed an explicit fix — see "Whiteout fix" below.
+8. **Player character uses Red's actual overworld sprite** (`gfx/sprites/red.png`, already present in
+   this hack, same dimensions as the default "Chris"/Gold sprite sheet so it was a straight swap in
+   `data/player/state_sprites.asm`) instead of the default male protagonist look — confirmed visually.
+   Note: Red only has normal-walk frames so far, no run/bike/surf art, so those states still fall back
+   to the default sprite until that art exists.
 
 ## Fixed: Victoria's Eevee was absurdly strong
 `data/trainers/dvs.asm`'s `; green` entry still had `252, PERFECT_DVS` (max IVs + 252 EVs) left over
@@ -49,6 +59,38 @@ Eevee. Now that Gold picks a real 1-of-3 Kanto starter via the Poke Balls, Victo
 probably no longer the intended match — worth deciding: does she also get a real choice, a fixed
 starter, or a type-advantage "rival counter-pick" (classic mechanic: beats whichever you chose,
 cycling Bulbasaur→Charmander→Squirtle→Bulbasaur)? Not yet implemented either way.
+
+## Open bug: starter balls all vanish after a Victoria battle (NOT YET CONFIRMED FIXED)
+User-reported: picked Charmander (red ball correctly disappeared, Bulbasaur/Squirtle correctly stayed
+visible), then after a battle with Victoria (which sits right next to the balls, easy to walk into
+her by accident), all three balls were gone from the display case. Root cause not confirmed yet —
+working theory is that `reloadmapafterbattle` (fired by the `trainer` macro's generated script after
+any battle with Victoria) reloads the map and re-evaluates each ball object's own visibility flag
+(`EVENT_{BULBASAUR,CHARMANDER,SQUIRTLE}_POKEBALL_IN_OAKS_LAB`, the trailing parameter on each
+`object_event`) — and since the ball scripts never actually `setevent`/`clearevent` those specific
+flags (only the shared `EVENT_GOT_A_POKEMON_FROM_OAK` gate), their reload-time visibility may not
+reflect "already taken" correctly. Compare against `EeveeDollScript`, which does correctly
+`setevent EVENT_DECO_EEVEE_DOLL` on its own matching flag when collected — the ball scripts are
+missing that equivalent call. **Not yet fixed or verified** — next step is to add the matching
+`setevent`/`clearevent` calls per ball and confirm with a deliberate before/after-Victoria-battle
+comparison.
+
+## Fixed: object index mismatch broke `disappear`/`turnobject` in Oak's Lab
+`object_const_def`'s sequential numbering must match each object's actual position in the *full*
+`def_object_events` list, not just the objects that happen to have a `const` declared. When Victoria
+and the three balls were added after 4 existing unnamed NPCs (aroma lady, 2 scientists, pokedex book)
+without `const_skip` for each of them, every `OAKSLAB_*` constant after `OAKSLAB_EEVEE_DOLL` was off
+by 4, so `disappear`/`turnobject` calls were hitting the wrong objects. Fixed by adding 4
+`const_skip` entries. This was the cause of an earlier "wrong ball disappeared" symptom (now fixed;
+the separate "all balls vanish after a battle" bug above is a different, still-open issue).
+
+## Fixed: starter balls now sit in the display case, not on the floor
+Moved the Eevee doll off its display case (was at object coords (7,3)) to floor tile (2,4), and moved
+the three Poke Balls into that case at (6,3)/(7,3)/(8,3) instead. Confirmed visually — balls now
+render neatly inside the glass case, matching the classic "starter selection" look, instead of sitting
+on bare floor tiles. (Earlier considered hand-editing the map's block-level tile data to build a table
+from scratch — abandoned that approach as too fragile without visual tile-editing tools; reusing the
+existing display case was much simpler and lower-risk.)
 
 ## Where the code lives
 - `engine/menus/intro_menu.asm`: `DebugGoldVsGreenBattle` (now nearly a no-op — starter giving moved
@@ -90,9 +132,26 @@ mechanism still applies but is less likely to be noticed given weaker movesets.
 ## Sprite status
 `gfx/trainers/green.png` (Victoria's battle portrait) has been hand-edited by the user in LibreSprite
 across several passes: background fixed to white (was inverted by an earlier auto-generation bug),
-proportions corrected (was too large for the canvas), and legs added by hand (the original reference
-art was a bust portrait with no legs below the hips). Still 56x56, 4-shade grayscale, compiles
-cleanly. LibreSprite (`~/.local/bin/LibreSprite.AppImage`, desktop launcher installed) is the tool.
+proportions corrected (was too large for the canvas), legs added by hand (the original reference art
+was a bust portrait with no legs below the hips), and eyes added. Still 56x56, 4-shade grayscale,
+compiles cleanly. LibreSprite (`~/.local/bin/LibreSprite.AppImage`, desktop launcher installed) is the
+tool.
+
+**Color system**: this format allows exactly 4 shades total — white and black are fixed, and exactly
+2 more (the source PNG's light-gray/170 and dark-gray/85 pixel values) are freely recolorable via
+`gfx/trainers/green.pal`. This is a hard Game Boy hardware limit (`rgbgfx -c dmg`, DMG-compatible
+mode), not something specific to this file — every trainer portrait in the game follows the same
+rule, and even Pokémon's own battle sprites (checked Umbreon/Eevee/Sylveon) are equally limited to 4
+shades; they just read as more colorful because their 2 tunable colors are chosen to contrast more
+(e.g. Sylveon uses pink + blue).
+
+Current assignment, themed as "dark forest": dark-gray (85) = deep forest green `RGB 03,08,03`,
+light-gray (170) = lighter sage green `RGB 14,18,10`, reserved for the eyes once drawn with that
+shade. Known side effect to be aware of: an earlier attempt to free up a color slot for the eyes
+involved flattening all light-gray pixels to dark-gray, which unintentionally also recolored her face
+shading (it was using the same shade as the hair highlights) — she doesn't have a dedicated
+face-shading tone right now, it shares the hair/dark-green color. User was mid-decision on whether
+that's fine or needs a redraw when this was last touched.
 
 ## Testing notes
 - Launch with `mgba-qt -C mute=1 -C autoload=0 <rom>` — `mute=1` keeps it silent without touching the
