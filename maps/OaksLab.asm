@@ -708,6 +708,7 @@ OliveNoticesScript:
 	opentext
 	writetext OliveNoticesText
 	closetext
+	applymovement PLAYER, OliveNoticesWalkMovement
 	setscene SCENE_OAKSLAB_GREETED_OLIVE
 	end
 
@@ -718,6 +719,15 @@ OliveNoticesText:
 	line "for a moment,"
 	cont "<PLAYER>."
 	done
+
+OliveNoticesWalkMovement:
+	step_right
+	step_right
+	step_right
+	step_right
+	step_up
+	step_up
+	turn_head_down
 
 OliveScript:
 	faceplayer
