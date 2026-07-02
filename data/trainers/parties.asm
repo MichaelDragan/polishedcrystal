@@ -4661,9 +4661,9 @@ SchoolboyGroup:
 	end_trainer
 
 	def_trainer DANNY, "Danny"
-	tr_mon 61, JYNX
-	tr_mon 61, ELECTABUZZ
-	tr_mon 61, MAGMAR
+	tr_mon 5, JYNX
+	tr_mon 5, ELECTABUZZ
+	tr_mon 6, MAGMAR
 	end_trainer
 
 	def_trainer TOMMY, "Tommy"
@@ -4698,8 +4698,8 @@ SchoolboyGroup:
 	end_trainer
 
 	def_trainer SHERMAN, "Sherman"
-	tr_mon 59, FURRET
-	tr_mon 61, PIDGEOT
+	tr_mon 6, FURRET
+	tr_mon 7, PIDGEOT
 	end_trainer
 
 	def_trainer SCHOOLBOY_CONNOR, "Connor"
@@ -6779,8 +6779,8 @@ CooltrainerMGroup:
 	end_trainer
 
 	def_trainer FRENCH, "French"
-	tr_mon 62, HOUNDOOM
-	tr_mon 63, ALAKAZAM
+	tr_mon 7, HOUNDOOM
+	tr_mon 8, ALAKAZAM
 	end_trainer
 
 	def_trainer HENRI, "Henri"
@@ -7002,8 +7002,8 @@ endc
 	end_trainer
 
 	def_trainer QUINN, "Quinn"
-	tr_mon 63, VENUSAUR
-	tr_mon 62, STARMIE
+	tr_mon 8, VENUSAUR
+	tr_mon 7, STARMIE
 	end_trainer
 
 	def_trainer EMMA, "Emma"
@@ -9384,5 +9384,5 @@ DEF _tr_class = GREEN
 
 	def_trainer_class GREEN
 	def_trainer 1, "Victoria"
-	tr_mon 5, BULBASAUR, FEMALE
+	tr_mon 5, EEVEE, FEMALE
 	end_trainer

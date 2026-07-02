@@ -170,16 +170,16 @@
 
 	def_water_wildmons PALLET_TOWN
 	db 6 percent ; encounter rate
-	wildmon  55, TENTACOOL
-	wildmon  50, TENTACOOL
-	wildmon  55, TENTACRUEL
+	wildmon  3, TENTACOOL
+	wildmon  2, TENTACOOL
+	wildmon  4, TENTACOOL
 	end_water_wildmons
 
 	def_water_wildmons VIRIDIAN_CITY
 	db 2 percent ; encounter rate
-	wildmon  55, POLIWAG
-	wildmon  50, POLIWAG
-	wildmon  55, POLIWHIRL
+	wildmon  3, POLIWAG
+	wildmon  2, POLIWAG
+	wildmon  4, POLIWAG
 	end_water_wildmons
 
 	def_water_wildmons CERULEAN_CITY

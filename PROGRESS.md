@@ -53,6 +53,33 @@ team became a single level 5 Eevee. Changed to `0, $66, $66, $66` (0 EVs, modest
 stat tier this hack uses for early low-level trainers like Youngster. Fair starter-vs-starter fight
 now.
 
+## Kanto difficulty scaling — in progress, one region at a time
+Discovered that Kanto is entirely postgame-difficulty content in this hack (levels 50-70+ across the
+board), since it's normally only reachable after the Elite Four. Since we hacked New Game to start
+directly in Pallet Town at level 5, every nearby trainer/wild encounter was at that postgame
+difficulty — e.g. a Route 1 trainer had a level 63 Venusaur. Rebalancing the whole region is too big
+to do at once, so doing it incrementally, area by area, starting with Pallet Town → Route 1 →
+Viridian City.
+
+**Done so far** (target: levels 2-8 for this stretch):
+- Route 1 wild grass (`data/wild/kanto_grass.asm`): was Pidgeotto/Raticate/Furret/Pidgeot/Noctowl at
+  56-60, now Pidgey/Rattata/Sentret/Hoothoot (swapped to unevolved forms too, not just lower level —
+  a level-3 Pidgeot looked bizarre) at 2-5.
+- Pallet Town / Viridian City water (`data/wild/kanto_water.asm`): was Tentacool/Tentacruel and
+  Poliwag/Poliwhirl at 50-55, now Tentacool/Poliwag only (unevolved) at 2-4.
+- Route 1's four trainers (`data/trainers/parties.asm`): Danny (Jynx/Electabuzz/Magmar), Sherman
+  (Furret/Pidgeot), French (Houndoom/Alakazam), Quinn (Venusaur/Starmie) — species/items left as-is,
+  levels dropped from the 56-63 range down to 5-8.
+
+**Explicitly deferred, not yet touched**: Viridian Gym's trainers and Blue (gym leader) are still at
+their original postgame levels (62-69, Blue has EV-trained competitive movesets). User wants to reach
+the gym naturally in-game first and decide its difficulty then, rather than pre-rebalancing it now.
+
+**Not yet done**: everything past Viridian City (Route 2, Viridian Forest, Pewter, Mt. Moon, Cerulean,
+etc.) is still at postgame levels — this was intentionally scoped down from "all the way to Vermilion"
+to just Pallet/Route 1/Viridian for this first pass. Expect the next area past Viridian City to have
+the exact same problem when reached.
+
 ## Open question for next session
 Victoria's own starter (single level 5 Eevee) was set back when *both* Gold and Victoria started with
 Eevee. Now that Gold picks a real 1-of-3 Kanto starter via the Poke Balls, Victoria's Eevee is

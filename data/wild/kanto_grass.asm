@@ -311,29 +311,29 @@
 	def_grass_wildmons ROUTE_1
 	db 10 percent ; encounter rate
 	; morn
-	wildmon 56, PIDGEOTTO
-	wildmon 56, RATICATE
-	wildmon 57, FURRET
-	wildmon 57, PIDGEOTTO
-	wildmon 59, FURRET
-	wildmon 60, PIDGEOT
-	wildmon 60, PIDGEOT
+	wildmon 2, PIDGEY
+	wildmon 2, RATTATA
+	wildmon 3, SENTRET
+	wildmon 3, PIDGEY
+	wildmon 4, SENTRET
+	wildmon 5, PIDGEY
+	wildmon 5, PIDGEY
 	; day
-	wildmon 56, PIDGEOTTO
-	wildmon 56, RATICATE
-	wildmon 57, FURRET
-	wildmon 57, PIDGEOTTO
-	wildmon 59, FURRET
-	wildmon 60, PIDGEOT
-	wildmon 60, PIDGEOT
+	wildmon 2, PIDGEY
+	wildmon 2, RATTATA
+	wildmon 3, SENTRET
+	wildmon 3, PIDGEY
+	wildmon 4, SENTRET
+	wildmon 5, PIDGEY
+	wildmon 5, PIDGEY
 	; nite
-	wildmon 56, NOCTOWL
-	wildmon 56, RATICATE
-	wildmon 57, RATICATE
-	wildmon 57, NOCTOWL
-	wildmon 59, RATICATE
-	wildmon 60, NOCTOWL
-	wildmon 60, NOCTOWL
+	wildmon 2, HOOTHOOT
+	wildmon 2, RATTATA
+	wildmon 3, RATTATA
+	wildmon 3, HOOTHOOT
+	wildmon 4, RATTATA
+	wildmon 5, HOOTHOOT
+	wildmon 5, HOOTHOOT
 	end_grass_wildmons
 
 	def_grass_wildmons ROUTE_2_NORTH
