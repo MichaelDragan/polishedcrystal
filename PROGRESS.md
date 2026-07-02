@@ -1,5 +1,23 @@
 # Gold vs Victoria — progress notes
 
+## Simplified: Olive's first-move trigger no longer scripts a walk to the table
+Previously the trigger (`OliveNoticesScript`, fires on your first step past the Oak's Lab door, see
+`coord_event`s below) showed her "come sit with me" text and then ran a scripted `applymovement` to
+walk the player over next to the table. Investigated whether the trigger could fire even earlier —
+right on the door-warp landing tile, with zero steps needed — by reading `engine/overworld/events.asm`:
+confirmed `EnterMap` explicitly calls `DisableEvents` on a door-warp entry (entry method other than
+`MAPSETUP_CONNECTION`), so tile/coord-event checks are hard-disabled until the player's first real
+step re-enables them via `EnableEvents`. This is a hard engine constraint, not a coordinate/placement
+issue — confirmed by every other first-step NPC trigger in this codebase (e.g. `ElmsLab.asm`'s rival
+intercept) using the same one-step-in pattern, never the exact landing tile.
+
+Given that floor, and since the scripted walk kept landing the player in the wrong spot relative to
+the table (guessed movement lists were wrong twice), removed `applymovement`/`OliveNoticesWalkMovement`
+entirely. Olive now just says "Hey! Come sit with me for a second! I've been waiting for you." on that
+first step, and the player walks to her manually — no forced movement. Also moved her one tile left
+(`object_event` 8,8 -> 7,8 in `maps/OaksLab.asm`), same `SPRITEMOVEDATA_STANDING_DOWN` facing, to line
+up with the table. Rebuilt and confirmed working live in mGBA. Committed as `3caa5b78c`.
+
 ## Fixed: crash ("Error 004, Executing RAM") when talking to Olive after the intro scene
 Root cause: `OliveNoticesWalkMovement` (the `applymovement` list added so the player walks over to
 Olive's table after her "come sit with me" text) was missing the required `step_end` terminator.
