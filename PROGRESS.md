@@ -342,8 +342,33 @@ User paused active sprite work here — no further changes planned until they pi
 - Always `pkill -9 -f mgba-qt` and confirm no process remains (`pgrep`) before relaunching for a test
   — stale processes/windows caused confusing stale-state screenshots more than once this session.
 
+## Next bug to fix: Olive doesn't turn to face the player anymore
+Regression reported 2026-07-02, right after pushing commit `28601514e` ("Simplify starter pickup
+dialogue and add Victoria trainer battle after choosing"). Before that commit, talking to Olive
+correctly turned her sprite toward the player (`faceplayer` at the top of `OliveScript` in
+`maps/OaksLab.asm`). Now she doesn't turn.
+
+The prime suspect: that commit added a **second** `object_event` at the exact same tile as Olive's
+existing one (`6, 8` in `maps/OaksLab.asm`'s `def_object_events`) — one `OBJECTTYPE_SCRIPT` (the
+normal `OliveScript` NPC, hidden once `EVENT_GOT_A_POKEMON_FROM_OAK` is set) and one
+`OBJECTTYPE_TRAINER` (`TrainerVictoria`, hidden while `EVENT_OAKSLAB_AWAITING_STARTER_CHOICE` is
+true — i.e. active only after a starter is picked). The bug was seen testing *before* picking a
+starter, so only the `OliveScript` object should be "unmasked," but stacking two object_events at
+identical coordinates may not be fully supported — a background research agent was mid-investigation
+into whether masked (hidden) objects still occupy/interfere with the tile for facing/collision
+purposes when this session ended; that agent's findings were not yet available when this note was
+written. Start there next session, and if stacking-at-the-same-tile is confirmed as the cause, the
+likely fix is giving the two objects distinct coordinates (e.g. offset the trainer-only object one
+tile away and reposition/move it into place at runtime) rather than exact overlap.
+
+Also noted in passing (not a bug, just flagged for awareness): the Victoria/Eevee trainer battle
+right after picking a starter can be a rough fight for a fresh level-5 starter with no items yet —
+user chose to leave the difficulty as-is for now ("just let it play out"), losing doesn't soft-lock
+anything since `EVENT_BEAT_VICTORIA` only sets on a win and she's re-battleable.
+
 ## Git
-Everything through this session is committed on `master` (local only, not pushed to GitHub).
+Everything through this session is committed and pushed to `origin/master`
+(`MichaelDragan/polishedcrystal`), up through commit `28601514e`.
 Commits so far: initial Gold vs Victoria debug harness, sprite background-inversion fix, and this
 session's changes (skip-settings-menu + Natures off, Pallet Town spawn + whiteout fix, Victoria moved
 from an instant battle to a real Oak's Lab NPC encounter, RED name, 3-starter Poke Ball choice,
