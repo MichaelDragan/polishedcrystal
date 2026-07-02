@@ -54,6 +54,7 @@ ENDM
 	ow_npc_pal_const SAILBOAT          ; 17
 	ow_npc_pal_const RAIN              ; 18
 	ow_npc_pal_const SAND              ; 19
+	ow_npc_pal_const OLIVE             ; 1a (matches Olive's battle sprite hair color)
 DEF NUM_OW_TIME_OF_DAY_PALS EQU const_value
 ; SingleObjectPals indexes (see gfx/overworld/npc_single_object.pal)
 	ow_npc_pal_const EMOTE_GRAY        ; 1a

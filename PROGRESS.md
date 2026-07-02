@@ -92,6 +92,33 @@ for that). Concretely, for this early phase:
   (`TrainerVictoria:`, `EVENT_BEAT_VICTORIA`) is left intact but unwired — re-enabling the battle
   later is just pointing her object_event back at it.
 
+## Olive's own overworld sprite
+She used to just reuse `SPRITE_LEAF` (Leaf's stock overworld sprite). Forked her a real sprite:
+- `gfx/sprites/olive.png` — copied from `gfx/sprites/aroma_lady.png` as a starting point (per user
+  request, "use her sprite as a baseline"), since AromaLady's own object still uses her original file
+  directly and editing it in place would have changed AromaLady too. User is hand-editing this file in
+  LibreSprite now (confirmed saves are landing correctly — file size/timestamp updates each save, and
+  `rgbgfx` picks up the changes on rebuild automatically).
+- New `SPRITE_OLIVE` constant appended at the very end of the normal overworld-sprite range in
+  `constants/sprite_constants.asm` (right before the `SPRITE_POKEMON`/`SPRITE_VARS` reserved-index
+  jump) — appending rather than inserting mid-list to avoid renumbering every sprite after it.
+  Registered the GFX include in `gfx/sprites.asm` and the `overworld_sprite` table entry in
+  `data/sprites/sprites.asm` (also strictly positional/append-only, same reasoning).
+- New named NPC palette **`PAL_OW_OLIVE`** (`constants/sprite_data_constants.asm`, also appended at
+  the end of the time-of-day palette list) using the exact hair-color RGB from her battle portrait
+  (`10,12,08` GBC scale) per user's request to match her battle sprite colors. Added the matching RGB
+  entries to `gfx/overworld/npc_sprites.pal` (all 4 time-of-day blocks: morn/day/nite/eve, with a
+  dimmed night variant matching the pattern every other named color follows).
+  - Adding this new palette index shifted `NUM_OW_TIME_OF_DAY_PALS`, which two OTHER palette files
+    assert their exact byte length against: `gfx/overworld/npc_sprites_darkness.pal` (a single flat
+    list covering all time-of-day + individual/emote palettes together) and
+    `gfx/overworld/npc_sprites_overcast.pal` (same 4-block structure as the main file). Both needed a
+    matching new entry added or the build failed with an `assert_table_length` mismatch — caught this
+    immediately via the build erroring out with exact expected-vs-actual byte counts, not a silent
+    bug.
+- Olive's `object_event` in `maps/OaksLab.asm` now uses `SPRITE_OLIVE` + `PAL_NPC_OLIVE` instead of
+  `SPRITE_LEAF` + `PAL_NPC_DARK_GREEN`.
+
 ## Fixed: Victoria's Eevee was absurdly strong
 `data/trainers/dvs.asm`'s `; green` entry still had `252, PERFECT_DVS` (max IVs + 252 EVs) left over
 from when Victoria was a level 50 endgame-caliber Sylveon/Flareon duo — never scaled down when her

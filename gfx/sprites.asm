@@ -253,6 +253,9 @@ AceTrainerMSpriteGFX:: INCBIN "gfx/sprites/ace_trainer_m.2bpp.lzp"
 SECTION "AromaLadySpriteGFX", ROMX
 AromaLadySpriteGFX:: INCBIN "gfx/sprites/aroma_lady.2bpp.lzp"
 
+SECTION "OliveSpriteGFX", ROMX
+OliveSpriteGFX:: INCBIN "gfx/sprites/olive.2bpp.lzp"
+
 SECTION "ArtistSpriteGFX", ROMX
 ArtistSpriteGFX:: INCBIN "gfx/sprites/artist.2bpp.lzp"
 
