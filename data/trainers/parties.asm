@@ -9384,5 +9384,5 @@ DEF _tr_class = GREEN
 
 	def_trainer_class GREEN
 	def_trainer 1, "Victoria"
-	tr_mon 5, EEVEE, FEMALE
+	tr_mon 5, BULBASAUR, FEMALE
 	end_trainer

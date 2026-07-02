@@ -135,6 +135,12 @@ DebugGoldVsGreenBattle:
 ; objects in Oak's Lab (see maps/OaksLab.asm) let the player pick one of
 ; the three original Kanto starters, same pattern as Elm's Lab
 ; (maps/ElmsLab.asm). Victoria is a real trainer NPC placed there too.
+	ld a, POTION
+	ld [wCurItem], a
+	ld a, 5
+	ld [wItemQuantityChangeBuffer], a
+	ld hl, wNumItems
+	call ReceiveItem
 	ret
 endc
 
