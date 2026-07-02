@@ -728,6 +728,7 @@ OliveNoticesWalkMovement:
 	step_up
 	step_up
 	turn_head_down
+	step_end
 
 OliveScript:
 	faceplayer

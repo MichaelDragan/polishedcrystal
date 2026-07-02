@@ -1,5 +1,21 @@
 # Gold vs Victoria — progress notes
 
+## Fixed: crash ("Error 004, Executing RAM") when talking to Olive after the intro scene
+Root cause: `OliveNoticesWalkMovement` (the `applymovement` list added so the player walks over to
+Olive's table after her "come sit with me" text) was missing the required `step_end` terminator.
+Without it, the movement interpreter reads past the end of the intended data into whatever bytes
+follow in ROM, silently corrupting state rather than failing immediately — it only crashed on a later,
+separate interaction (walking into Olive again), which made it look unrelated to the actual cause at
+first. Fixed by adding `step_end` after the movement list in `maps/OaksLab.asm` (confirmed via
+`ElmsLab.asm`'s reference movement lists, which all end with `step_end`).
+
+## Reverted: always-run by default
+Was enabled earlier in `engine/menus/intro_menu.asm`'s debug hook (`wOptions2` / `RUNNING_SHOES` bit)
+per an earlier request, but the user suspected it might be contributing to the crash above and asked
+to revert to the default "hold B to run" behavior. The crash's real cause was the missing `step_end`
+(unrelated to run state), but the revert was applied anyway per explicit request — always-run is no
+longer set automatically; toggle it manually via the pause-menu Options screen if wanted.
+
 ## Setup
 - Forked `Rangi42/polishedcrystal` to `MichaelDragan/polishedcrystal` on GitHub, cloned into `~/DraganIndustries/PolishedCrystal`.
   - `origin` = your fork, `upstream` = Rangi42's original (for pulling updates).
