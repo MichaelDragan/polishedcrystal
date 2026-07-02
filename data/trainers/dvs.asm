@@ -152,5 +152,5 @@ TrainerClassDVsAndPersonality:
 	db 252, PERFECT_DVS,   MALE   ; lawrence
 	db 252, $EE, $EE, $EE, FEMALE ; rei
 	db  48, $CC, $CC, $CC, MALE   ; firebreather ashes
-	db 252, PERFECT_DVS,   FEMALE ; green
+	db   0, $66, $66, $66, FEMALE ; green
 	assert_table_length NUM_TRAINER_CLASSES

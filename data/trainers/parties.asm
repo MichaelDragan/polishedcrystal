@@ -9384,10 +9384,5 @@ DEF _tr_class = GREEN
 
 	def_trainer_class GREEN
 	def_trainer 1, "Victoria"
-	tr_mon 50, SYLVEON @ LEFTOVERS, FEMALE
-		tr_extra PIXILATE
-		tr_moves MOONBLAST, PLAY_ROUGH, DRAINING_KISS, LIGHT_SCREEN
-	tr_mon 50, FLAREON @ LIFE_ORB, FEMALE
-		tr_extra FLASH_FIRE
-		tr_moves FLARE_BLITZ, DOUBLE_EDGE, BITE, FLAME_CHARGE
+	tr_mon 5, EEVEE, FEMALE
 	end_trainer

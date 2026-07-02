@@ -33,10 +33,18 @@ OaksLab_MapScriptHeader:
 	object_event  8,  9, SPRITE_SCIENTIST, SPRITEMOVEDATA_WALK_UP_DOWN, 1, 0, -1, PAL_NPC_RED, OBJECTTYPE_COMMAND, jumptextfaceplayer, OaksAssistant2Text, -1
 	object_event  1,  4, SPRITE_SCIENTIST, SPRITEMOVEDATA_WANDER, 1, 1, -1, PAL_NPC_RED, OBJECTTYPE_COMMAND, jumptextfaceplayer, OaksAssistant3Text, -1
 	object_event  2,  1, SPRITE_BOOK_PAPER_POKEDEX, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, PAL_NPC_RED, OBJECTTYPE_COMMAND, jumptext, OaksLabPokedexText, -1
+	object_event  5,  6, SPRITE_LEAF, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, 0, OBJECTTYPE_TRAINER, 3, TrainerVictoria, -1
+	object_event  2,  4, SPRITE_BALL_CUT_TREE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, PAL_NPC_ENV_GREEN, OBJECTTYPE_SCRIPT, 0, BulbasaurPokeBallScript, EVENT_BULBASAUR_POKEBALL_IN_OAKS_LAB
+	object_event  3,  4, SPRITE_BALL_CUT_TREE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, PAL_NPC_ENV_RED, OBJECTTYPE_SCRIPT, 0, CharmanderPokeBallScript, EVENT_CHARMANDER_POKEBALL_IN_OAKS_LAB
+	object_event  4,  4, SPRITE_BALL_CUT_TREE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, PAL_NPC_ENV_BLUE, OBJECTTYPE_SCRIPT, 0, SquirtlePokeBallScript, EVENT_SQUIRTLE_POKEBALL_IN_OAKS_LAB
 
 	object_const_def
 	const OAKSLAB_OAK
 	const OAKSLAB_EEVEE_DOLL
+	const OAKSLAB_VICTORIA
+	const OAKSLAB_BULBASAUR_BALL
+	const OAKSLAB_CHARMANDER_BALL
+	const OAKSLAB_SQUIRTLE_BALL
 
 Oak:
 	faceplayer
@@ -573,4 +581,141 @@ EeveeDollSentText:
 OaksLabPokedexText:
 	text "It's Prof.Oak's"
 	line "#dex."
+	done
+
+BulbasaurPokeBallScript:
+	checkevent EVENT_GOT_A_POKEMON_FROM_OAK
+	iftrue_jumptext OakPokeBallText
+	turnobject OAKSLAB_OAK, DOWN
+	reanchormap
+	pokepic BULBASAUR
+	cry BULBASAUR
+	waitbutton
+	closepokepic
+	opentext
+	writetext TakeBulbasaurText
+	yesorno
+	iffalse_jumpopenedtext DidntChooseKantoStarterText
+	disappear OAKSLAB_BULBASAUR_BALL
+	setevent EVENT_GOT_A_POKEMON_FROM_OAK
+	writetext ChoseKantoStarterText
+	promptbutton
+	waitsfx
+	givepoke BULBASAUR, PLAIN_FORM, 5, ORAN_BERRY
+	disappear OAKSLAB_CHARMANDER_BALL
+	disappear OAKSLAB_SQUIRTLE_BALL
+	closetext
+	end
+
+CharmanderPokeBallScript:
+	checkevent EVENT_GOT_A_POKEMON_FROM_OAK
+	iftrue_jumptext OakPokeBallText
+	turnobject OAKSLAB_OAK, DOWN
+	reanchormap
+	pokepic CHARMANDER
+	cry CHARMANDER
+	waitbutton
+	closepokepic
+	opentext
+	writetext TakeCharmanderText
+	yesorno
+	iffalse_jumpopenedtext DidntChooseKantoStarterText
+	disappear OAKSLAB_CHARMANDER_BALL
+	setevent EVENT_GOT_A_POKEMON_FROM_OAK
+	writetext ChoseKantoStarterText
+	promptbutton
+	waitsfx
+	givepoke CHARMANDER, PLAIN_FORM, 5, ORAN_BERRY
+	disappear OAKSLAB_BULBASAUR_BALL
+	disappear OAKSLAB_SQUIRTLE_BALL
+	closetext
+	end
+
+SquirtlePokeBallScript:
+	checkevent EVENT_GOT_A_POKEMON_FROM_OAK
+	iftrue_jumptext OakPokeBallText
+	turnobject OAKSLAB_OAK, DOWN
+	reanchormap
+	pokepic SQUIRTLE
+	cry SQUIRTLE
+	waitbutton
+	closepokepic
+	opentext
+	writetext TakeSquirtleText
+	yesorno
+	iffalse_jumpopenedtext DidntChooseKantoStarterText
+	disappear OAKSLAB_SQUIRTLE_BALL
+	setevent EVENT_GOT_A_POKEMON_FROM_OAK
+	writetext ChoseKantoStarterText
+	promptbutton
+	waitsfx
+	givepoke SQUIRTLE, PLAIN_FORM, 5, ORAN_BERRY
+	disappear OAKSLAB_BULBASAUR_BALL
+	disappear OAKSLAB_CHARMANDER_BALL
+	closetext
+	end
+
+TakeBulbasaurText:
+	text "Oak: So, you like"
+	line "Bulbasaur, the"
+	cont "seed #mon?"
+	done
+
+TakeCharmanderText:
+	text "Oak: Do you want"
+	line "Charmander, the"
+	cont "lizard #mon?"
+	done
+
+TakeSquirtleText:
+	text "Oak: You'll take"
+	line "Squirtle, the"
+	cont "tiny turtle"
+	cont "#mon?"
+	done
+
+DidntChooseKantoStarterText:
+	text "Oak: Think it over"
+	line "carefully."
+
+	para "Your partner is"
+	line "important."
+	done
+
+ChoseKantoStarterText:
+	text "Oak: I think"
+	line "that's a great"
+	cont "#mon too!"
+	done
+
+OakPokeBallText:
+	text "Oak: That #mon"
+	line "is doing fine,"
+	cont "isn't it?"
+	done
+
+TrainerVictoria:
+	trainer GREEN, 1, EVENT_BEAT_VICTORIA, .SeenText, .BeatenText, 0, .Script, TRAINERPAL_NONE
+
+.Script:
+	endifjustbattled
+	jumpthistextfaceplayer
+
+	text "Good to see you"
+	line "again, Gold."
+
+	para "Ready for a"
+	line "rematch?"
+	done
+
+.SeenText:
+	text "There you are!"
+
+	para "I've been waiting"
+	line "for you, Gold."
+	done
+
+.BeatenText:
+	text "You've gotten"
+	line "stronger!"
 	done

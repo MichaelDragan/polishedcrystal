@@ -80,8 +80,16 @@ _NewGame_FinishSetup:
 	ld [wOvercastRandomDay], a
 	call NewGame_ClearTileMapEtc
 	call WarnVBA
-	farcall SetInitialOptions
 if DEF(DEBUG)
+	; Skip the interactive "how do you want to play" menu; use the game's
+	; own defaults (see data/options/default_options.asm) except Natures,
+	; which the user wants off. Exp gain defaults to "Old" (unscaled),
+	; which is the harder/slower leveling curve, so no change needed there.
+	ld a, (1 << ABILITIES_OPT) | (1 << PSS_OPT) | (1 << COLOR_VARY_OPT)
+	ld [wInitialOptions], a
+	ld a, EVS_OPT_MODERN | (1 << RTC_OPT) | (1 << EVOLVE_IN_BATTLE_OPT)
+	ld [wInitialOptions2], a
+
 	ld a, PLAYER_MALE
 	ld [wPlayerGender], a
 	ld hl, DebugPlayerName
@@ -90,14 +98,29 @@ if DEF(DEBUG)
 	rst CopyBytes
 	call DebugGoldVsGreenBattle
 else
+	farcall SetInitialOptions
 	call ProfElmSpeech
 endc
 	call InitializeWorld
 	ld a, 1
 	ld [wPrevLandmark], a
 
+if DEF(DEBUG)
+	ld a, SPAWN_PALLET
+	ld [wDefaultSpawnpoint], a
+	; Whiteout/blackout respawn (GetWhiteoutSpawn in engine/events/whiteout.asm)
+	; reads wLastSpawnMapGroup/Number, not wDefaultSpawnpoint, and that pair is
+	; normally only set by walking into a Pokemon Center. Since this debug
+	; flow never visits one, set it explicitly so losing to Victoria sends
+	; you back to Pallet Town instead of falling back to SPAWN_HOME.
+	ld a, GROUP_PALLET_TOWN
+	ld [wLastSpawnMapGroup], a
+	ld a, MAP_PALLET_TOWN
+	ld [wLastSpawnMapNumber], a
+else
 	ld a, SPAWN_HOME
 	ld [wDefaultSpawnpoint], a
+endc
 
 	ld a, MAPSETUP_WARP
 	ldh [hMapEntryMethod], a
@@ -105,101 +128,13 @@ endc
 
 if DEF(DEBUG)
 DebugPlayerName:
-	rawchar "GOLD@@@@", 0, 0, 0
+	rawchar "RED@@@@@", 0, 0, 0
 
 DebugGoldVsGreenBattle:
-; Test hook: give Gold a fixed party and immediately battle Green.
-	call .GiveUmbreon
-	call .GiveJolteon
-
-	ld a, GREEN
-	ld [wOtherTrainerClass], a
-	ld a, 1
-	ld [wOtherTrainerID], a
-	xor a
-	ld [wTrainerPal], a
-	ld a, (1 << 7) | 1
-	ld [wBattleScriptFlags], a
-	call BufferScreen
-	farcall StartBattle
-	ret
-
-.GiveJolteon:
-	ld a, LOW(JOLTEON)
-	ld [wCurPartySpecies], a
-	ld a, HIGH(JOLTEON) << MON_EXTSPECIES_F
-	ld [wCurForm], a
-	ld a, 50
-	ld [wCurPartyLevel], a
-	xor a
-	ld [wCurItem], a
-	ld [wGiftMonBall], a
-	ld [wCurPlayerMove], a
-	ld b, 0
-	farcall GivePoke
-
-	ld a, THUNDERBOLT
-	ld [wPartyMon2 + MON_MOVES + 0], a
-	ld hl, Moves + MOVE_PP
-	call GetMoveProperty
-	ld [wPartyMon2 + MON_PP + 0], a
-
-	ld a, AGILITY
-	ld [wPartyMon2 + MON_MOVES + 1], a
-	ld hl, Moves + MOVE_PP
-	call GetMoveProperty
-	ld [wPartyMon2 + MON_PP + 1], a
-
-	ld a, THUNDER_WAVE
-	ld [wPartyMon2 + MON_MOVES + 2], a
-	ld hl, Moves + MOVE_PP
-	call GetMoveProperty
-	ld [wPartyMon2 + MON_PP + 2], a
-
-	ld a, DOUBLE_EDGE
-	ld [wPartyMon2 + MON_MOVES + 3], a
-	ld hl, Moves + MOVE_PP
-	call GetMoveProperty
-	ld [wPartyMon2 + MON_PP + 3], a
-	ret
-
-.GiveUmbreon:
-	ld a, LOW(UMBREON)
-	ld [wCurPartySpecies], a
-	ld a, HIGH(UMBREON) << MON_EXTSPECIES_F
-	ld [wCurForm], a
-	ld a, 50
-	ld [wCurPartyLevel], a
-	xor a
-	ld [wCurItem], a
-	ld [wGiftMonBall], a
-	ld [wCurPlayerMove], a
-	ld b, 0
-	farcall GivePoke
-
-	ld a, CALM_MIND
-	ld [wPartyMon1 + MON_MOVES + 0], a
-	ld hl, Moves + MOVE_PP
-	call GetMoveProperty
-	ld [wPartyMon1 + MON_PP + 0], a
-
-	ld a, SUBSTITUTE
-	ld [wPartyMon1 + MON_MOVES + 1], a
-	ld hl, Moves + MOVE_PP
-	call GetMoveProperty
-	ld [wPartyMon1 + MON_PP + 1], a
-
-	ld a, BATON_PASS
-	ld [wPartyMon1 + MON_MOVES + 2], a
-	ld hl, Moves + MOVE_PP
-	call GetMoveProperty
-	ld [wPartyMon1 + MON_PP + 2], a
-
-	ld a, HEALINGLIGHT
-	ld [wPartyMon1 + MON_MOVES + 3], a
-	ld hl, Moves + MOVE_PP
-	call GetMoveProperty
-	ld [wPartyMon1 + MON_PP + 3], a
+; Test hook: no starter is given here anymore. Instead, three Poke Ball
+; objects in Oak's Lab (see maps/OaksLab.asm) let the player pick one of
+; the three original Kanto starters, same pattern as Elm's Lab
+; (maps/ElmsLab.asm). Victoria is a real trainer NPC placed there too.
 	ret
 endc
 

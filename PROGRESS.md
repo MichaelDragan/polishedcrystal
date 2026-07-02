@@ -4,52 +4,112 @@
 - Forked `Rangi42/polishedcrystal` to `MichaelDragan/polishedcrystal` on GitHub, cloned into `~/DraganIndustries/PolishedCrystal`.
   - `origin` = your fork, `upstream` = Rangi42's original (for pulling updates).
 - RGBDS v1.0.1 toolchain installed to `~/.local/bin` (rgbasm/rgblink/rgbfix/rgbgfx), no sudo/system install needed.
-- `make` builds the normal ROM; `make debug` builds the debug variant with the test harness below.
+- `make` builds the normal ROM; `make debug` builds the debug variant with the changes below. The
+  regular build stays vanilla except for one addition that isn't gated: Victoria's NPC placement in
+  Oak's Lab (harmless — Kanto is legitimate postgame content in this hack either way).
 
-## Debug test harness: Gold vs Victoria
-In `make debug` builds only (the regular `make` build is untouched), starting **New Game** skips
-name entry, gender selection, and the Elm intro cutscene entirely, and drops straight into a battle:
+## Current game flow (`make debug`)
+Starting **New Game**:
+1. Skips the interactive "how do you want to play" settings menu — uses the game's own defaults
+   (see `data/options/default_options.asm`) except **Natures is off** (user preference) and Exp gain
+   stays "Old" (unscaled/harder leveling, already the default).
+2. Player name defaults to **RED** (yes, this coincides with the existing postgame "Red" NPC/Mt.
+   Silver superboss already in this hack — confirmed intentional, no technical conflict, just a
+   narrative coincidence).
+3. Spawns in **Pallet Town** (`SPAWN_PALLET`).
+4. Walk to **Oak's Lab**: three Poke Balls sit in front of Oak (green/red/blue = Bulbasaur/
+   Charmander/Squirtle, `SPRITE_BALL_CUT_TREE`, currently at map coords (2,4)/(3,4)/(4,4) — moved off
+   Oak's direct front tile after feedback that they were blocking him; **still not visually "on a
+   table"** like the classic games, that would need actual map-tile editing, not just object
+   placement, and hasn't been done). Picking one gives it at level 5 and makes the other two
+   disappear, mirroring the exact mechanic used for the Johto starters in `maps/ElmsLab.asm`
+   (`CyndaquilPokeBallScript` etc.) but simplified — no Lyra-style choreography since no one else is
+   present for this moment. Reuses the existing `EVENT_GOT_A_POKEMON_FROM_OAK` flag as the
+   "already chose" gate, which also correctly prevents Oak's other unrelated dialogue from
+   re-offering a starter later.
+5. **Victoria** is a real trainer NPC standing in Oak's Lab too (`SPRITE_LEAF` reused for her overworld
+   sprite, at (5,6)), trainer class `GREEN`, currently holds a single level 5 Eevee (matching what
+   Gold used to auto-receive before the 3-starter change — see "Open question" below, this may now be
+   stale/mismatched given Gold picks a real Kanto starter). Talking to her triggers a genuine trainer
+   battle via the standard engine (not an instant/scripted battle) — confirmed working end-to-end
+   including a loss.
+6. **Losing to Victoria (blackout) correctly respawns you in Pallet Town**, not some unrelated
+   fallback location. This needed an explicit fix — see "Whiteout fix" below.
 
-- **Gold** (you) gets a fixed party, both level 50, **Umbreon leads**:
-  - **Umbreon** (lead, slot 1): Calm Mind, Substitute, Baton Pass, Moonlight (Healing Light) —
-    classic Calm Mind + Sub Baton Passer build.
-  - **Jolteon** (slot 2): Thunderbolt, Agility, Thunder Wave, Double-Edge
-- **Victoria** (opponent, internal trainer class name is still `GREEN` — only the in-battle display
-  name was changed, renaming the code symbol wasn't necessary), level 50 duo:
-  - **Sylveon** @ Leftovers, Pixilate — Moonblast, Play Rough, Draining Kiss, Light Screen
-  - **Flareon** @ Life Orb, Flash Fire — Flare Blitz, Double-Edge, Bite, Flame Charge
+## Fixed: Victoria's Eevee was absurdly strong
+`data/trainers/dvs.asm`'s `; green` entry still had `252, PERFECT_DVS` (max IVs + 252 EVs) left over
+from when Victoria was a level 50 endgame-caliber Sylveon/Flareon duo — never scaled down when her
+team became a single level 5 Eevee. Changed to `0, $66, $66, $66` (0 EVs, modest DVs), matching the
+stat tier this hack uses for early low-level trainers like Youngster. Fair starter-vs-starter fight
+now.
 
-Verified end-to-end in mGBA: party injection works, movesets/PP are correct, Umbreon correctly leads
-in slot 1, Victoria's data compiles and battles correctly (in-battle text confirmed showing
-"Pkmn Trainer Victoria"), AI plays sensibly.
+## Open question for next session
+Victoria's own starter (single level 5 Eevee) was set back when *both* Gold and Victoria started with
+Eevee. Now that Gold picks a real 1-of-3 Kanto starter via the Poke Balls, Victoria's Eevee is
+probably no longer the intended match — worth deciding: does she also get a real choice, a fixed
+starter, or a type-advantage "rival counter-pick" (classic mechanic: beats whichever you chose,
+cycling Bulbasaur→Charmander→Squirtle→Bulbasaur)? Not yet implemented either way.
 
-### Where the code lives
-- `engine/menus/intro_menu.asm`: `DebugGoldVsGreenBattle` (party injection + battle trigger) and
-  `DebugPlayerName`, hooked into `_NewGame_FinishSetup` right after `SetInitialOptions`, gated by
-  `if DEF(DEBUG)`.
-- Victoria registered as a real trainer class (constant `GREEN`) across the parallel per-class tables:
-  `constants/trainer_constants.asm`, `data/trainers/{class_names,attributes,dvs,party_pointers,
-  pic_pointers,palettes,final_text}.asm`, `data/trainers/parties.asm` (`GreenGroup` section — note
-  it uses `DEF _tr_class = GREEN` to resync the class-ordering assert, since `FIREBREATHER_ASHES`
-  skips registration and reuses `FirebreatherGroup`'s data).
-- Her sprite: `gfx/trainers/green.png` (56x56, 4-shade grayscale) + `gfx/trainers/green.pal`,
-  registered in `gfx/trainers.asm`.
+## Where the code lives
+- `engine/menus/intro_menu.asm`: `DebugGoldVsGreenBattle` (now nearly a no-op — starter giving moved
+  to the Oak's Lab Poke Ball scripts) and `DebugPlayerName` ("RED"), hooked into
+  `_NewGame_FinishSetup`, gated by `if DEF(DEBUG)`. Also sets `wInitialOptions`/`wInitialOptions2`
+  directly (skipping the menu) and `wDefaultSpawnpoint` + `wLastSpawnMapGroup`/`wLastSpawnMapNumber`
+  (the whiteout-respawn fix, see below).
+- Victoria registered as a real trainer class (constant `GREEN`, display name "Victoria") across the
+  parallel per-class tables: `constants/trainer_constants.asm`, `data/trainers/{class_names,
+  attributes,dvs,party_pointers,pic_pointers,palettes,final_text}.asm`, `data/trainers/parties.asm`
+  (`GreenGroup` section — uses `DEF _tr_class = GREEN` to resync the class-ordering assert, since
+  `FIREBREATHER_ASHES` skips registration and reuses `FirebreatherGroup`'s data).
+- Her battle sprite: `gfx/trainers/green.png` (56x56, 4-shade grayscale, hand-edited by the user in
+  LibreSprite — see Sprite status below) + `gfx/trainers/green.pal`, registered in `gfx/trainers.asm`.
+- Her overworld placement + trainer script (`TrainerVictoria`) and the three starter Poke Ball
+  scripts (`BulbasaurPokeBallScript`/`CharmanderPokeBallScript`/`SquirtlePokeBallScript`) all live in
+  `maps/OaksLab.asm`. New event flags for this: `EVENT_BEAT_VICTORIA`,
+  `EVENT_{BULBASAUR,CHARMANDER,SQUIRTLE}_POKEBALL_IN_OAKS_LAB` (added near the end of
+  `constants/event_flags.asm`, before `const_next $8ff`).
 
-## Known issue (not yet investigated)
-Sylveon's movepool sometimes displays before your own turn in battle. Flagged, needs a repro + look
-at the battle menu flow.
+## Whiteout/blackout respawn fix
+`GetWhiteoutSpawn` (`engine/events/whiteout.asm`) reads `wLastSpawnMapGroup`/`wLastSpawnMapNumber` to
+decide where to send you after blacking out — **not** `wDefaultSpawnpoint`. That pair is normally only
+set by physically walking into a Pokemon Center tileset map (`engine/overworld/warp_connection.asm`).
+Since this debug flow never visits one, it defaulted to garbage/zero, causing blackouts to send the
+player to `SPAWN_HOME` instead of Pallet Town. Fixed by explicitly setting
+`wLastSpawnMapGroup = GROUP_PALLET_TOWN` / `wLastSpawnMapNumber = MAP_PALLET_TOWN` alongside the
+spawnpoint in the debug hook. Verified live: intentionally lost to Victoria, confirmed respawn in
+Pallet Town.
+
+## Resolved: "Sylveon's movepool shown before your turn" — not a bug (from an earlier design)
+This was `AIDebug` (`engine/battle/ai/move.asm:348`), an existing debug-only feature already built
+into Polished Crystal. Shows the opponent's current Pokémon's 4 moves plus the AI's calculated score
+for each, whenever the AI scores its options. Normal for `make debug` builds, doesn't affect real
+gameplay logic. Left as-is (useful for seeing AI reasoning). Note: this was from the earlier
+"Sylveon/Flareon instant battle" design — now that starters are level 5 Eevee/Kanto-starter, the same
+mechanism still applies but is less likely to be noticed given weaker movesets.
 
 ## Sprite status
-`gfx/trainers/green.png` is still just a rough auto-downscaled draft generated from your reference
-art (`~/Pictures/green.png`) — it compiles fine but needs a real hand redraw (outlines are noisy,
-face isn't legible yet). LibreSprite (`~/.local/bin/LibreSprite.AppImage`, installed with a desktop
-launcher entry) has both files open for that.
+`gfx/trainers/green.png` (Victoria's battle portrait) has been hand-edited by the user in LibreSprite
+across several passes: background fixed to white (was inverted by an earlier auto-generation bug),
+proportions corrected (was too large for the canvas), and legs added by hand (the original reference
+art was a bust portrait with no legs below the hips). Still 56x56, 4-shade grayscale, compiles
+cleanly. LibreSprite (`~/.local/bin/LibreSprite.AppImage`, desktop launcher installed) is the tool.
 
-## Open items / next steps
-- Redraw Victoria's sprite properly in LibreSprite.
-- Investigate the Sylveon-movepool-before-your-turn glitch.
-- Moves can be changed to anything in the game since they're injected directly, not taught via TM —
-  just ask for a specific moveset/role and it's a quick edit in `engine/menus/intro_menu.asm`.
-- Nothing has been committed to git yet — current work is uncommitted in the worktree at
-  `.claude/worktrees/polishedcrystal-setup/PolishedCrystal` (not yet moved back to the normal
-  `~/DraganIndustries/PolishedCrystal` location).
+## Testing notes
+- Launch with `mgba-qt -C mute=1 -C autoload=0 <rom>` — `mute=1` keeps it silent without touching the
+  user's global mGBA config (which would also mute their other ROMs); `autoload=0` is important,
+  otherwise mGBA resumes the last savestate instead of actually booting fresh, which was a real
+  source of confusion during testing (looked like code changes weren't taking effect).
+- Automated input/screenshot testing in this environment used Xlib (XTEST) directly against the X11
+  display — no root needed. Tab toggles mGBA's fast-forward (held), useful for skipping through
+  battles quickly during testing.
+- Always `pkill -9 -f mgba-qt` and confirm no process remains (`pgrep`) before relaunching for a test
+  — stale processes/windows caused confusing stale-state screenshots more than once this session.
+
+## Git
+Everything through this session is committed on `master` (local only, not pushed to GitHub).
+Commits so far: initial Gold vs Victoria debug harness, sprite background-inversion fix, and this
+session's changes (skip-settings-menu + Natures off, Pallet Town spawn + whiteout fix, Victoria moved
+from an instant battle to a real Oak's Lab NPC encounter, RED name, 3-starter Poke Ball choice,
+sprite leg/proportion edits). Working in
+`.claude/worktrees/polishedcrystal-setup/PolishedCrystal`, not yet moved back to
+`~/DraganIndustries/PolishedCrystal`.
