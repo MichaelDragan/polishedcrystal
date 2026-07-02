@@ -135,29 +135,34 @@ gameplay logic. Left as-is (useful for seeing AI reasoning). Note: this was from
 "Sylveon/Flareon instant battle" design — now that starters are level 5 Eevee/Kanto-starter, the same
 mechanism still applies but is less likely to be noticed given weaker movesets.
 
-## Sprite status
+## Sprite status — paused here for now (user's call)
 `gfx/trainers/green.png` (Victoria's battle portrait) has been hand-edited by the user in LibreSprite
-across several passes: background fixed to white (was inverted by an earlier auto-generation bug),
-proportions corrected (was too large for the canvas), legs added by hand (the original reference art
-was a bust portrait with no legs below the hips), and eyes added. Still 56x56, 4-shade grayscale,
-compiles cleanly. LibreSprite (`~/.local/bin/LibreSprite.AppImage`, desktop launcher installed) is the
-tool.
+across many passes: background fixed to white (was inverted by an earlier auto-generation bug),
+proportions corrected, legs/dress added by hand (original reference art was a bust portrait with no
+legs), eyes added, and a proper hairline drawn separating hair from face (earlier passes had hair and
+face sharing one shade with no drawn boundary — that's fixed now, they're genuinely separate regions).
+Still 56x56, 4-shade grayscale, compiles cleanly. LibreSprite (`~/.local/bin/LibreSprite.AppImage`,
+desktop launcher installed) is the tool.
 
 **Color system**: this format allows exactly 4 shades total — white and black are fixed, and exactly
 2 more (the source PNG's light-gray/170 and dark-gray/85 pixel values) are freely recolorable via
 `gfx/trainers/green.pal`. This is a hard Game Boy hardware limit (`rgbgfx -c dmg`, DMG-compatible
 mode), not something specific to this file — every trainer portrait in the game follows the same
-rule, and even Pokémon's own battle sprites (checked Umbreon/Eevee/Sylveon) are equally limited to 4
-shades; they just read as more colorful because their 2 tunable colors are chosen to contrast more
-(e.g. Sylveon uses pink + blue).
+rule, and even Pokémon's own battle sprites (checked Umbreon/Eevee/Sylveon/back sprites too) are
+equally limited to 4 shades and even share the same `.pal` file between front/back; they just read as
+more colorful because their 2 tunable colors are chosen to contrast more (e.g. Sylveon uses pink +
+blue) or because back sprites render larger on screen, not because of extra color slots.
 
-Current assignment, themed as "dark forest": dark-gray (85) = deep forest green `RGB 03,08,03`,
-light-gray (170) = lighter sage green `RGB 14,18,10`, reserved for the eyes once drawn with that
-shade. Known side effect to be aware of: an earlier attempt to free up a color slot for the eyes
-involved flattening all light-gray pixels to dark-gray, which unintentionally also recolored her face
-shading (it was using the same shade as the hair highlights) — she doesn't have a dedicated
-face-shading tone right now, it shares the hair/dark-green color. User was mid-decision on whether
-that's fine or needs a redraw when this was last touched.
+**Current final assignment** (moved on from the earlier "dark forest" green theme to black
+hair + pale skin tone):
+- White (255, fixed) = eye whites
+- Light-gray (170) = pale neutral skin tone, `RGB 23,19,16` — used for face/hands
+- Dark-gray (85) = muted dark olive-brown, `RGB 10,12,08` (started from hex `#2d3225`, converted to
+  GBC's 5-bit-per-channel scale, then brightened ~2x after the first pass was too close to black to
+  read against the outfit/outline) — used for hair shading detail
+- Black (0, fixed) = hair (main mass), outfit, outlines
+
+User paused active sprite work here — no further changes planned until they pick it back up.
 
 ## Testing notes
 - Launch with `mgba-qt -C mute=1 -C autoload=0 <rom>` — `mute=1` keeps it silent without touching the
