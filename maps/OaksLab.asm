@@ -34,7 +34,8 @@ OaksLab_MapScriptHeader:
 	object_event  2,  4, SPRITE_MON_ICON, SPRITEMOVEDATA_STILL, 0, EEVEE, -1, PAL_MON_BROWN, OBJECTTYPE_SCRIPT, NO_FORM, EeveeDollScript, EVENT_DECO_EEVEE_DOLL
 	object_event  1,  8, SPRITE_AROMA_LADY, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 0, 1, -1, PAL_NPC_GREEN, OBJECTTYPE_COMMAND, jumptextfaceplayer, OaksAssistant1Text, -1
 	object_event  2,  1, SPRITE_BOOK_PAPER_POKEDEX, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, PAL_NPC_RED, OBJECTTYPE_COMMAND, jumptext, OaksLabPokedexText, -1
-	object_event  7,  8, SPRITE_OLIVE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, PAL_NPC_OLIVE, OBJECTTYPE_SCRIPT, 0, OliveScript, -1
+	object_event  6,  8, SPRITE_OLIVE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, PAL_NPC_OLIVE, OBJECTTYPE_SCRIPT, 0, OliveScript, EVENT_GOT_A_POKEMON_FROM_OAK
+	object_event  6,  8, SPRITE_OLIVE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, PAL_NPC_OLIVE, OBJECTTYPE_TRAINER, 3, TrainerVictoria, EVENT_OAKSLAB_AWAITING_STARTER_CHOICE
 	object_event  6,  3, SPRITE_BALL_CUT_TREE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, PAL_NPC_ENV_GREEN, OBJECTTYPE_SCRIPT, 0, BulbasaurPokeBallScript, EVENT_BULBASAUR_POKEBALL_IN_OAKS_LAB
 	object_event  7,  3, SPRITE_BALL_CUT_TREE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, PAL_NPC_ENV_RED, OBJECTTYPE_SCRIPT, 0, CharmanderPokeBallScript, EVENT_CHARMANDER_POKEBALL_IN_OAKS_LAB
 	object_event  8,  3, SPRITE_BALL_CUT_TREE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, PAL_NPC_ENV_BLUE, OBJECTTYPE_SCRIPT, 0, SquirtlePokeBallScript, EVENT_SQUIRTLE_POKEBALL_IN_OAKS_LAB
@@ -44,6 +45,7 @@ OaksLab_MapScriptHeader:
 	const_skip ; OaksAssistant1 (aroma lady)
 	const_skip ; Pokedex book
 	const OAKSLAB_VICTORIA
+	const_skip ; Victoria (trainer form, same tile, active after starter is chosen)
 	const OAKSLAB_BULBASAUR_BALL
 	const OAKSLAB_CHARMANDER_BALL
 	const OAKSLAB_SQUIRTLE_BALL
@@ -615,9 +617,7 @@ BulbasaurPokeBallScript:
 	iffalse_jumpopenedtext DidntChooseKantoStarterText
 	disappear OAKSLAB_BULBASAUR_BALL
 	setevent EVENT_GOT_A_POKEMON_FROM_OAK
-	writetext ChoseKantoStarterText
-	promptbutton
-	waitsfx
+	clearevent EVENT_OAKSLAB_AWAITING_STARTER_CHOICE
 	givepoke BULBASAUR, PLAIN_FORM, 5, ORAN_BERRY
 	closetext
 	end
@@ -636,9 +636,7 @@ CharmanderPokeBallScript:
 	iffalse_jumpopenedtext DidntChooseKantoStarterText
 	disappear OAKSLAB_CHARMANDER_BALL
 	setevent EVENT_GOT_A_POKEMON_FROM_OAK
-	writetext ChoseKantoStarterText
-	promptbutton
-	waitsfx
+	clearevent EVENT_OAKSLAB_AWAITING_STARTER_CHOICE
 	givepoke CHARMANDER, PLAIN_FORM, 5, ORAN_BERRY
 	closetext
 	end
@@ -657,44 +655,26 @@ SquirtlePokeBallScript:
 	iffalse_jumpopenedtext DidntChooseKantoStarterText
 	disappear OAKSLAB_SQUIRTLE_BALL
 	setevent EVENT_GOT_A_POKEMON_FROM_OAK
-	writetext ChoseKantoStarterText
-	promptbutton
-	waitsfx
+	clearevent EVENT_OAKSLAB_AWAITING_STARTER_CHOICE
 	givepoke SQUIRTLE, PLAIN_FORM, 5, ORAN_BERRY
 	closetext
 	end
 
 TakeBulbasaurText:
-	text "Oak: So, you like"
-	line "Bulbasaur, the"
-	cont "seed #mon?"
+	text "Select Bulbasaur?"
 	done
 
 TakeCharmanderText:
-	text "Oak: Do you want"
-	line "Charmander, the"
-	cont "lizard #mon?"
+	text "Select Charmander?"
 	done
 
 TakeSquirtleText:
-	text "Oak: You'll take"
-	line "Squirtle, the"
-	cont "tiny turtle"
-	cont "#mon?"
+	text "Select Squirtle?"
 	done
 
 DidntChooseKantoStarterText:
-	text "Oak: Think it over"
+	text "Think it over"
 	line "carefully."
-
-	para "Your partner is"
-	line "important."
-	done
-
-ChoseKantoStarterText:
-	text "Oak: I think"
-	line "that's a great"
-	cont "#mon too!"
 	done
 
 OakPokeBallText:
@@ -749,10 +729,9 @@ OliveFriendlyText:
 	cont "with you."
 	done
 
-; Not wired up to her object right now -- she's just a friend for this
-; part of the story, no battling yet. Kept here so the trainer-class
-; battle (GREEN, id 1) is easy to re-enable later by pointing her
-; object_event back at TrainerVictoria/OBJECTTYPE_TRAINER.
+; Shares Olive's tile: hidden until EVENT_OAKSLAB_AWAITING_STARTER_CHOICE is
+; cleared (i.e. after the player picks a starter), at which point this
+; trainer-class object (GREEN, id 1) takes over from OliveScript.
 TrainerVictoria:
 	trainer GREEN, 1, EVENT_BEAT_VICTORIA, .SeenText, .BeatenText, 0, .Script, TRAINERPAL_NONE
 
