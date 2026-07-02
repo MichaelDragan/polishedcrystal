@@ -60,20 +60,26 @@ probably no longer the intended match — worth deciding: does she also get a re
 starter, or a type-advantage "rival counter-pick" (classic mechanic: beats whichever you chose,
 cycling Bulbasaur→Charmander→Squirtle→Bulbasaur)? Not yet implemented either way.
 
-## Open bug: starter balls all vanish after a Victoria battle (NOT YET CONFIRMED FIXED)
-User-reported: picked Charmander (red ball correctly disappeared, Bulbasaur/Squirtle correctly stayed
-visible), then after a battle with Victoria (which sits right next to the balls, easy to walk into
-her by accident), all three balls were gone from the display case. Root cause not confirmed yet —
-working theory is that `reloadmapafterbattle` (fired by the `trainer` macro's generated script after
-any battle with Victoria) reloads the map and re-evaluates each ball object's own visibility flag
-(`EVENT_{BULBASAUR,CHARMANDER,SQUIRTLE}_POKEBALL_IN_OAKS_LAB`, the trailing parameter on each
-`object_event`) — and since the ball scripts never actually `setevent`/`clearevent` those specific
-flags (only the shared `EVENT_GOT_A_POKEMON_FROM_OAK` gate), their reload-time visibility may not
-reflect "already taken" correctly. Compare against `EeveeDollScript`, which does correctly
-`setevent EVENT_DECO_EEVEE_DOLL` on its own matching flag when collected — the ball scripts are
-missing that equivalent call. **Not yet fixed or verified** — next step is to add the matching
-`setevent`/`clearevent` calls per ball and confirm with a deliberate before/after-Victoria-battle
-comparison.
+## Fixed: starter balls all vanishing after a Victoria battle
+Root cause confirmed by reading the actual engine code (`engine/overworld/scripting.asm`): the
+`disappear` script command doesn't just hide an object for the current session — it calls
+`ApplyEventActionAppearDisappear`, which **permanently sets that object's own associated event flag**
+(its trailing `object_event` parameter) via `EventFlagAction`. Object visibility on every map
+load/reload is later decided by `CheckObjectFlag` (`engine/overworld/map_setup.asm`): hidden if that
+flag is set, shown otherwise.
+
+Each ball script was calling `disappear` not just on itself, but also on the *other two* balls (to
+hide them immediately once you'd chosen one) — e.g. picking Charmander called
+`disappear OAKSLAB_BULBASAUR_BALL` and `disappear OAKSLAB_SQUIRTLE_BALL` too. That permanently set
+all three balls' own flags to "collected" in one go, so any later map reload (a Victoria battle
+triggers one via `reloadmapafterbattle`) correctly-per-the-engine hid all three.
+
+Fix: removed the "also disappear the other two balls" calls from all three scripts — each script now
+only ever calls `disappear` on its own ball. The other two remain visibly present after a choice is
+made (a minor cosmetic difference from the classic single-frame instant-hide), but they're inert:
+their own scripts still gate on `EVENT_GOT_A_POKEMON_FROM_OAK` and show `OakPokeBallText` ("that
+Pokémon is doing fine") instead of re-offering a starter. Rebuilt clean; not yet re-verified live with
+an actual before/after-battle comparison in mGBA.
 
 ## Fixed: object index mismatch broke `disappear`/`turnobject` in Oak's Lab
 `object_const_def`'s sequential numbering must match each object's actual position in the *full*

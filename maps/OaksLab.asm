@@ -619,8 +619,6 @@ BulbasaurPokeBallScript:
 	promptbutton
 	waitsfx
 	givepoke BULBASAUR, PLAIN_FORM, 5, ORAN_BERRY
-	disappear OAKSLAB_CHARMANDER_BALL
-	disappear OAKSLAB_SQUIRTLE_BALL
 	closetext
 	end
 
@@ -643,8 +641,6 @@ CharmanderPokeBallScript:
 	promptbutton
 	waitsfx
 	givepoke CHARMANDER, PLAIN_FORM, 5, ORAN_BERRY
-	disappear OAKSLAB_BULBASAUR_BALL
-	disappear OAKSLAB_SQUIRTLE_BALL
 	closetext
 	end
 
@@ -667,8 +663,6 @@ SquirtlePokeBallScript:
 	promptbutton
 	waitsfx
 	givepoke SQUIRTLE, PLAIN_FORM, 5, ORAN_BERRY
-	disappear OAKSLAB_BULBASAUR_BALL
-	disappear OAKSLAB_CHARMANDER_BALL
 	closetext
 	end
 
