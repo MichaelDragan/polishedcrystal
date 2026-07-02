@@ -89,6 +89,10 @@ if DEF(DEBUG)
 	ld [wInitialOptions], a
 	ld a, EVS_OPT_MODERN | (1 << RTC_OPT) | (1 << EVOLVE_IN_BATTLE_OPT)
 	ld [wInitialOptions2], a
+	; Always-run from the start (same "Running Shoes" toggle normally set
+	; via the pause-menu Options screen -- no item/unlock needed for it).
+	ld a, 1 << RUNNING_SHOES
+	ld [wOptions2], a
 
 	ld a, PLAYER_MALE
 	ld [wPlayerGender], a

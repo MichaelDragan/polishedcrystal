@@ -9383,6 +9383,6 @@ GreenGroup:
 DEF _tr_class = GREEN
 
 	def_trainer_class GREEN
-	def_trainer 1, "Victoria"
+	def_trainer 1, "Olive"
 	tr_mon 5, EEVEE, FEMALE
 	end_trainer
