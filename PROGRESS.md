@@ -46,6 +46,52 @@ Starting **New Game**:
    Note: Red only has normal-walk frames so far, no run/bike/surf art, so those states still fall back
    to the default sprite until that art exists.
 
+## Story pivot: Oak's Lab is a library for now, becomes a lab later
+Working narrative: the game takes place before Oak's Lab exists as a lab. The room (still
+`maps/OaksLab.asm`) currently functions as a library that stores documents recovered on the journey
+(explains the pre-existing bookshelf tiles/`difficultbookshelf` events nicely, no art changes needed
+for that). Concretely, for this early phase:
+- **Oak and the two Scientist NPCs removed** from `def_object_events` (AromaLady kept — not a
+  "scientist", not mentioned for removal). `object_const_def` renumbered with `const_skip` entries
+  preserved for the still-present-but-unlisted AromaLady slot (matching the established
+  index-alignment discipline from the earlier `disappear`/`turnobject` bug).
+- **Oak's own late-game script (`Oak:` label) was NOT deleted** — it still holds the Mt. Silver
+  postgame trigger (`PROF_OAK` superboss), Catch/Oval/Shiny Charm logic, and the Kanto badge-check
+  dialogue tree, all gated behind flags that can't be true this early anyway. Only the
+  `turnobject OAKSLAB_OAK` / `setlasttalked OAKSLAB_OAK` calls that referenced his now-nonexistent
+  object were removed (left a comment marking `setlasttalked` for restoration once Oak has a real
+  object again, i.e. once the room becomes an actual lab later in the story).
+- **A table for Olive**, on the right side of the room: reused the *exact same* display-case graphic
+  that already holds the 3 starter Poke Balls (blocks 26/27 + their base row 44/45, discovered by
+  reading `maps/OaksLab.ablk` as a 5x6 grid of block IDs and identifying the display case's footprint
+  against known object coordinates) — placed a second copy at grid row 4, cols 3-4. This was the
+  *second* attempt: the first tried an unidentified block (43) that turned out to render as plain
+  floor, not furniture — there's no reliable way to preview raw tileset blocks in this environment, so
+  this needed an empirical rebuild-and-screenshot test rather than a confident guess.
+- **Olive repositioned** to sit at that table (currently `object_event 8, 8`, facing down toward
+  where the player enters) instead of standing near the starter balls.
+- **Recoloring the table (green → brown) and bookshelves (→ charcoal) was attempted and abandoned**:
+  dumped the raw tileset attribute bytes (`data/tilesets/kanto_attributes.bin`) for the relevant
+  blocks, expecting a simple per-tile palette index. Instead, blocks that render in completely
+  different colors (the green display case vs. the gray PC/counter) turned out to share nearly
+  identical attribute bytes — meaning color isn't controlled by a safely-editable attribute layer
+  here, it's most likely baked into which raw tile graphic data each block references. Left as-is per
+  user's call; would need real tile-editing tooling to revisit.
+- **First-move auto-trigger**: added a `SCENE_OAKSLAB_INTRO` / `SCENE_OAKSLAB_GREETED_OLIVE` scene
+  pair (`def_scene_scripts`) and two `coord_event`s at (4,10)/(5,10) — the tiles immediately inside the
+  door — gated on the default `SCENE_OAKSLAB_INTRO` state. Stepping onto either tile (your first move
+  after entering) fires `OliveNoticesScript`, which shows an emote + a short "come sit with me" text
+  box, then advances the scene so it only fires once. Modeled on the identical `coord_event`
+  mechanism `ElmsLab.asm` uses for its rival-intercept scene (confirmed via the engine's
+  `CheckCurrentMapCoordEvents`/`CheckObjectFlag`-adjacent code path, not just macro syntax).
+- **Olive doesn't battle yet**: she was originally wired as `OBJECTTYPE_TRAINER` (auto-battle on
+  sight, via the `trainer GREEN, 1, ...` macro/`TrainerVictoria` script) — too aggressive for what's
+  meant to be a friendly first meeting ("we are friends" per the user, not rivals yet at this point in
+  the story). Switched her object to `OBJECTTYPE_SCRIPT` pointing at a new plain-conversation
+  `OliveScript`/`OliveFriendlyText`, sight_range 0. The original trainer-battle data
+  (`TrainerVictoria:`, `EVENT_BEAT_VICTORIA`) is left intact but unwired — re-enabling the battle
+  later is just pointing her object_event back at it.
+
 ## Fixed: Victoria's Eevee was absurdly strong
 `data/trainers/dvs.asm`'s `; green` entry still had `252, PERFECT_DVS` (max IVs + 252 EVs) left over
 from when Victoria was a level 50 endgame-caliber Sylveon/Flareon duo — never scaled down when her

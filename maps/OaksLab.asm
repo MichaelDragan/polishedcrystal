@@ -1,5 +1,7 @@
 OaksLab_MapScriptHeader:
 	def_scene_scripts
+	scene_script DoNothingScript, SCENE_OAKSLAB_INTRO
+	scene_script DoNothingScript, SCENE_OAKSLAB_GREETED_OLIVE
 
 	def_callbacks
 
@@ -8,6 +10,8 @@ OaksLab_MapScriptHeader:
 	warp_event  5, 11, PALLET_TOWN, 3
 
 	def_coord_events
+	coord_event  4, 10, SCENE_OAKSLAB_INTRO, OliveNoticesScript
+	coord_event  5, 10, SCENE_OAKSLAB_INTRO, OliveNoticesScript
 
 	def_bg_events
 	bg_event  6,  1, BGEVENT_JUMPSTD, difficultbookshelf
@@ -27,23 +31,17 @@ OaksLab_MapScriptHeader:
 	bg_event  0,  1, BGEVENT_JUMPTEXT, OaksLabPCText
 
 	def_object_events
-	object_event  4,  2, SPRITE_OAK, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, 0, OBJECTTYPE_SCRIPT, 0, Oak, -1
 	object_event  2,  4, SPRITE_MON_ICON, SPRITEMOVEDATA_STILL, 0, EEVEE, -1, PAL_MON_BROWN, OBJECTTYPE_SCRIPT, NO_FORM, EeveeDollScript, EVENT_DECO_EEVEE_DOLL
 	object_event  1,  8, SPRITE_AROMA_LADY, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 0, 1, -1, PAL_NPC_GREEN, OBJECTTYPE_COMMAND, jumptextfaceplayer, OaksAssistant1Text, -1
-	object_event  8,  9, SPRITE_SCIENTIST, SPRITEMOVEDATA_WALK_UP_DOWN, 1, 0, -1, PAL_NPC_RED, OBJECTTYPE_COMMAND, jumptextfaceplayer, OaksAssistant2Text, -1
-	object_event  1,  4, SPRITE_SCIENTIST, SPRITEMOVEDATA_WANDER, 1, 1, -1, PAL_NPC_RED, OBJECTTYPE_COMMAND, jumptextfaceplayer, OaksAssistant3Text, -1
 	object_event  2,  1, SPRITE_BOOK_PAPER_POKEDEX, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, PAL_NPC_RED, OBJECTTYPE_COMMAND, jumptext, OaksLabPokedexText, -1
-	object_event  5,  6, SPRITE_LEAF, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, 0, OBJECTTYPE_TRAINER, 3, TrainerVictoria, -1
+	object_event  8,  8, SPRITE_LEAF, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, 0, OBJECTTYPE_SCRIPT, 0, OliveScript, -1
 	object_event  6,  3, SPRITE_BALL_CUT_TREE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, PAL_NPC_ENV_GREEN, OBJECTTYPE_SCRIPT, 0, BulbasaurPokeBallScript, EVENT_BULBASAUR_POKEBALL_IN_OAKS_LAB
 	object_event  7,  3, SPRITE_BALL_CUT_TREE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, PAL_NPC_ENV_RED, OBJECTTYPE_SCRIPT, 0, CharmanderPokeBallScript, EVENT_CHARMANDER_POKEBALL_IN_OAKS_LAB
 	object_event  8,  3, SPRITE_BALL_CUT_TREE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, PAL_NPC_ENV_BLUE, OBJECTTYPE_SCRIPT, 0, SquirtlePokeBallScript, EVENT_SQUIRTLE_POKEBALL_IN_OAKS_LAB
 
 	object_const_def
-	const OAKSLAB_OAK
 	const OAKSLAB_EEVEE_DOLL
 	const_skip ; OaksAssistant1 (aroma lady)
-	const_skip ; OaksAssistant2 (scientist)
-	const_skip ; OaksAssistant3 (scientist)
 	const_skip ; Pokedex book
 	const OAKSLAB_VICTORIA
 	const OAKSLAB_BULBASAUR_BALL
@@ -163,7 +161,11 @@ Oak:
 	waitbutton
 	closetext
 	winlosstext OakWinText, 0
-	setlasttalked OAKSLAB_OAK
+	; Oak has no object in this room right now (removed for the "library, not
+	; lab yet" story phase -- see PROGRESS.md). This whole branch requires
+	; EVENT_OPENED_MT_SILVER/EVENT_BEAT_ELITE_FOUR_AGAIN, unreachable this
+	; early regardless, but restore setlasttalked OAKSLAB_OAK once Oak has a
+	; real object again.
 	loadtrainer PROF_OAK, 1
 	startbattle
 	reloadmapafterbattle
@@ -190,7 +192,6 @@ Oak:
 	sjump .CheckPokedex
 
 EeveeDollScript:
-	turnobject OAKSLAB_OAK, RIGHT
 	opentext
 	writetext ProfOakEeveeDollTradeText
 	waitbutton
@@ -603,7 +604,6 @@ OaksLabPokedexText:
 BulbasaurPokeBallScript:
 	checkevent EVENT_GOT_A_POKEMON_FROM_OAK
 	iftrue_jumptext OakPokeBallText
-	turnobject OAKSLAB_OAK, DOWN
 	reanchormap
 	pokepic BULBASAUR
 	cry BULBASAUR
@@ -625,7 +625,6 @@ BulbasaurPokeBallScript:
 CharmanderPokeBallScript:
 	checkevent EVENT_GOT_A_POKEMON_FROM_OAK
 	iftrue_jumptext OakPokeBallText
-	turnobject OAKSLAB_OAK, DOWN
 	reanchormap
 	pokepic CHARMANDER
 	cry CHARMANDER
@@ -647,7 +646,6 @@ CharmanderPokeBallScript:
 SquirtlePokeBallScript:
 	checkevent EVENT_GOT_A_POKEMON_FROM_OAK
 	iftrue_jumptext OakPokeBallText
-	turnobject OAKSLAB_OAK, DOWN
 	reanchormap
 	pokepic SQUIRTLE
 	cry SQUIRTLE
@@ -705,6 +703,42 @@ OakPokeBallText:
 	cont "isn't it?"
 	done
 
+OliveNoticesScript:
+	showemote EMOTE_SHOCK, OAKSLAB_VICTORIA, 15
+	opentext
+	writetext OliveNoticesText
+	closetext
+	setscene SCENE_OAKSLAB_GREETED_OLIVE
+	end
+
+OliveNoticesText:
+	text "Oh! You're here."
+
+	para "Come sit with me"
+	line "for a moment,"
+	cont "<PLAYER>."
+	done
+
+OliveScript:
+	faceplayer
+	opentext
+	writetext OliveFriendlyText
+	closetext
+	end
+
+OliveFriendlyText:
+	text "This place has"
+	line "everything, huh?"
+
+	para "I could spend"
+	line "all day in here"
+	cont "with you."
+	done
+
+; Not wired up to her object right now -- she's just a friend for this
+; part of the story, no battling yet. Kept here so the trainer-class
+; battle (GREEN, id 1) is easy to re-enable later by pointing her
+; object_event back at TrainerVictoria/OBJECTTYPE_TRAINER.
 TrainerVictoria:
 	trainer GREEN, 1, EVENT_BEAT_VICTORIA, .SeenText, .BeatenText, 0, .Script, TRAINERPAL_NONE
 
