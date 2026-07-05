@@ -2,8 +2,11 @@ OaksLab_MapScriptHeader:
 	def_scene_scripts
 	scene_script DoNothingScript, SCENE_OAKSLAB_INTRO
 	scene_script DoNothingScript, SCENE_OAKSLAB_GREETED_OLIVE
+	scene_script DoNothingScript, SCENE_OAKSLAB_VICTORIA_READY
+	scene_script DoNothingScript, SCENE_OAKSLAB_VICTORIA_DONE
 
 	def_callbacks
+	callback MAPCALLBACK_OBJECTS, OaksLabCallback_FaceOliveLeft
 
 	def_warp_events
 	warp_event  4, 11, PALLET_TOWN, 3
@@ -12,6 +15,11 @@ OaksLab_MapScriptHeader:
 	def_coord_events
 	coord_event  4, 10, SCENE_OAKSLAB_INTRO, OliveNoticesScript
 	coord_event  5, 10, SCENE_OAKSLAB_INTRO, OliveNoticesScript
+	; The only passable corridor tile at Victoria's row -- she blocks column 5,
+	; so anyone walking past her in either direction must cross column 4 here.
+	; Used as her "sightline" trigger instead of a real trainer sight_range,
+	; since OBJECTTYPE_TRAINER's built-in engine can't do BATTLETYPE_CANLOSE.
+	coord_event  4,  7, SCENE_OAKSLAB_VICTORIA_READY, TrainerVictoria
 
 	def_bg_events
 	bg_event  6,  1, BGEVENT_JUMPSTD, difficultbookshelf
@@ -31,21 +39,15 @@ OaksLab_MapScriptHeader:
 	bg_event  0,  1, BGEVENT_JUMPTEXT, OaksLabPCText
 
 	def_object_events
-	object_event  2,  4, SPRITE_MON_ICON, SPRITEMOVEDATA_STILL, 0, EEVEE, -1, PAL_MON_BROWN, OBJECTTYPE_SCRIPT, NO_FORM, EeveeDollScript, EVENT_DECO_EEVEE_DOLL
-	object_event  1,  8, SPRITE_AROMA_LADY, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 0, 1, -1, PAL_NPC_GREEN, OBJECTTYPE_COMMAND, jumptextfaceplayer, OaksAssistant1Text, -1
 	object_event  2,  1, SPRITE_BOOK_PAPER_POKEDEX, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, PAL_NPC_RED, OBJECTTYPE_COMMAND, jumptext, OaksLabPokedexText, -1
-	object_event  5,  8, SPRITE_OLIVE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, PAL_NPC_OLIVE, OBJECTTYPE_SCRIPT, 0, OliveScript, EVENT_GOT_A_POKEMON_FROM_OAK
-	object_event  5,  8, SPRITE_OLIVE, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, PAL_NPC_OLIVE, OBJECTTYPE_TRAINER, 3, TrainerVictoria, EVENT_OAKSLAB_AWAITING_STARTER_CHOICE
+	object_event  5,  7, SPRITE_OLIVE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, PAL_NPC_OLIVE, OBJECTTYPE_SCRIPT, 0, OliveScript, EVENT_BEAT_VICTORIA
 	object_event  6,  3, SPRITE_BALL_CUT_TREE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, PAL_NPC_ENV_GREEN, OBJECTTYPE_SCRIPT, 0, BulbasaurPokeBallScript, EVENT_BULBASAUR_POKEBALL_IN_OAKS_LAB
 	object_event  7,  3, SPRITE_BALL_CUT_TREE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, PAL_NPC_ENV_RED, OBJECTTYPE_SCRIPT, 0, CharmanderPokeBallScript, EVENT_CHARMANDER_POKEBALL_IN_OAKS_LAB
 	object_event  8,  3, SPRITE_BALL_CUT_TREE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, PAL_NPC_ENV_BLUE, OBJECTTYPE_SCRIPT, 0, SquirtlePokeBallScript, EVENT_SQUIRTLE_POKEBALL_IN_OAKS_LAB
 
 	object_const_def
-	const OAKSLAB_EEVEE_DOLL
-	const_skip ; OaksAssistant1 (aroma lady)
 	const_skip ; Pokedex book
-	const OAKSLAB_VICTORIA
-	const OAKSLAB_VICTORIA_TRAINER ; Victoria (trainer form, same tile, active after starter is chosen)
+	const OAKSLAB_VICTORIA ; one object, both as pre-pick Olive and post-pick trainer Victoria
 	const OAKSLAB_BULBASAUR_BALL
 	const OAKSLAB_CHARMANDER_BALL
 	const OAKSLAB_SQUIRTLE_BALL
@@ -192,31 +194,6 @@ Oak:
 	writetext OakNoKantoBadgesText
 	promptbutton
 	sjump .CheckPokedex
-
-EeveeDollScript:
-	opentext
-	writetext ProfOakEeveeDollTradeText
-	waitbutton
-	checkitem EVERSTONE
-	iffalse_jumpopenedtext NoEverstoneText
-	writetext WantToTradeText
-	yesorno
-	iffalse_jumpopenedtext NoTradeText
-	takeitem EVERSTONE
-	disappear OAKSLAB_EEVEE_DOLL
-	setevent EVENT_DECO_EEVEE_DOLL
-	writetext EeveeDollText
-	playsound SFX_ITEM
-	pause 60
-	waitbutton
-	writetext EeveeDollSentText
-	waitbutton
-	jumpthisopenedtext
-
-	text "Prof.Oak: Set it"
-	line "somewhere you can"
-	cont "appreciate it!"
-	done
 
 OakChooseStarterText:
 	text "Oak: Go ahead and"
@@ -494,17 +471,6 @@ OakYesKantoBadgesText:
 	line "<PLAYER>!"
 	done
 
-OaksAssistant1Text:
-	text "The Prof's #mon"
-	line "Talk radio program"
-
-	para "isn't aired here"
-	line "in Kanto."
-
-	para "It's a shame--I'd"
-	line "like to hear it."
-	done
-
 OaksAssistant2Text:
 	text "Thanks to your"
 	line "work on the #-"
@@ -561,43 +527,6 @@ OaksLabPCText:
 	line "Town 8-)"
 	done
 
-ProfOakEeveeDollTradeText:
-	text "Oak: Oh, are you"
-	line "admiring my"
-	cont "Eevee Doll?"
-
-	para "I'll trade it"
-	line "to you for an"
-	cont "Everstone."
-	done
-
-NoEverstoneText:
-	text "But you don't have"
-	line "one of those…"
-	done
-
-WantToTradeText:
-	text "Do you want to"
-	line "trade?"
-	done
-
-NoTradeText:
-	text "It will still be"
-	line "here if you change"
-	cont "your mind."
-	done
-
-EeveeDollText:
-	text "<PLAYER> received"
-	line "Eevee Doll."
-	done
-
-EeveeDollSentText:
-	text "Eevee Doll"
-	line "was sent home."
-	done
-
-
 OaksLabPokedexText:
 	text "It's Prof.Oak's"
 	line "#dex."
@@ -618,9 +547,8 @@ BulbasaurPokeBallScript:
 	disappear OAKSLAB_BULBASAUR_BALL
 	setevent EVENT_GOT_A_POKEMON_FROM_OAK
 	clearevent EVENT_OAKSLAB_AWAITING_STARTER_CHOICE
-	disappear OAKSLAB_VICTORIA
-	appear OAKSLAB_VICTORIA_TRAINER
-	turnobject OAKSLAB_VICTORIA_TRAINER, LEFT
+	turnobject OAKSLAB_VICTORIA, LEFT
+	setscene SCENE_OAKSLAB_VICTORIA_READY
 	givepoke BULBASAUR, PLAIN_FORM, 5, ORAN_BERRY
 	closetext
 	end
@@ -640,9 +568,8 @@ CharmanderPokeBallScript:
 	disappear OAKSLAB_CHARMANDER_BALL
 	setevent EVENT_GOT_A_POKEMON_FROM_OAK
 	clearevent EVENT_OAKSLAB_AWAITING_STARTER_CHOICE
-	disappear OAKSLAB_VICTORIA
-	appear OAKSLAB_VICTORIA_TRAINER
-	turnobject OAKSLAB_VICTORIA_TRAINER, LEFT
+	turnobject OAKSLAB_VICTORIA, LEFT
+	setscene SCENE_OAKSLAB_VICTORIA_READY
 	givepoke CHARMANDER, PLAIN_FORM, 5, ORAN_BERRY
 	closetext
 	end
@@ -662,9 +589,8 @@ SquirtlePokeBallScript:
 	disappear OAKSLAB_SQUIRTLE_BALL
 	setevent EVENT_GOT_A_POKEMON_FROM_OAK
 	clearevent EVENT_OAKSLAB_AWAITING_STARTER_CHOICE
-	disappear OAKSLAB_VICTORIA
-	appear OAKSLAB_VICTORIA_TRAINER
-	turnobject OAKSLAB_VICTORIA_TRAINER, LEFT
+	turnobject OAKSLAB_VICTORIA, LEFT
+	setscene SCENE_OAKSLAB_VICTORIA_READY
 	givepoke SQUIRTLE, PLAIN_FORM, 5, ORAN_BERRY
 	closetext
 	end
@@ -696,71 +622,162 @@ OliveNoticesScript:
 	showemote EMOTE_SHOCK, OAKSLAB_VICTORIA, 15
 	opentext
 	writetext OliveNoticesText
+	waitbutton
 	closetext
 	setscene SCENE_OAKSLAB_GREETED_OLIVE
 	end
 
 OliveNoticesText:
-	text "Hey, you made"
-	line "it! Grab a #mon"
-	cont "from the table."
-	cont "Oak promised,"
-	cont "remember?"
+	text "Over here! Come"
+	line "pick one."
 	done
 
-OliveScript:
-	faceplayer
+; Olive and battle-ready Victoria used to be two separate stacked objects at
+; the same tile, each independently masked -- that ambiguity (which of the
+; two is actually visible/interactive) was the root cause of a cluster of
+; bugs: wrong facing direction on a new game, no battle trigger, and being
+; able to battle her repeatedly instead of her leaving for good. Now there's
+; a single object (OAKSLAB_VICTORIA) whose script branches on state instead,
+; masked directly by EVENT_BEAT_VICTORIA (see the object_event above): visible
+; for both the pre-pick Olive and post-pick Victoria phases, hidden for good
+; once she's beaten -- including after leaving and re-entering the room,
+; since this is the object's own native masking rather than a callback (a
+; callback here would race against and lose to LoadObjectMasks, which reapplies
+; this same masking rule right after any callback runs).
+OaksLabCallback_FaceOliveLeft:
 	checkevent EVENT_GOT_A_POKEMON_FROM_OAK
-	iftrue_jumptext OliveFriendlyText
+	iffalsefwd .Skip
+	turnobject OAKSLAB_VICTORIA, LEFT
+.Skip:
+	endcallback
+
+OliveScript:
+	checkevent EVENT_GOT_A_POKEMON_FROM_OAK
+	iftruefwd .AlreadyPicked
+	faceplayer
 	opentext
 	writetext OliveOffersStarterText
+	waitbutton
 	closetext
 	end
 
+.AlreadyPicked:
+; Talking to her doesn't start the battle -- that only happens when you cross
+; her sightline tile (coord_event in the map header) on your way out. She
+; faces the player for this chat, then turns back to her default left-facing
+; (see OaksLabCallback_FaceOliveLeft) once it's over.
+	faceplayer
+	opentext
+	writetext OliveOffersStarterText
+	waitbutton
+	closetext
+	turnobject OAKSLAB_VICTORIA, LEFT
+	end
+
 OliveOffersStarterText:
-	text "See those Poke"
-	line "Balls on the"
-	cont "table over"
-	cont "there?"
-
-	para "Oak said you"
-	line "can take one,"
-	cont "just like he"
-	cont "promised you."
+	text "Let's make Oak"
+	line "proud."
 	done
 
-OliveFriendlyText:
-	text "This place has"
-	line "everything, huh?"
-
-	para "I could spend"
-	line "all day in here"
-	cont "with you."
-	done
-
-; Shares Olive's tile: hidden until EVENT_OAKSLAB_AWAITING_STARTER_CHOICE is
-; cleared (i.e. after the player picks a starter), at which point this
-; trainer-class object (GREEN, id 1) takes over from OliveScript.
+; This is a one-time BATTLETYPE_CANLOSE battle (see ElmsLab's LyraBattleScript
+; for the same pattern): losing doesn't blackout the player, it just shows a
+; different follow-up line. Either way the party heals, then Olive walks off
+; to collect whichever 2 Poke Balls weren't chosen and leaves for good.
+; Only reachable by crossing her sightline tile (coord_event in the map
+; header) -- talking to her (OliveScript, above) no longer starts the battle.
 TrainerVictoria:
-	trainer GREEN, 1, EVENT_BEAT_VICTORIA, .SeenText, .BeatenText, 0, .Script, TRAINERPAL_NONE
+	; setlasttalked first: this can be entered via a coord_event tripwire
+	; (walking past her), not just talking to her, so faceplayer/showemote
+	; below can't rely on hLastTalked already being set the normal way.
+	setlasttalked OAKSLAB_VICTORIA
+	showemote EMOTE_SHOCK, OAKSLAB_VICTORIA, 15
+	faceplayer
+	opentext
+	writetext .SeenText
+	waitbutton
+	closetext
+	winlosstext .WinText, .LossText
+	loadtrainer GREEN, 1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_CANLOSE
+	startbattle
+	reloadmap
+	iftruefwd .AfterYourDefeat
 
-.Script:
-	endifjustbattled
-	jumpthistextfaceplayer
+.AfterVictory:
+	opentext
+	writetext .WinFollowupText
+	waitbutton
+	closetext
+	sjumpfwd .CollectBalls
 
-	text "Good to see you"
-	line "again, <PLAYER>."
+.AfterYourDefeat:
+	opentext
+	writetext .LoseFollowupText
+	waitbutton
+	closetext
 
-	para "Ready for a"
-	line "rematch?"
-	done
+.CollectBalls:
+	opentext
+	writetext .PackingUpText
+	waitbutton
+	closetext
+	special HealParty
+	setevent EVENT_BEAT_VICTORIA
+	setscene SCENE_OAKSLAB_VICTORIA_DONE
+	applymovement OAKSLAB_VICTORIA, .WalkToTableMovement
+	pause 30
+	disappear OAKSLAB_BULBASAUR_BALL
+	disappear OAKSLAB_CHARMANDER_BALL
+	disappear OAKSLAB_SQUIRTLE_BALL
+	applymovement OAKSLAB_VICTORIA, .WalkOutMovement
+	disappear OAKSLAB_VICTORIA
+	end
+
+.WalkToTableMovement:
+	step_up
+	step_up
+	step_up
+	turn_head_right
+	step_end
+
+; Retraces her steps back past her old spot and out through the door,
+; instead of just vanishing at the table.
+.WalkOutMovement:
+	step_down
+	step_down
+	step_down
+	step_down
+	step_down
+	step_down
+	step_down
+	step_end
 
 .SeenText:
-	text "Perfect! Now"
-	line "let's battle."
+	text "So, who did"
+	line "you pick?"
 	done
 
-.BeatenText:
-	text "You've gotten"
-	line "stronger!"
+; Shown automatically by the battle engine right as the battle screen closes
+; (see winlosstext above), before .AfterVictory/.AfterYourDefeat's own text.
+.WinText:
+	text "You did it!"
+	done
+
+.LossText:
+	text "I got lucky"
+	line "that time!"
+	done
+
+.WinFollowupText:
+	text "Well played."
+	done
+
+.LoseFollowupText:
+	text "Nice try."
+	done
+
+.PackingUpText:
+	text "I need to get"
+	line "going. See you"
+	cont "at Oak's."
 	done

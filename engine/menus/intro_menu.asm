@@ -80,7 +80,6 @@ _NewGame_FinishSetup:
 	ld [wOvercastRandomDay], a
 	call NewGame_ClearTileMapEtc
 	call WarnVBA
-if DEF(DEBUG)
 	; Skip the interactive "how do you want to play" menu; use the game's
 	; own defaults (see data/options/default_options.asm) except Natures,
 	; which the user wants off. Exp gain defaults to "Old" (unscaled),
@@ -97,36 +96,26 @@ if DEF(DEBUG)
 	ld bc, NAME_LENGTH
 	rst CopyBytes
 	call DebugGoldVsGreenBattle
-else
-	farcall SetInitialOptions
-	call ProfElmSpeech
-endc
 	call InitializeWorld
 	ld a, 1
 	ld [wPrevLandmark], a
 
-if DEF(DEBUG)
 	ld a, SPAWN_PALLET
 	ld [wDefaultSpawnpoint], a
 	; Whiteout/blackout respawn (GetWhiteoutSpawn in engine/events/whiteout.asm)
 	; reads wLastSpawnMapGroup/Number, not wDefaultSpawnpoint, and that pair is
-	; normally only set by walking into a Pokemon Center. Since this debug
-	; flow never visits one, set it explicitly so losing to Victoria sends
+	; normally only set by walking into a Pokemon Center. This flow never
+	; visits one, so set it explicitly so losing to Victoria sends
 	; you back to Pallet Town instead of falling back to SPAWN_HOME.
 	ld a, GROUP_PALLET_TOWN
 	ld [wLastSpawnMapGroup], a
 	ld a, MAP_PALLET_TOWN
 	ld [wLastSpawnMapNumber], a
-else
-	ld a, SPAWN_HOME
-	ld [wDefaultSpawnpoint], a
-endc
 
 	ld a, MAPSETUP_WARP
 	ldh [hMapEntryMethod], a
 	jmp FinishContinueFunction
 
-if DEF(DEBUG)
 DebugPlayerName:
 	rawchar "RED@@@@@", 0, 0, 0
 
@@ -142,7 +131,6 @@ DebugGoldVsGreenBattle:
 	ld hl, wNumItems
 	call ReceiveItem
 	ret
-endc
 
 ResetWRAM_NotPlus:
 	xor a

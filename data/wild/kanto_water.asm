@@ -16,9 +16,9 @@
 
 	def_water_wildmons ROUTE_2_SOUTH
 	db 6 percent ; encounter rate
-	wildmon  53, GOLDEEN
-	wildmon  55, PSYDUCK
-	wildmon  57, SEAKING
+	wildmon  5, GOLDEEN
+	wildmon  6, PSYDUCK
+	wildmon  7, SEAKING
 	end_water_wildmons
 
 	def_water_wildmons ROUTE_4
@@ -114,9 +114,9 @@
 
 	def_water_wildmons ROUTE_22
 	db 2 percent ; encounter rate
-	wildmon  54, MAGIKARP
-	wildmon  56, POLIWAG
-	wildmon  58, POLIWHIRL
+	wildmon  5, MAGIKARP
+	wildmon  6, POLIWAG
+	wildmon  7, POLIWHIRL
 	end_water_wildmons
 
 	def_water_wildmons ROUTE_23_NORTH

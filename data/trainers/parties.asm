@@ -4339,19 +4339,19 @@ BugManiacGroup:
 	end_trainer
 
 	def_trainer ROB, "Rob"
-	tr_mon 60, BEEDRILL
-	tr_mon 59, BUTTERFREE
+	tr_mon 10, BEEDRILL
+	tr_mon 9, BUTTERFREE
 	end_trainer
 
 	def_trainer ED, "Ed"
-	tr_mon 61, YANMA
-	tr_mon 62, BEEDRILL
-	tr_mon 62, BUTTERFREE
+	tr_mon 9, YANMA
+	tr_mon 10, BEEDRILL
+	tr_mon 10, BUTTERFREE
 	end_trainer
 
 	def_trainer DOUG, "Doug"
-	tr_mon 59, BUTTERFREE
-	tr_mon 57, ARIADOS
+	tr_mon 9, BUTTERFREE
+	tr_mon 8, ARIADOS
 	end_trainer
 
 	def_trainer DANE, "Dane"
@@ -4661,9 +4661,12 @@ SchoolboyGroup:
 	end_trainer
 
 	def_trainer DANNY, "Danny"
-	tr_mon 5, SMOOCHUM
-	tr_mon 5, ELEKID
+	tr_mon 6, SMOOCHUM
+		tr_moves LICK, TACKLE, ICY_WIND, CONFUSION
+	tr_mon 6, ELEKID
+		tr_moves QUICK_ATTACK, LEER, THUNDERSHOCK, LOW_KICK
 	tr_mon 6, MAGBY
+		tr_moves HAZE, LEER, EMBER, SMOKESCREEN
 	end_trainer
 
 	def_trainer TOMMY, "Tommy"
@@ -4698,8 +4701,10 @@ SchoolboyGroup:
 	end_trainer
 
 	def_trainer SHERMAN, "Sherman"
-	tr_mon 6, SENTRET
-	tr_mon 7, PIDGEY
+	tr_mon 6, PIDGEOTTO
+		tr_moves TACKLE, GUST, DOUBLE_TEAM, SWIFT
+	tr_mon 7, GEODUDE
+		tr_moves TACKLE, DEFENSE_CURL, MUD_SLAP, RAPID_SPIN
 	end_trainer
 
 	def_trainer SCHOOLBOY_CONNOR, "Connor"
@@ -6779,8 +6784,10 @@ CooltrainerMGroup:
 	end_trainer
 
 	def_trainer FRENCH, "French"
-	tr_mon 7, HOUNDOUR
-	tr_mon 8, ABRA
+	tr_mon 6, GROWLITHE
+		tr_moves GROWL, BITE, ROAR, EMBER
+	tr_mon 6, VOLTORB
+		tr_moves TACKLE, THUNDERSHOCK, SONIC_BOOM, AGILITY
 	end_trainer
 
 	def_trainer HENRI, "Henri"
@@ -7002,8 +7009,10 @@ endc
 	end_trainer
 
 	def_trainer QUINN, "Quinn"
-	tr_mon 8, BULBASAUR
-	tr_mon 7, STARYU
+	tr_mon 4, ODDISH
+		tr_moves ABSORB, GROWTH, LEECH_SEED
+	tr_mon 5, POLIWAG
+		tr_moves SWEET_KISS, WATER_GUN, HYPNOSIS
 	end_trainer
 
 	def_trainer EMMA, "Emma"
@@ -8858,58 +8867,58 @@ KukuiGroup:
 
 	def_trainer_class KUKUI
 	def_trainer 1, "Kukui"
-	tr_mon 67, MAROWAK @ THICK_CLUB, MALE | ALOLAN_FORM
+	tr_mon 9, CUBONE @ THICK_CLUB, MALE
 		tr_extra ROCK_HEAD
 		tr_evs 236 Atk, 252 Spe
-		tr_moves FLARE_BLITZ, SHADOW_CLAW, FLAME_CHARGE, BONEMERANG
-	tr_mon 65, NINETALES, MALE | ALOLAN_FORM
+		tr_moves HEADBUTT, MUD_SLAP, TACKLE, GROWL
+	tr_mon 8, VULPIX, MALE | ALOLAN_FORM
 		tr_extra SNOW_WARNING
 		tr_evs 252 SAt, 236 Spe
-		tr_moves BLIZZARD, DAZZLINGLEAM, CALM_MIND, DARK_PULSE
-	tr_mon 66, MAGNEZONE
+		tr_moves ICY_WIND, CHARM, ROAR, GROWL
+	tr_mon 9, MAGNEMITE
 if DEF(FAITHFUL)
 		tr_extra STURDY
 else
 		tr_extra LEVITATE
 endc
 		tr_evs 236 HP, 252 SAt
-		tr_moves THUNDERBOLT, FLASH_CANNON, TRI_ATTACK, THUNDER_WAVE
-	tr_mon 66, SNORLAX, MALE
-		tr_extra THICK_FAT
-		tr_evs 236 Def, 252 SDf
-		tr_moves BODY_SLAM, CRUNCH, REST, SLEEP_TALK
-	tr_mon 65, RATICATE, MALE | ALOLAN_FORM
+		tr_moves THUNDERSHOCK, THUNDER_WAVE, SUPERSONIC, TACKLE
+	tr_mon 9, JIGGLYPUFF, MALE
+		tr_extra CUTE_CHARM
+		tr_evs 252 HP, 4 Def, 252 SDf
+		tr_moves SING, DEFENSE_CURL, TACKLE, DIZZY_PUNCH
+	tr_mon 8, RATTATA, MALE | ALOLAN_FORM
 		tr_extra HUSTLE
 		tr_evs 236 Atk, 252 Spe
-		tr_moves DOUBLE_EDGE, FEINT_ATTACK, SUCKER_PUNCH, HYPER_FANG
-	tr_mon 68, EXEGGUTOR @ SITRUS_BERRY, MALE | ALOLAN_FORM
+		tr_moves QUICK_ATTACK, FOCUS_ENERGY, TACKLE, LEER
+	tr_mon 10, EXEGGCUTE @ SITRUS_BERRY, MALE
 		tr_extra HARVEST
 		tr_evs 236 SAt, 252 Spe
-		tr_moves GIGA_DRAIN, FLAMETHROWER, DRAGON_PULSE, SUBSTITUTE
+		tr_moves HYPNOSIS, REFLECT, LEECH_SEED, TACKLE
 	end_trainer
 
 	def_trainer 2, "Kukui"
-	tr_mon 74, MAROWAK @ THICK_CLUB, MALE | ALOLAN_FORM
+	tr_mon 10, MAROWAK @ THICK_CLUB, MALE | ALOLAN_FORM
 		tr_extra ROCK_HEAD, ATK_UP_SATK_DOWN
 		tr_evs 252 HP, 4 Def, 252 Atk
 		tr_moves FLARE_BLITZ, SHADOW_CLAW, EARTHQUAKE, SWORDS_DANCE
-	tr_mon 72, NINETALES @ FOCUS_SASH, MALE | ALOLAN_FORM
+	tr_mon 9, NINETALES @ FOCUS_SASH, MALE | ALOLAN_FORM
 		tr_extra SNOW_WARNING, SPE_UP_ATK_DOWN
 		tr_evs 252 SAt, 4 Def, 252 Spe
 		tr_moves MOONBLAST, BLIZZARD, EXTRASENSORY, NASTY_PLOT
-	tr_mon 73, MAGNEZONE @ ASSAULT_VEST
+	tr_mon 9, MAGNEZONE @ ASSAULT_VEST
 		tr_extra ANALYTIC, SATK_UP_ATK_DOWN
 		tr_evs 252 HP, 4 Def, 252 SAt
 		tr_moves VOLT_SWITCH, THUNDERBOLT, FLASH_CANNON, TRI_ATTACK
-	tr_mon 73, SNORLAX @ LEFTOVERS, MALE
+	tr_mon 9, SNORLAX @ LEFTOVERS, MALE
 		tr_extra THICK_FAT, DEF_UP_SATK_DOWN
 		tr_evs 252 HP, 4 SDf, 252 Def
 		tr_moves CURSE, BODY_SLAM, EARTHQUAKE, REST
-	tr_mon 72, MUK @ FIGY_BERRY, MALE | ALOLAN_FORM
+	tr_mon 8, MUK @ FIGY_BERRY, MALE | ALOLAN_FORM
 		tr_extra GLUTTONY, SDEF_UP_SATK_DOWN
 		tr_evs 252 HP, 4 Def, 252 SDf
 		tr_moves CURSE, POISON_JAB, KNOCK_OFF, FIRE_PUNCH
-	tr_mon 75, EXEGGUTOR @ CUSTAP_BERRY, MALE | ALOLAN_FORM
+	tr_mon 10, EXEGGUTOR @ CUSTAP_BERRY, MALE | ALOLAN_FORM
 		tr_extra HARVEST, SATK_UP_ATK_DOWN
 		tr_evs 252 HP, 4 Def, 252 SAt
 		tr_moves GIGA_DRAIN, DRAGON_PULSE, FLAMETHROWER, ENDURE
@@ -9384,5 +9393,5 @@ DEF _tr_class = GREEN
 
 	def_trainer_class GREEN
 	def_trainer 1, "Olive"
-	tr_mon 5, EEVEE, FEMALE
+	tr_mon 4, EEVEE, FEMALE
 	end_trainer
