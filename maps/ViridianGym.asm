@@ -2,6 +2,7 @@ ViridianGym_MapScriptHeader:
 	def_scene_scripts
 
 	def_callbacks
+	callback MAPCALLBACK_OBJECTS, ViridianGymCallback_SetupGauntlet
 
 	def_warp_events
 	warp_event  6, 43, VIRIDIAN_CITY, 1
@@ -14,25 +15,122 @@ ViridianGym_MapScriptHeader:
 	bg_event  9, 41, BGEVENT_READ, ViridianGymStatue
 
 	def_object_events
-	object_event  7,  2, SPRITE_BLUE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, 0, OBJECTTYPE_SCRIPT, 0, ViridianGymBlueScript, EVENT_VIRIDIAN_GYM_BLUE
-	object_event  8, 41, SPRITE_GYM_GUY, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, ViridianGymGuyScript, EVENT_VIRIDIAN_GYM_BLUE
-	object_event  7, 33, SPRITE_ACE_TRAINER_M, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 1, GenericTrainerAceDuoAraandbela1, -1
-	object_event  6, 33, SPRITE_ACE_TRAINER_F, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 1, GenericTrainerAceDuoAraandbela2, -1
-	object_event  3, 32, SPRITE_ACE_TRAINER_F, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 1, GenericTrainerCooltrainerfSalma, -1
-	object_event  3, 18, SPRITE_ACE_TRAINER_F, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 1, GenericTrainerCooltrainerfBonita, -1
-	object_event  6,  8, SPRITE_ACE_TRAINER_M, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 1, GenericTrainerAceDuoElanandida1, -1
-	object_event  7,  8, SPRITE_ACE_TRAINER_F, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 1, GenericTrainerAceDuoElanandida2, -1
+	object_event  7,  2, SPRITE_OAK, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, 0, OBJECTTYPE_SCRIPT, 0, ViridianGymOakScript, -1
+	object_event  8, 41, SPRITE_GYM_GUY, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, ViridianGymGuyScript, -1
+	object_event  7, 33, SPRITE_ACE_TRAINER_M, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 1, GenericTrainerAceDuoAraandbela1, EVENT_VIRIDIAN_GYM_GAUNTLET_HIDDEN
+	object_event  6, 33, SPRITE_ACE_TRAINER_F, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 1, GenericTrainerAceDuoAraandbela2, EVENT_VIRIDIAN_GYM_GAUNTLET_HIDDEN
+	object_event  3, 32, SPRITE_ACE_TRAINER_F, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 1, GenericTrainerCooltrainerfSalma, EVENT_VIRIDIAN_GYM_GAUNTLET_HIDDEN
+	object_event  3, 18, SPRITE_ACE_TRAINER_F, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 1, GenericTrainerCooltrainerfBonita, EVENT_VIRIDIAN_GYM_GAUNTLET_HIDDEN
+	object_event  6,  8, SPRITE_ACE_TRAINER_M, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 1, GenericTrainerAceDuoElanandida1, EVENT_VIRIDIAN_GYM_GAUNTLET_HIDDEN
+	object_event  7,  8, SPRITE_ACE_TRAINER_F, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 1, GenericTrainerAceDuoElanandida2, EVENT_VIRIDIAN_GYM_GAUNTLET_HIDDEN
 
-ViridianGymBlueScript:
+	object_const_def
+	const VIRIDIANGYM_OAK
+	const VIRIDIANGYM_GYM_GUY
+	const VIRIDIANGYM_ACEDUO_ARA
+	const VIRIDIANGYM_ACEDUO_BELA
+	const VIRIDIANGYM_COOLTRAINERF_SALMA
+	const VIRIDIANGYM_COOLTRAINERF_BONITA
+	const VIRIDIANGYM_ACEDUO_ELAN
+	const VIRIDIANGYM_ACEDUO_IDA
+
+; The 6 gym trainers only guard the way to Oak once he's giving out the real
+; Badge (all 7 other Kanto Badges earned) -- during the tutorial phase it's
+; a straight walk up to him.
+ViridianGymCallback_SetupGauntlet:
+	disappear VIRIDIANGYM_ACEDUO_ARA
+	disappear VIRIDIANGYM_ACEDUO_BELA
+	disappear VIRIDIANGYM_COOLTRAINERF_SALMA
+	disappear VIRIDIANGYM_COOLTRAINERF_BONITA
+	disappear VIRIDIANGYM_ACEDUO_ELAN
+	disappear VIRIDIANGYM_ACEDUO_IDA
+; Tutorial phase: Oak meets the player just 5 tiles up from the door instead
+; of all the way at the back of the gym -- less empty floor to walk through
+; with nothing going on yet.
+	moveobject VIRIDIANGYM_OAK, 7, 38
+	turnobject VIRIDIANGYM_OAK, DOWN
+	checkflag ENGINE_BOULDERBADGE
+	iffalsefwd .Skip
+	checkflag ENGINE_CASCADEBADGE
+	iffalsefwd .Skip
+	checkflag ENGINE_THUNDERBADGE
+	iffalsefwd .Skip
+	checkflag ENGINE_RAINBOWBADGE
+	iffalsefwd .Skip
+	checkflag ENGINE_SOULBADGE
+	iffalsefwd .Skip
+	checkflag ENGINE_MARSHBADGE
+	iffalsefwd .Skip
+	checkflag ENGINE_VOLCANOBADGE
+	iffalsefwd .Skip
+	appear VIRIDIANGYM_ACEDUO_ARA
+	appear VIRIDIANGYM_ACEDUO_BELA
+	appear VIRIDIANGYM_COOLTRAINERF_SALMA
+	appear VIRIDIANGYM_COOLTRAINERF_BONITA
+	appear VIRIDIANGYM_ACEDUO_ELAN
+	appear VIRIDIANGYM_ACEDUO_IDA
+	moveobject VIRIDIANGYM_OAK, 7, 2
+	turnobject VIRIDIANGYM_OAK, DOWN
+.Skip:
+	endcallback
+
+ViridianGymOakScript:
 	faceplayer
 	opentext
 	checkflag ENGINE_EARTHBADGE
 	iftruefwd .FightDone
-	writetext LeaderBlueBeforeText
+; This gym comes first, chronologically -- Oak doesn't hand out a real Badge
+; until the player has all 7 other Kanto Badges. Until then it's just a
+; tutorial battle against a 3-mon practice squad (see .Tutorial below).
+	checkflag ENGINE_BOULDERBADGE
+	iffalsefwd .Tutorial
+	checkflag ENGINE_CASCADEBADGE
+	iffalsefwd .Tutorial
+	checkflag ENGINE_THUNDERBADGE
+	iffalsefwd .Tutorial
+	checkflag ENGINE_RAINBOWBADGE
+	iffalsefwd .Tutorial
+	checkflag ENGINE_SOULBADGE
+	iffalsefwd .Tutorial
+	checkflag ENGINE_MARSHBADGE
+	iffalsefwd .Tutorial
+	checkflag ENGINE_VOLCANOBADGE
+	iffalsefwd .Tutorial
+	sjumpfwd .RealFight
+
+.Tutorial:
+; Pikachu plus whichever 2 starters the player didn't pick -- see PROF_OAK
+; trainers 2-4 in data/trainers/parties.asm.
+	writetext LeaderOakTutorialBeforeText
 	waitbutton
 	closetext
-	winlosstext LeaderBlueWinText, 0
-	loadtrainer BLUE, 1
+	winlosstext LeaderOakTutorialWinText, LeaderOakTutorialLossText
+	checkevent EVENT_CHOSE_BULBASAUR
+	iftruefwd .OakHasCharAndSquirt
+	checkevent EVENT_CHOSE_CHARMANDER
+	iftruefwd .OakHasBulbaAndSquirt
+	loadtrainer PROF_OAK, 4 ; chose Squirtle -> Oak has Bulbasaur/Charmander
+	sjumpfwd .DoTutorialBattle
+.OakHasCharAndSquirt:
+	loadtrainer PROF_OAK, 3 ; chose Bulbasaur -> Oak has Charmander/Squirtle
+	sjumpfwd .DoTutorialBattle
+.OakHasBulbaAndSquirt:
+	loadtrainer PROF_OAK, 2 ; chose Charmander -> Oak has Bulbasaur/Squirtle
+.DoTutorialBattle:
+	startbattle
+	reloadmapafterbattle
+	opentext
+	writetext LeaderOakTutorialAfterText
+	waitbutton
+	closetext
+	end
+
+.RealFight:
+	writetext LeaderOakBeforeText
+	waitbutton
+	closetext
+	winlosstext LeaderOakWinText, 0
+	loadtrainer PROF_OAK, 1
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_BLUE
@@ -45,8 +143,8 @@ ViridianGymBlueScript:
 	setevent EVENT_FINAL_BATTLE_WITH_LYRA
 .FightDone:
 	checkevent EVENT_GOT_TM71_STONE_EDGE
-	iftrue_jumpopenedtext LeaderBlueEpilogueText
-	writetext LeaderBlueAfterText
+	iftrue_jumpopenedtext LeaderOakEpilogueText
+	writetext LeaderOakAfterText
 	promptbutton
 	verbosegivetmhm TM_STONE_EDGE
 	setevent EVENT_GOT_TM71_STONE_EDGE
@@ -60,11 +158,9 @@ ViridianGymBlueScript:
 
 	para "…"
 
-	para "All right, I was"
-	line "wrong. You're the"
-
-	para "real deal. You are"
-	line "a good trainer."
+	para "Ha! I haven't had"
+	line "a challenge like"
+	cont "that in years."
 
 	para "With eight Badges"
 	line "from Kanto, you"
@@ -76,22 +172,63 @@ ViridianGymBlueScript:
 	line "on a trainer who"
 	cont "beat two regions."
 
-	para "You can practice"
-	line "with me at the"
+	para "Never stop"
+	line "learning from your"
+	cont "#mon, <PLAYER>."
 
-	para "Fighting Dojo in"
-	line "Saffron City on"
-	cont "Mondays."
+	para "That's the real"
+	line "research, if you"
+	cont "ask me."
+	done
 
-	para "All of the Gym"
-	line "Leaders show up"
-	cont "there to train."
+LeaderOakTutorialBeforeText:
+	text "Prof.Oak: Ah,"
+	line "<PLAYER>!"
 
-	para "I'm going to beat"
-	line "you someday."
+	para "Before you set"
+	line "out, humor an old"
+	cont "man for a bit."
 
-	para "Don't you forget"
-	line "it!"
+	para "I want to see how"
+	line "you and your"
+	cont "#mon battle"
+	cont "together."
+
+	para "Don't expect me to"
+	line "go easy, though --"
+	cont "a real battle is"
+	cont "the only way to"
+	cont "learn."
+	done
+
+LeaderOakTutorialWinText:
+	text "Prof.Oak: Ha!"
+
+	para "Not bad for your"
+	line "first battle!"
+	done
+
+LeaderOakTutorialLossText:
+	text "Prof.Oak: Hah!"
+
+	para "Still, everyone"
+	line "loses now and"
+	cont "then."
+	done
+
+LeaderOakTutorialAfterText:
+	text "Prof.Oak: Come"
+	line "back and challenge"
+	cont "me again once"
+
+	para "you've earned all"
+	line "seven other Kanto"
+	cont "Badges."
+
+	para "I promise I'll"
+	line "have a real Badge"
+	cont "waiting for you"
+	cont "then."
 	done
 
 ViridianGymGuyScript:
@@ -106,13 +243,13 @@ ViridianGymGuyScript:
 	line "Looks like you're"
 	cont "on a roll."
 
-	para "The Gym Leader is"
-	line "a guy who battled"
+	para "The Gym Leader"
+	line "here is Professor"
+	cont "Oak himself!"
 
-	para "the Champion three"
-	line "years ago."
-
-	para "He's no pushover."
+	para "Don't let the lab"
+	line "coat fool you --"
+	cont "he's no pushover."
 
 	para "Give it everything"
 	line "you've got!"
@@ -172,73 +309,68 @@ GenericTrainerAceDuoElanandida2:
 	done
 
 ViridianGymStatue:
-	gettrainername BLUE, 1, STRING_BUFFER_4
+	gettrainername PROF_OAK, 1, STRING_BUFFER_4
 	checkflag ENGINE_EARTHBADGE
 	iftruefwd .Beaten
 	jumpstd gymstatue1
 .Beaten:
 	jumpstd gymstatue2
 
-LeaderBlueBeforeText:
-	text "Blue: Yo! Finally"
-	line "got here, huh?"
+LeaderOakBeforeText:
+	text "Prof.Oak: Ah,"
+	line "<PLAYER>!"
 
-	para "I wasn't in the"
-	line "mood at Cinnabar,"
+	para "I never expected"
+	line "to see you again"
+	cont "so soon."
 
-	para "but now I'm ready"
-	line "to battle you."
+	para "When I heard you'd"
+	line "cleared every Gym"
+	cont "in Johto, I"
 
-	para "…"
+	para "figured it was"
+	line "time I got back"
+	cont "into training,"
+	cont "too."
 
-	para "You're telling me"
-	line "you conquered all"
-	cont "the Gyms in Johto?"
+	para "A Professor should"
+	line "never stop"
+	cont "learning, after"
+	cont "all."
 
-	para "Heh! Johto's Gyms"
-	line "must be pretty"
-	cont "pathetic then."
+	para "Show me what you"
+	line "and your #mon"
+	cont "have learned."
 
-	para "Hey, don't worry"
-	line "about it."
-
-	para "I'll know if you"
-	line "are good or not by"
-
-	para "battling you right"
-	line "now."
-
-	para "Ready, Johto"
-	line "Champ?"
+	para "Ready?"
 	done
 
-LeaderBlueWinText:
-	text "Blue: What?"
+LeaderOakWinText:
+	text "Prof.Oak: Ha!"
 
-	para "How the heck did I"
-	line "lose to you?"
+	para "I haven't felt"
+	line "this alive in"
+	cont "years!"
 
-	para "…"
-
-	para "Tch, all right…"
-	line "Here, take this--"
-
-	para "it's the Earth"
-	line "Badge."
+	para "Here, take this--"
+	line "it's the Earth"
+	cont "Badge."
 	done
 
-LeaderBlueAfterText:
-	text "Blue: Here! Take"
-	line "this as well!"
+LeaderOakAfterText:
+	text "Prof.Oak: Here,"
+	line "take this as well!"
 	done
 
 
-LeaderBlueEpilogueText:
-	text "Blue: Listen, you."
+LeaderOakEpilogueText:
+	text "Prof.Oak: Still"
+	line "training hard, I"
+	cont "hope?"
 
-	para "You'd better not"
-	line "lose until I beat"
-	cont "you. Got it?"
+	para "Never stop pushing"
+	line "yourself and your"
+	cont "#mon further."
 	done
 
 

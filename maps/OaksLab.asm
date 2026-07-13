@@ -546,6 +546,7 @@ BulbasaurPokeBallScript:
 	iffalse_jumpopenedtext DidntChooseKantoStarterText
 	disappear OAKSLAB_BULBASAUR_BALL
 	setevent EVENT_GOT_A_POKEMON_FROM_OAK
+	setevent EVENT_CHOSE_BULBASAUR
 	clearevent EVENT_OAKSLAB_AWAITING_STARTER_CHOICE
 	turnobject OAKSLAB_VICTORIA, LEFT
 	setscene SCENE_OAKSLAB_VICTORIA_READY
@@ -567,6 +568,7 @@ CharmanderPokeBallScript:
 	iffalse_jumpopenedtext DidntChooseKantoStarterText
 	disappear OAKSLAB_CHARMANDER_BALL
 	setevent EVENT_GOT_A_POKEMON_FROM_OAK
+	setevent EVENT_CHOSE_CHARMANDER
 	clearevent EVENT_OAKSLAB_AWAITING_STARTER_CHOICE
 	turnobject OAKSLAB_VICTORIA, LEFT
 	setscene SCENE_OAKSLAB_VICTORIA_READY
@@ -588,6 +590,7 @@ SquirtlePokeBallScript:
 	iffalse_jumpopenedtext DidntChooseKantoStarterText
 	disappear OAKSLAB_SQUIRTLE_BALL
 	setevent EVENT_GOT_A_POKEMON_FROM_OAK
+	setevent EVENT_CHOSE_SQUIRTLE
 	clearevent EVENT_OAKSLAB_AWAITING_STARTER_CHOICE
 	turnobject OAKSLAB_VICTORIA, LEFT
 	setscene SCENE_OAKSLAB_VICTORIA_READY

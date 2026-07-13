@@ -116,7 +116,7 @@
 	db 2 percent ; encounter rate
 	wildmon  5, MAGIKARP
 	wildmon  6, POLIWAG
-	wildmon  7, POLIWHIRL
+	wildmon  7, POLIWAG
 	end_water_wildmons
 
 	def_water_wildmons ROUTE_23_NORTH

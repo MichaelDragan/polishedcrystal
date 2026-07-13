@@ -285,16 +285,16 @@ IndigoPlateauMart:
 
 ViridianMart:
 	db 11 ; # items
-	db ULTRA_BALL
-	db NET_BALL
-	db HYPER_POTION
+	db POKE_BALL
+	db REPEAT_BALL
+	db POTION
+	db ESCAPE_ROPE
 	db ANTIDOTE
 	db PARALYZEHEAL
 	db AWAKENING
-	db BURN_HEAL
-	db FULL_HEAL
-	db MAX_REPEL
-	db REVIVE
+	db X_ATTACK
+	db X_DEFEND
+	db X_SPEED
 	db FLOWER_MAIL
 	db -1
 

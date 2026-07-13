@@ -4661,11 +4661,11 @@ SchoolboyGroup:
 	end_trainer
 
 	def_trainer DANNY, "Danny"
-	tr_mon 6, SMOOCHUM
+	tr_mon 7, SMOOCHUM
 		tr_moves LICK, TACKLE, ICY_WIND, CONFUSION
-	tr_mon 6, ELEKID
+	tr_mon 7, ELEKID
 		tr_moves QUICK_ATTACK, LEER, THUNDERSHOCK, LOW_KICK
-	tr_mon 6, MAGBY
+	tr_mon 7, MAGBY
 		tr_moves HAZE, LEER, EMBER, SMOKESCREEN
 	end_trainer
 
@@ -4703,8 +4703,6 @@ SchoolboyGroup:
 	def_trainer SHERMAN, "Sherman"
 	tr_mon 6, PIDGEOTTO
 		tr_moves TACKLE, GUST, DOUBLE_TEAM, SWIFT
-	tr_mon 7, GEODUDE
-		tr_moves TACKLE, DEFENSE_CURL, MUD_SLAP, RAPID_SPIN
 	end_trainer
 
 	def_trainer SCHOOLBOY_CONNOR, "Connor"
@@ -6784,9 +6782,9 @@ CooltrainerMGroup:
 	end_trainer
 
 	def_trainer FRENCH, "French"
-	tr_mon 6, GROWLITHE
+	tr_mon 5, GROWLITHE
 		tr_moves GROWL, BITE, ROAR, EMBER
-	tr_mon 6, VOLTORB
+	tr_mon 5, VOLTORB
 		tr_moves TACKLE, THUNDERSHOCK, SONIC_BOOM, AGILITY
 	end_trainer
 
@@ -7011,7 +7009,7 @@ endc
 	def_trainer QUINN, "Quinn"
 	tr_mon 4, ODDISH
 		tr_moves ABSORB, GROWTH, LEECH_SEED
-	tr_mon 5, POLIWAG
+	tr_mon 4, POLIWAG
 		tr_moves SWEET_KISS, WATER_GUN, HYPNOSIS
 	end_trainer
 
@@ -7546,6 +7544,44 @@ endc
 		tr_extra SPE_UP_SATK_DOWN
 		tr_evs 252 Atk, 4 Def, 252 Spe
 		tr_moves POISON_JAB, EARTHQUAKE, ICE_PUNCH, THUNDERPUNCH
+	end_trainer
+
+; Viridian Gym tutorial teams (Oak, before all 7 other Kanto badges are
+; earned): Pikachu plus whichever 2 starters the player didn't pick.
+	def_trainer 2, "Oak" ; player chose Charmander
+	tr_mon 15, PIKACHU, MALE
+		tr_extra STATIC
+		tr_moves THUNDERSHOCK, QUICK_ATTACK, DOUBLE_KICK, GROWL
+	tr_mon 15, BULBASAUR, MALE
+		tr_extra OVERGROW
+		tr_moves VINE_WHIP, LEECH_SEED, POISONPOWDER, GROWL
+	tr_mon 15, SQUIRTLE, MALE
+		tr_extra TORRENT
+		tr_moves WATER_GUN, AQUA_JET, DEFENSE_CURL, LEER
+	end_trainer
+
+	def_trainer 3, "Oak" ; player chose Bulbasaur
+	tr_mon 15, PIKACHU, MALE
+		tr_extra STATIC
+		tr_moves THUNDERSHOCK, QUICK_ATTACK, DOUBLE_KICK, GROWL
+	tr_mon 15, CHARMANDER, MALE
+		tr_extra BLAZE
+		tr_moves SCRATCH, EMBER, SMOKESCREEN, GROWL
+	tr_mon 15, SQUIRTLE, MALE
+		tr_extra TORRENT
+		tr_moves WATER_GUN, AQUA_JET, DEFENSE_CURL, LEER
+	end_trainer
+
+	def_trainer 4, "Oak" ; player chose Squirtle
+	tr_mon 15, PIKACHU, MALE
+		tr_extra STATIC
+		tr_moves THUNDERSHOCK, QUICK_ATTACK, DOUBLE_KICK, GROWL
+	tr_mon 15, BULBASAUR, MALE
+		tr_extra OVERGROW
+		tr_moves VINE_WHIP, LEECH_SEED, POISONPOWDER, GROWL
+	tr_mon 15, CHARMANDER, MALE
+		tr_extra BLAZE
+		tr_moves SCRATCH, EMBER, SMOKESCREEN, GROWL
 	end_trainer
 
 

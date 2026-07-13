@@ -339,85 +339,85 @@
 	def_grass_wildmons ROUTE_2_NORTH
 	db 10 percent ; encounter rate
 	; morn
-	wildmon 5, BUTTERFREE
-	wildmon 5, LEDIAN
-	wildmon 6, PIDGEOTTO
-	wildmon 6, BUTTERFREE
-	wildmon 6, LEDIAN
-	wildmon 7, PIDGEOTTO
-	wildmon 8, PIKACHU
+	wildmon 5, CATERPIE
+	wildmon 5, LEDYBA
+	wildmon 6, PIDGEY
+	wildmon 6, CATERPIE
+	wildmon 6, LEDYBA
+	wildmon 7, PIDGEY
+	wildmon 8, PIDGEY
 	; day
-	wildmon 5, BUTTERFREE
-	wildmon 5, PIDGEOTTO
-	wildmon 6, PIDGEOTTO
-	wildmon 6, BUTTERFREE
-	wildmon 6, PIDGEOTTO
-	wildmon 7, PIDGEOTTO
-	wildmon 8, PIKACHU
+	wildmon 5, CATERPIE
+	wildmon 5, LEDYBA
+	wildmon 6, PIDGEY
+	wildmon 6, CATERPIE
+	wildmon 6, LEDYBA
+	wildmon 7, PIDGEY
+	wildmon 8, PIDGEY
 	; nite
-	wildmon 5, NOCTOWL
-	wildmon 5, ARIADOS
-	wildmon 6, NOCTOWL
-	wildmon 6, NOCTOWL
-	wildmon 6, ARIADOS
-	wildmon 7, NOCTOWL
-	wildmon 8, NOCTOWL
+	wildmon 5, HOOTHOOT
+	wildmon 5, SPINARAK
+	wildmon 6, HOOTHOOT
+	wildmon 6, HOOTHOOT
+	wildmon 6, SPINARAK
+	wildmon 7, HOOTHOOT
+	wildmon 8, HOOTHOOT
 	end_grass_wildmons
 
 	def_grass_wildmons ROUTE_2_SOUTH
 	db 10 percent ; encounter rate
 	; morn
-	wildmon 5, BUTTERFREE
-	wildmon 5, LEDIAN
-	wildmon 6, PIDGEOTTO
-	wildmon 6, BUTTERFREE
-	wildmon 6, LEDIAN
-	wildmon 7, PIDGEOTTO
-	wildmon 8, PIKACHU
+	wildmon 5, CATERPIE
+	wildmon 5, LEDYBA
+	wildmon 6, PIDGEY
+	wildmon 6, CATERPIE
+	wildmon 6, LEDYBA
+	wildmon 7, PIDGEY
+	wildmon 8, PIDGEY
 	; day
-	wildmon 5, BUTTERFREE
-	wildmon 5, PIDGEOTTO
-	wildmon 6, PIDGEOTTO
-	wildmon 6, BUTTERFREE
-	wildmon 6, PIDGEOTTO
-	wildmon 7, PIDGEOTTO
-	wildmon 8, PIKACHU
+	wildmon 5, CATERPIE
+	wildmon 5, LEDYBA
+	wildmon 6, PIDGEY
+	wildmon 6, CATERPIE
+	wildmon 6, LEDYBA
+	wildmon 7, PIDGEY
+	wildmon 8, PIDGEY
 	; nite
-	wildmon 5, NOCTOWL
-	wildmon 5, ARIADOS
-	wildmon 6, NOCTOWL
-	wildmon 6, NOCTOWL
-	wildmon 6, ARIADOS
-	wildmon 7, NOCTOWL
-	wildmon 8, NOCTOWL
+	wildmon 5, HOOTHOOT
+	wildmon 5, SPINARAK
+	wildmon 6, HOOTHOOT
+	wildmon 6, HOOTHOOT
+	wildmon 6, SPINARAK
+	wildmon 7, HOOTHOOT
+	wildmon 8, HOOTHOOT
 	end_grass_wildmons
 
 	def_grass_wildmons VIRIDIAN_FOREST
 	db 10 percent ; encounter rate
 	; morn
-	wildmon 57, BUTTERFREE
-	wildmon 57, BEEDRILL
-	wildmon 55, KAKUNA
-	wildmon 55, METAPOD
-	wildmon 56, METAPOD
-	wildmon 59, PIKACHU
-	wildmon 60, PIKACHU
+	wildmon 10, CATERPIE
+	wildmon 10, WEEDLE
+	wildmon 8, KAKUNA
+	wildmon 8, METAPOD
+	wildmon 9, METAPOD
+	wildmon 11, PICHU
+	wildmon 12, PICHU
 	; day
-	wildmon 57, BUTTERFREE
-	wildmon 57, BEEDRILL
-	wildmon 55, METAPOD
-	wildmon 55, KAKUNA
-	wildmon 56, KAKUNA
-	wildmon 59, PIKACHU
-	wildmon 60, PIKACHU
+	wildmon 10, CATERPIE
+	wildmon 10, WEEDLE
+	wildmon 8, METAPOD
+	wildmon 8, KAKUNA
+	wildmon 9, KAKUNA
+	wildmon 11, PICHU
+	wildmon 12, PICHU
 	; nite
-	wildmon 57, NOCTOWL
-	wildmon 57, ARIADOS
-	wildmon 55, NOCTOWL
-	wildmon 55, NOCTOWL
-	wildmon 56, ARIADOS
-	wildmon 59, NOCTOWL
-	wildmon 60, NOCTOWL
+	wildmon 10, HOOTHOOT
+	wildmon 10, SPINARAK
+	wildmon 8, HOOTHOOT
+	wildmon 8, HOOTHOOT
+	wildmon 9, SPINARAK
+	wildmon 11, HOOTHOOT
+	wildmon 12, HOOTHOOT
 	end_grass_wildmons
 
 	def_grass_wildmons ROUTE_3
@@ -955,29 +955,29 @@
 	def_grass_wildmons ROUTE_22
 	db 10 percent ; encounter rate
 	; morn
-	wildmon 5, RATICATE
-	wildmon 5, FEAROW
-	wildmon 6, NIDORINO
-	wildmon 6, NIDORINA
-	wildmon 7, PONYTA
-	wildmon 7, PONYTA
-	wildmon 8, PONYTA
+	wildmon 5, RATTATA
+	wildmon 5, SPEAROW
+	wildmon 6, NIDORAN_M
+	wildmon 6, NIDORAN_F
+	wildmon 7, SENTRET
+	wildmon 7, SENTRET
+	wildmon 8, SENTRET
 	; day
-	wildmon 5, RATICATE
-	wildmon 5, FEAROW
-	wildmon 6, NIDORINO
-	wildmon 6, NIDORINA
-	wildmon 7, PONYTA
-	wildmon 7, PONYTA
-	wildmon 8, PONYTA
+	wildmon 5, RATTATA
+	wildmon 5, SPEAROW
+	wildmon 6, NIDORAN_M
+	wildmon 6, NIDORAN_F
+	wildmon 7, SENTRET
+	wildmon 7, SENTRET
+	wildmon 8, SENTRET
 	; nite
-	wildmon 5, RATICATE
-	wildmon 5, POLIWHIRL
-	wildmon 6, NIDORINO
-	wildmon 6, NIDORINA
-	wildmon 7, RATICATE
-	wildmon 7, RATICATE
-	wildmon 8, POLIWHIRL
+	wildmon 5, RATTATA
+	wildmon 5, EKANS
+	wildmon 6, NIDORAN_M
+	wildmon 6, NIDORAN_F
+	wildmon 7, RATTATA
+	wildmon 7, RATTATA
+	wildmon 8, EKANS
 	end_grass_wildmons
 
 	def_grass_wildmons ROUTE_23_NORTH
