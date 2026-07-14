@@ -3458,6 +3458,13 @@ HikerGroup:
 	tr_mon 57, STEELIX
 	end_trainer
 
+	def_trainer ROB, "Rob"
+	tr_mon 9, DIGLETT
+		tr_moves ASTONISH, GROWL, MUD_SLAP, SCRATCH
+	tr_mon 10, GEODUDE
+		tr_moves DEFENSE_CURL, MUD_SLAP, RAPID_SPIN, ROLLOUT
+	end_trainer
+
 
 SECTION "GruntMGroup", ROMX
 GruntMGroup:
@@ -4338,20 +4345,17 @@ BugManiacGroup:
 		tr_moves BUG_BITE, QUICK_ATTACK, DOUBLE_TEAM, SONIC_BOOM
 	end_trainer
 
-	def_trainer ROB, "Rob"
-	tr_mon 10, BEEDRILL
-	tr_mon 9, BUTTERFREE
-	end_trainer
-
 	def_trainer ED, "Ed"
 	tr_mon 9, YANMA
-	tr_mon 10, BEEDRILL
-	tr_mon 10, BUTTERFREE
+	tr_mon 9, KAKUNA
+	tr_mon 9, METAPOD
 	end_trainer
 
 	def_trainer DOUG, "Doug"
-	tr_mon 9, BUTTERFREE
-	tr_mon 8, ARIADOS
+	tr_mon 10, BUTTERFREE
+		tr_moves TACKLE, STRING_SHOT, GUST
+	tr_mon 12, SPINARAK
+		tr_moves WRAP, ABSORB, GLARE, SCARY_FACE
 	end_trainer
 
 	def_trainer DANE, "Dane"
@@ -6784,8 +6788,8 @@ CooltrainerMGroup:
 	def_trainer FRENCH, "French"
 	tr_mon 5, GROWLITHE
 		tr_moves GROWL, BITE, ROAR, EMBER
-	tr_mon 5, VOLTORB
-		tr_moves TACKLE, THUNDERSHOCK, SONIC_BOOM, AGILITY
+	tr_mon 5, PICHU
+		tr_moves THUNDERSHOCK, CHARM, LEER
 	end_trainer
 
 	def_trainer HENRI, "Henri"

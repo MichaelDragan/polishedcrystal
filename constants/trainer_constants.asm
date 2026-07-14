@@ -342,6 +342,7 @@ DEF BETA EQU __trainer_class__
 	const STEVE
 	const DERRICK
 	const FLOYD
+	const ROB
 
 	trainerclass GRUNTM
 
@@ -481,7 +482,6 @@ DEF BETA EQU __trainer_class__
 
 	trainerclass BUG_MANIAC
 	const LOU
-	const ROB
 	const ED
 	const DOUG
 	const DANE

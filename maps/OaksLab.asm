@@ -721,6 +721,10 @@ TrainerVictoria:
 
 .CollectBalls:
 	opentext
+	writetext .SuppliesText
+	promptbutton
+	verbosegiveitem POKE_BALL, 5
+	verbosegiveitem ORAN_BERRY, 2
 	writetext .PackingUpText
 	waitbutton
 	closetext
@@ -779,8 +783,14 @@ TrainerVictoria:
 	text "Nice try."
 	done
 
+.SuppliesText:
+	text "Oak wanted you"
+	line "to have these."
+	done
+
 .PackingUpText:
 	text "I need to get"
-	line "going. See you"
-	cont "at Oak's."
+	line "these #mon back"
+	cont "to Oak. See you"
+	cont "there!"
 	done

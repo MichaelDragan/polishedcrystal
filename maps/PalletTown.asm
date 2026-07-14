@@ -10,6 +10,8 @@ PalletTown_MapScriptHeader:
 	warp_event 12, 11, OAKS_LAB, 1
 
 	def_coord_events
+	coord_event  8,  2, -1, PalletTownGrassWarningScript
+	coord_event  9,  2, -1, PalletTownGrassWarningScript
 
 	def_bg_events
 	bg_event  7,  9, BGEVENT_JUMPTEXT, PalletTownSignText
@@ -26,6 +28,17 @@ PalletTown_MapScriptHeader:
 PalletTownFlyPoint:
 	setflag ENGINE_FLYPOINT_PALLET
 	endcallback
+
+PalletTownGrassWarningScript:
+	checkevent EVENT_GOT_A_POKEMON_FROM_OAK
+	iftruefwd .HasPokemon
+	opentext
+	writetext PalletTownNoPokemonYetText
+	waitbutton
+	closetext
+	applyonemovement PLAYER, step_down
+.HasPokemon:
+	end
 
 PalletTownTeacherText:
 	text "I'm raising #-"
@@ -76,4 +89,12 @@ OaksLabSignText:
 
 BluesHouseSignText:
 	text "Blue's House"
+	done
+
+PalletTownNoPokemonYetText:
+	text "I should meet"
+	line "Olive in the lab"
+
+	para "before heading"
+	line "out."
 	done
