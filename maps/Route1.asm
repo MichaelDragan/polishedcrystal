@@ -15,7 +15,7 @@ Route1_MapScriptHeader:
 	object_event  6, 12, SPRITE_SCHOOLBOY, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 3, GenericTrainerSchoolboyDanny, -1
 	object_event 17, 14, SPRITE_SCHOOLBOY, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 3, GenericTrainerSchoolboySherman, -1
 	object_event 16, 21, SPRITE_ACE_TRAINER_M, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 2, GenericTrainerCooltrainermFrench, -1
-	object_event 11, 25, SPRITE_ACE_TRAINER_F, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 2, GenericTrainerCooltrainerfQuinn, -1
+	object_event 11, 25, SPRITE_YOUNGSTER, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 2, GenericTrainerYoungsterJoey, -1
 	fruittree_event  5,  7, FRUITTREE_ROUTE_1, FIGY_BERRY, PAL_NPC_BROWN
 
 GenericTrainerSchoolboyDanny:
@@ -44,13 +44,12 @@ GenericTrainerCooltrainermFrench:
 	cont "Don't you agree?"
 	done
 
-GenericTrainerCooltrainerfQuinn:
-	generictrainer COOLTRAINERF, QUINN, EVENT_BEAT_COOLTRAINERF_QUINN, CooltrainerfQuinnSeenText, CooltrainerfQuinnBeatenText
+GenericTrainerYoungsterJoey:
+	generictrainer YOUNGSTER, YOUNGSTER_JOEY, EVENT_BEAT_ROUTE1_YOUNGSTER_JOEY, YoungsterJoeySeenText, YoungsterJoeyBeatenText
 
-	text "You're strong."
-
-	para "You obviously must"
-	line "have trained hard."
+	text "Have you seen a"
+	line "Rattata stronger"
+	cont "than mine?"
 	done
 
 SchoolboyDannySeenText:
@@ -88,12 +87,12 @@ CooltrainermFrenchBeatenText:
 	line "expected!"
 	done
 
-CooltrainerfQuinnSeenText:
+YoungsterJoeySeenText:
 	text "You there!"
 	line "Want to battle?"
 	done
 
-CooltrainerfQuinnBeatenText:
+YoungsterJoeyBeatenText:
 	text "Down and out…"
 	done
 

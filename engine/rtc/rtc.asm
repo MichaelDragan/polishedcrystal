@@ -1,5 +1,11 @@
 ; get time of day based on the current hour
 GetTimeOfDay::
+	; TEMP DEBUG: force daytime always, for testing tile colors under a
+	; consistent palette. Remove this override to restore real day/night.
+	ld a, DAY
+	ld [wTimeOfDay], a
+	ret
+
 	ld hl, .TimesOfDay
 	call GetValueByTimeOfDay
 	ld [wTimeOfDay], a

@@ -6476,6 +6476,30 @@ FinishBattleAnim:
 	call DelayFrame
 	jmp PopAFBCDEHL
 
+; Level cap per total badge count (Johto + Kanto combined, whichever order
+; they're earned in). This build starts in Kanto, so badges 1-8 below are
+; Brock/Misty/Surge/Erika/Janine/Sabrina/Blaine/Oak, and 9-16 are the Johto
+; leaders picked up afterward. Tune freely -- GiveExperiencePoints just
+; refuses to award further exp once a mon's level reaches this value.
+LevelCapTable:
+	db 20        ; 0 badges
+	db 30        ; 1 badge  (brock)
+	db 40        ; 2 badges (misty)
+	db 50        ; 3 badges (surge)
+	db 60        ; 4 badges (erika)
+	db 70        ; 5 badges (janine)
+	db 80        ; 6 badges (sabrina)
+	db 90        ; 7 badges (blaine)
+	db MAX_LEVEL ; 8 badges (oak -- kanto clear, cap lifted)
+	db MAX_LEVEL ; 9 badges  (falkner)
+	db MAX_LEVEL ; 10 badges (bugsy)
+	db MAX_LEVEL ; 11 badges (whitney)
+	db MAX_LEVEL ; 12 badges (morty)
+	db MAX_LEVEL ; 13 badges (chuck)
+	db MAX_LEVEL ; 14 badges (jasmine)
+	db MAX_LEVEL ; 15 badges (pryce)
+	db MAX_LEVEL ; 16 badges (clair)
+
 GiveExperiencePoints:
 ; Give experience.
 ; Don't give experience if linked or in the Battle Tower.
@@ -6523,6 +6547,22 @@ GiveExperiencePoints:
 	ld a, [hl]
 	cp MAX_LEVEL
 	jmp z, .next_mon
+
+	; No experience past the current badge level cap
+	ld d, a
+	push bc
+	ld hl, wBadges
+	ld b, wBadgesEnd - wBadges
+	call CountSetBits
+	ld hl, LevelCapTable
+	ld b, 0
+	add hl, bc
+	ld a, [hl]
+	ld b, a
+	ld a, d
+	pop bc
+	cp b
+	jmp nc, .next_mon
 
 	push bc
 	xor a

@@ -26,7 +26,7 @@ BugContestant_BugCatcherDon:
 	contest_winner CATERPIE,   226
 
 BugContestant_BugCatcherEd:
-	db BUG_CATCHER, ED
+	db BUG_CATCHER, WADE2
 	contest_winner YANMA,      286
 	contest_winner BUTTERFREE, 251
 	contest_winner CATERPIE,   237

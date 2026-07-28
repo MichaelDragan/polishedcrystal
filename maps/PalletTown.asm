@@ -3,6 +3,7 @@ PalletTown_MapScriptHeader:
 
 	def_callbacks
 	callback MAPCALLBACK_NEWMAP, PalletTownFlyPoint
+	callback MAPCALLBACK_TILES, PalletTownTilesCallback
 
 	def_warp_events
 	warp_event  5,  5, REDS_HOUSE_1F, 1
@@ -27,6 +28,28 @@ PalletTown_MapScriptHeader:
 
 PalletTownFlyPoint:
 	setflag ENGINE_FLYPOINT_PALLET
+	endcallback
+
+PalletTownTilesCallback:
+; Reapplies any garden plots already tilled, so they don't reset to plain
+; ground every time the map reloads. Plots are the 2x2 patch at block
+; columns 2-3, rows 4-5 (tile coords 4-7, 8-11).
+	checkevent EVENT_TILLED_PALLET_GARDEN_PLOT_1
+	iffalsefwd .skip1
+	changeblock 4, 8, TILLED_SOIL_BLOCK
+.skip1
+	checkevent EVENT_TILLED_PALLET_GARDEN_PLOT_2
+	iffalsefwd .skip2
+	changeblock 6, 8, TILLED_SOIL_BLOCK
+.skip2
+	checkevent EVENT_TILLED_PALLET_GARDEN_PLOT_3
+	iffalsefwd .skip3
+	changeblock 4, 10, TILLED_SOIL_BLOCK
+.skip3
+	checkevent EVENT_TILLED_PALLET_GARDEN_PLOT_4
+	iffalsefwd .skip4
+	changeblock 6, 10, TILLED_SOIL_BLOCK
+.skip4
 	endcallback
 
 PalletTownGrassWarningScript:

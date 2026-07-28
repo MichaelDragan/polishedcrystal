@@ -13,19 +13,19 @@ Route2South_MapScriptHeader:
 	bg_event  9, 29, BGEVENT_JUMPTEXT, Route2SignText
 
 	def_object_events
-	object_event 14, 23, SPRITE_HIKER, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 5, GenericTrainerHikerRob, -1
+	object_event 14, 23, SPRITE_CAMPER, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 5, GenericTrainerCamperRob, -1
 	object_event  4, 16, SPRITE_BUG_MANIAC, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 3, GenericTrainerBug_maniacDoug, -1
 	itemball_event 18, 30, ELIXIR, 1, EVENT_ROUTE_2_ELIXIR
 	cuttree_event 15, 16, EVENT_ROUTE_2_CUT_TREE_3
 	cuttree_event 16, 24, EVENT_ROUTE_2_CUT_TREE_4
 	cuttree_event 16, 30, EVENT_ROUTE_2_CUT_TREE_5
 
-GenericTrainerHikerRob:
-	generictrainer HIKER, ROB, EVENT_BEAT_HIKER_ROB, HikerRobSeenText, HikerRobBeatenText
+GenericTrainerCamperRob:
+	generictrainer CAMPER, CAMPER_ROB, EVENT_BEAT_CAMPER_ROB, CamperRobSeenText, CamperRobBeatenText
 
-	text "I dig up all my"
-	line "#mon straight"
-	cont "from the ground."
+	text "I caught these"
+	line "#mon on my"
+	cont "camping trip!"
 	done
 
 GenericTrainerBug_maniacDoug:
@@ -41,13 +41,13 @@ GenericTrainerBug_maniacDoug:
 	line "feel!"
 	done
 
-HikerRobSeenText:
-	text "My rock #mon"
+CamperRobSeenText:
+	text "My #mon"
 	line "won't budge. Get"
 	cont "ready!"
 	done
 
-HikerRobBeatenText:
+CamperRobBeatenText:
 	text "Crushed like"
 	line "gravel…"
 	done

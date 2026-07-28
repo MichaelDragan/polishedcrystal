@@ -707,6 +707,7 @@ TrainerVictoria:
 	iftruefwd .AfterYourDefeat
 
 .AfterVictory:
+	special HealParty
 	opentext
 	writetext .WinFollowupText
 	waitbutton
@@ -714,10 +715,14 @@ TrainerVictoria:
 	sjumpfwd .CollectBalls
 
 .AfterYourDefeat:
+; Losing doesn't send her away for good -- just heal up and let the player
+; walk back into her sightline (coord_event in the map header) to try again.
+	special HealParty
 	opentext
 	writetext .LoseFollowupText
 	waitbutton
 	closetext
+	end
 
 .CollectBalls:
 	opentext
@@ -728,8 +733,8 @@ TrainerVictoria:
 	writetext .PackingUpText
 	waitbutton
 	closetext
-	special HealParty
 	setevent EVENT_BEAT_VICTORIA
+	clearevent EVENT_OLIVE_HIDDEN_AT_VIRIDIAN_FOREST_GATE
 	setscene SCENE_OAKSLAB_VICTORIA_DONE
 	applymovement OAKSLAB_VICTORIA, .WalkToTableMovement
 	pause 30

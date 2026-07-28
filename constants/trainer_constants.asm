@@ -141,6 +141,8 @@ DEF BETA EQU __trainer_class__
 	const CHAZ
 	const TYLER
 	const ARDEN
+	const MILO
+	const YOUNGSTER_JOEY
 
 	trainerclass BUG_CATCHER
 	const WADE1
@@ -185,6 +187,7 @@ DEF BETA EQU __trainer_class__
 	const CLARK
 	const PEDRO
 	const AMOS
+	const CAMPER_ROB
 
 	trainerclass PICNICKER
 	const LIZ1
@@ -342,7 +345,6 @@ DEF BETA EQU __trainer_class__
 	const STEVE
 	const DERRICK
 	const FLOYD
-	const ROB
 
 	trainerclass GRUNTM
 
@@ -363,6 +365,7 @@ DEF BETA EQU __trainer_class__
 	const ALEX
 	const REX
 	const ALLAN
+	const POKEFAN_ED
 
 	trainerclass POKEFANF
 	const BEVERLY1
@@ -463,6 +466,7 @@ DEF BETA EQU __trainer_class__
 	const ALICE
 	const DUPLICA
 	const MAVIS
+	const NADIA
 
 	trainerclass BEAUTY
 	const VICTORIA
@@ -482,7 +486,6 @@ DEF BETA EQU __trainer_class__
 
 	trainerclass BUG_MANIAC
 	const LOU
-	const ED
 	const DOUG
 	const DANE
 	const DION
@@ -553,6 +556,7 @@ DEF BETA EQU __trainer_class__
 	const SCHOOLBOY_CONNOR
 	const TORIN
 	const TRAVIS
+	const PERCY
 
 	trainerclass SCHOOLGIRL
 	const MOLLY
@@ -994,7 +998,6 @@ DEF BETA EQU __trainer_class__
 	const JOYCE
 	const MEGAN
 	const CAROL
-	const QUINN
 	const EMMA
 	const CYBIL
 	const JENN

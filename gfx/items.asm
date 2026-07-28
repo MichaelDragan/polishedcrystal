@@ -725,6 +725,9 @@ MysteryEggIcon:: INCBIN "gfx/items/mystery_egg.2bpp.lzp"
 SECTION "SquirtBottleIcon", ROMX
 SquirtBottleIcon:: INCBIN "gfx/items/squirtbottle.2bpp.lzp"
 
+SECTION "HoeIcon", ROMX
+HoeIcon:: INCBIN "gfx/items/hoe.2bpp.lzp"
+
 SECTION "SecretPotionIcon", ROMX
 SecretPotionIcon:: INCBIN "gfx/items/secretpotion.2bpp.lzp"
 

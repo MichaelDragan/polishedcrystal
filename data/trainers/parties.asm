@@ -901,34 +901,26 @@ BrockGroup:
 
 	def_trainer_class BROCK
 	def_trainer 1, "Brock"
-	tr_mon 64, GOLEM, MALE
-		tr_extra STURDY
-		tr_evs 252 HP, 196 Atk
-		tr_moves EXPLOSION, FIRE_PUNCH, ROCK_SLIDE, EARTHQUAKE
-	tr_mon 63, RHYDON @ EVIOLITE, MALE
-if DEF(FAITHFUL)
-		tr_extra LIGHTNING_ROD
-else
-		tr_extra SOLID_ROCK
-endc
-		tr_evs 252 HP, 196 SDf
-		tr_moves AVALANCHE, ROCK_SLIDE, EARTHQUAKE, OUTRAGE
-	tr_mon 65, OMASTAR, MALE
-		tr_extra SHELL_ARMOR
-		tr_evs 252 HP, 196 SAt
-		tr_moves ANCIENTPOWER, SURF, ICE_BEAM, SPIKES
-	tr_mon 68, ONIX, MALE
-		tr_extra STURDY
-		tr_evs 196 HP, 252 Atk
-		tr_moves IRON_TAIL, ROCK_SLIDE, EARTHQUAKE, SANDSTORM
-	tr_mon 65, KABUTOPS, MALE
-		tr_extra BATTLE_ARMOR
-		tr_evs 196 Atk, 252 SAt
-		tr_moves SLASH, SURF, ROCK_SLIDE, GIGA_DRAIN
-	tr_mon 65, AERODACTYL, MALE
+	tr_mon 25, GRAVELER, MALE
 		tr_extra ROCK_HEAD
-		tr_evs 252 Atk, 196 Spe
-		tr_moves AERIAL_ACE, ROCK_SLIDE, CRUNCH, DOUBLE_EDGE
+		tr_evs 96 HP, 64 Atk
+		tr_moves ROCK_BLAST, MAGNITUDE, DEFENSE_CURL, ROLLOUT
+	tr_mon 24, OMANYTE, FEMALE
+		tr_extra SHELL_ARMOR
+		tr_evs 64 Def, 64 SDf
+		tr_moves WATER_GUN, ROCK_THROW, BUBBLE_BEAM, MUD_SLAP
+	tr_mon 26, GOLBAT, FEMALE
+		tr_extra INNER_FOCUS
+		tr_evs 64 Atk, 96 Spe
+		tr_moves WING_ATTACK, BITE, CONFUSE_RAY, ACID
+	tr_mon 28, SUDOWOODO, MALE
+		tr_extra STURDY
+		tr_evs 64 HP, 64 Atk
+		tr_moves ROCK_THROW, LOW_KICK, FEINT_ATTACK, ANCIENTPOWER
+	tr_mon 30, ONIX @ LIFE_ORB, FEMALE
+		tr_extra STURDY
+		tr_evs 64 HP, 64 Def
+		tr_moves ROCK_THROW, SCREECH, DIG, ANCIENTPOWER
 	end_trainer
 
 	def_trainer 2, "Brock"
@@ -2362,6 +2354,20 @@ YoungsterGroup:
 	tr_mon 55, RAPIDASH
 	end_trainer
 
+	def_trainer MILO, "Milo"
+	tr_mon 8, MAREEP
+		tr_moves THUNDERSHOCK
+	tr_mon 8, GROWLITHE
+		tr_moves EMBER
+	end_trainer
+
+	def_trainer YOUNGSTER_JOEY, "Joey"
+	tr_mon 4, RATTATA
+		tr_moves TACKLE, LEER
+	tr_mon 4, SENTRET
+		tr_moves TACKLE, FORESIGHT
+	end_trainer
+
 SECTION "BugCatcherGroup", ROMX
 BugCatcherGroup:
 
@@ -2548,7 +2554,8 @@ CamperGroup:
 	end_trainer
 
 	def_trainer JERRY, "Jerry"
-	tr_mon 62, RHYDON
+	tr_mon 26, MACHOP
+	tr_mon 28, RHYHORN
 	end_trainer
 
 	def_trainer SPENCER, "Spencer"
@@ -2595,6 +2602,15 @@ CamperGroup:
 	tr_mon LEVEL_FROM_BADGES + 7, NIDORINO
 	tr_mon LEVEL_FROM_BADGES + 7, NIDORINA
 	tr_mon LEVEL_FROM_BADGES + 9, TAUROS
+	end_trainer
+
+	def_trainer CAMPER_ROB, "Rob"
+	tr_mon 9, SPEAROW
+		tr_moves PECK, GROWL, LEER
+	tr_mon 10, RATTATA
+		tr_moves TACKLE, LEER, QUICK_ATTACK, BITE
+	tr_mon 11, LEDYBA
+		tr_moves TACKLE, SUPERSONIC, MACH_PUNCH
 	end_trainer
 
 
@@ -3381,7 +3397,8 @@ HikerGroup:
 	end_trainer
 
 	def_trainer EDWIN, "Edwin"
-	tr_mon 62, GOLEM
+	tr_mon 27, GEODUDE
+	tr_mon 30, WOOPER
 	end_trainer
 
 	def_trainer DEVIN, "Devin"
@@ -3456,13 +3473,6 @@ HikerGroup:
 
 	def_trainer FLOYD, "Floyd"
 	tr_mon 57, STEELIX
-	end_trainer
-
-	def_trainer ROB, "Rob"
-	tr_mon 9, DIGLETT
-		tr_moves ASTONISH, GROWL, MUD_SLAP, SCRATCH
-	tr_mon 10, GEODUDE
-		tr_moves DEFENSE_CURL, MUD_SLAP, RAPID_SPIN, ROLLOUT
 	end_trainer
 
 
@@ -3752,6 +3762,13 @@ PokefanMGroup:
 
 	def_trainer ALLAN, "Allan"
 	tr_mon 53, TEDDIURSA @ SITRUS_BERRY
+	end_trainer
+
+	def_trainer POKEFAN_ED, "Ed"
+	tr_mon 20, CLEFAIRY
+		tr_moves DOUBLE_SLAP, SWEET_KISS, MINIMIZE, DIZZY_PUNCH
+	tr_mon 22, SANDSHREW
+		tr_moves PIN_MISSILE, MAGNITUDE, POISON_STING, FURY_STRIKES
 	end_trainer
 
 
@@ -4249,6 +4266,13 @@ endc
 	tr_mon 52, AMPHAROS
 	end_trainer
 
+	def_trainer NADIA, "Nadia"
+	tr_mon 9, POLIWAG
+		tr_moves SWEET_KISS, HYPNOSIS, DOUBLE_SLAP
+	tr_mon 10, ODDISH
+		tr_moves ABSORB, GROWTH, LEECH_SEED
+	end_trainer
+
 
 SECTION "BeautyGroup", ROMX
 BeautyGroup:
@@ -4345,44 +4369,38 @@ BugManiacGroup:
 		tr_moves BUG_BITE, QUICK_ATTACK, DOUBLE_TEAM, SONIC_BOOM
 	end_trainer
 
-	def_trainer ED, "Ed"
-	tr_mon 9, YANMA
-	tr_mon 9, KAKUNA
-	tr_mon 9, METAPOD
-	end_trainer
-
 	def_trainer DOUG, "Doug"
-	tr_mon 10, BUTTERFREE
-		tr_moves TACKLE, STRING_SHOT, GUST
-	tr_mon 12, SPINARAK
+	tr_mon 10, SPINARAK
 		tr_moves WRAP, ABSORB, GLARE, SCARY_FACE
+	tr_mon 12, BUTTERFREE
+		tr_moves TACKLE, STRING_SHOT, GUST, CONFUSION
 	end_trainer
 
 	def_trainer DANE, "Dane"
-	tr_mon 59, BEEDRILL
-	tr_mon 61, BUTTERFREE
+	tr_mon 17, CATERPIE
+	tr_mon 17, VENONAT
 	end_trainer
 
 	def_trainer DION, "Dion"
-	tr_mon 63, ARIADOS
+	tr_mon 17, SPINARAK
+	tr_mon 18, YANMA
 	end_trainer
 
 	def_trainer STACEY, "Stacey"
-	tr_mon 60, METAPOD
-	tr_mon 62, METAPOD
-	tr_mon 64, METAPOD
+	tr_mon 17, CATERPIE
+	tr_mon 18, METAPOD
+	tr_mon 20, BUTTERFREE
 	end_trainer
 
 	def_trainer ELLIS, "Ellis"
-	tr_mon 58, WEEDLE
-	tr_mon 60, KAKUNA
-	tr_mon 62, BEEDRILL
+	tr_mon 17, WEEDLE
+	tr_mon 19, KAKUNA
+	tr_mon 21, BEEDRILL
 	end_trainer
 
 	def_trainer ABNER, "Abner"
-	tr_mon 59, BUTTERFREE
-	tr_mon 59, BEEDRILL
-	tr_mon 59, PIKACHU
+	tr_mon 20, LEDIAN
+	tr_mon 20, ARIADOS
 	end_trainer
 
 	def_trainer KENTA, "Kenta"
@@ -4665,12 +4683,10 @@ SchoolboyGroup:
 	end_trainer
 
 	def_trainer DANNY, "Danny"
-	tr_mon 7, SMOOCHUM
-		tr_moves LICK, TACKLE, ICY_WIND, CONFUSION
-	tr_mon 7, ELEKID
-		tr_moves QUICK_ATTACK, LEER, THUNDERSHOCK, LOW_KICK
-	tr_mon 7, MAGBY
-		tr_moves HAZE, LEER, EMBER, SMOKESCREEN
+	tr_mon 7, JIGGLYPUFF
+		tr_moves SING, SWEET_KISS, DEFENSE_CURL, TACKLE
+	tr_mon 7, SNUBBULL
+		tr_moves TACKLE, SCARY_FACE, LEER
 	end_trainer
 
 	def_trainer TOMMY, "Tommy"
@@ -4705,8 +4721,8 @@ SchoolboyGroup:
 	end_trainer
 
 	def_trainer SHERMAN, "Sherman"
-	tr_mon 6, PIDGEOTTO
-		tr_moves TACKLE, GUST, DOUBLE_TEAM, SWIFT
+	tr_mon 6, MACHOP
+		tr_moves LOW_KICK, LEER
 	end_trainer
 
 	def_trainer SCHOOLBOY_CONNOR, "Connor"
@@ -4720,6 +4736,15 @@ SchoolboyGroup:
 
 	def_trainer TRAVIS, "Travis"
 	tr_mon 59, ODDISH
+	end_trainer
+
+	def_trainer PERCY, "Percy"
+	tr_mon 10, SMOOCHUM
+		tr_moves TACKLE, ICY_WIND, METRONOME, SWEET_KISS
+	tr_mon 12, ELEKID
+		tr_moves LEER, THUNDERSHOCK, LOW_KICK, THUNDERPUNCH
+	tr_mon 12, MAGBY
+		tr_moves EMBER, HAZE, LEER, FEINT_ATTACK
 	end_trainer
 
 
@@ -6786,10 +6811,10 @@ CooltrainerMGroup:
 	end_trainer
 
 	def_trainer FRENCH, "French"
-	tr_mon 5, GROWLITHE
-		tr_moves GROWL, BITE, ROAR, EMBER
-	tr_mon 5, PICHU
-		tr_moves THUNDERSHOCK, CHARM, LEER
+	tr_mon 5, PIDGEY
+		tr_moves TACKLE, GUST
+	tr_mon 5, HOOTHOOT
+		tr_moves TACKLE, GROWL, PECK
 	end_trainer
 
 	def_trainer HENRI, "Henri"
@@ -7008,13 +7033,6 @@ endc
 	tr_mon 47, ELECTRODE
 	tr_mon 47, STARMIE
 	tr_mon 47, NINETALES
-	end_trainer
-
-	def_trainer QUINN, "Quinn"
-	tr_mon 4, ODDISH
-		tr_moves ABSORB, GROWTH, LEECH_SEED
-	tr_mon 4, POLIWAG
-		tr_moves SWEET_KISS, WATER_GUN, HYPNOSIS
 	end_trainer
 
 	def_trainer EMMA, "Emma"
@@ -9434,4 +9452,35 @@ DEF _tr_class = GREEN
 	def_trainer_class GREEN
 	def_trainer 1, "Olive"
 	tr_mon 4, EEVEE, FEMALE
+	end_trainer
+
+; Three variants of the same rematch team, differing only in Eevee's Hidden
+; Power type -- picked at battle time (see TrainerOliveForestGate in
+; ViridianForestPewterGate.asm) to counter whichever starter the player chose:
+; Squirtle (Water) -> Grass, Charmander (Fire) -> Water, Bulbasaur (Grass) -> Fire.
+	def_trainer 2, "Olive" ; vs. Squirtle (Water)
+	tr_mon 18, NIDORINA, FEMALE
+		tr_moves TACKLE, LEER, HEADBUTT, DOUBLE_KICK
+	tr_mon 19, PIDGEOTTO, MALE
+		tr_moves GUST, MUD_SLAP, QUICK_ATTACK, RAGE
+	tr_mon 25, EEVEE, FEMALE
+		tr_moves HP_GRASS, CHARM, QUICK_ATTACK, BITE
+	end_trainer
+
+	def_trainer 3, "Olive" ; vs. Charmander (Fire)
+	tr_mon 18, NIDORINA, FEMALE
+		tr_moves TACKLE, LEER, HEADBUTT, DOUBLE_KICK
+	tr_mon 19, PIDGEOTTO, MALE
+		tr_moves GUST, MUD_SLAP, QUICK_ATTACK, RAGE
+	tr_mon 25, EEVEE, FEMALE
+		tr_moves HP_WATER, CHARM, QUICK_ATTACK, BITE
+	end_trainer
+
+	def_trainer 4, "Olive" ; vs. Bulbasaur (Grass)
+	tr_mon 18, NIDORINA, FEMALE
+		tr_moves TACKLE, LEER, HEADBUTT, DOUBLE_KICK
+	tr_mon 19, PIDGEOTTO, MALE
+		tr_moves GUST, MUD_SLAP, QUICK_ATTACK, RAGE
+	tr_mon 25, EEVEE, FEMALE
+		tr_moves HP_FIRE, CHARM, QUICK_ATTACK, BITE
 	end_trainer

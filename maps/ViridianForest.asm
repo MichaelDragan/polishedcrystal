@@ -9,6 +9,13 @@ ViridianForest_MapScriptHeader:
 	warp_event 19, 47, VIRIDIAN_FOREST_VIRIDIAN_GATE, 2
 
 	def_coord_events
+	; Tripwire on the tile she's facing (she stands at 3,7 facing down, so
+	; it's directly below her at 3,8) -- same trick used for Victoria at
+	; Oak's Lab. Needed because picking her party based on which starter you
+	; chose isn't something the native OBJECTTYPE_TRAINER engine's data
+	; table can do, so this is a fully scripted battle instead. -1 scene
+	; means it's always active; this map doesn't otherwise use scenes.
+	coord_event  3,  8, -1, TrainerOliveForestGate
 
 	def_bg_events
 	bg_event  4,  7, BGEVENT_JUMPTEXT, ViridianForestSignText1
@@ -31,6 +38,17 @@ ViridianForest_MapScriptHeader:
 	object_event  5, 24, SPRITE_BUG_MANIAC, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 4, GenericTrainerBug_maniacAbner, -1
 	itemball_event 14, 31, DIRE_HIT, 1, EVENT_ROUTE_2_DIRE_HIT
 	itemball_event  3, 33, MAX_POTION, 1, EVENT_ROUTE_2_MAX_POTION
+	object_event  3,  7, SPRITE_OLIVE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, PAL_NPC_OLIVE, OBJECTTYPE_SCRIPT, 0, TrainerOliveForestGate, EVENT_OLIVE_HIDDEN_AT_VIRIDIAN_FOREST_GATE
+
+	object_const_def
+	const_skip ; Dane
+	const_skip ; Dion
+	const_skip ; Stacey
+	const_skip ; Ellis
+	const_skip ; Abner
+	const_skip ; Dire Hit ball
+	const_skip ; Max Potion ball
+	const FOREST_OLIVE
 
 GenericTrainerBug_maniacDane:
 	generictrainer BUG_MANIAC, DANE, EVENT_BEAT_BUG_MANIAC_DANE, BugManiacDaneSeenText, BugManiacDaneBeatenText
@@ -193,4 +211,100 @@ ViridianForestSignText6:
 
 	para "When healthy,"
 	line "they may escape!"
+	done
+
+; Shared by both the coord_event tripwire above and direct interaction
+; (pressing A on her, via OBJECTTYPE_SCRIPT) -- either way leads here.
+TrainerOliveForestGate:
+; The tripwire fires regardless of whether she's actually visible yet, so
+; guard against that explicitly (her object's own masking already covers
+; direct interaction, since a hidden object can't be talked to).
+	checkevent EVENT_OLIVE_HIDDEN_AT_VIRIDIAN_FOREST_GATE
+	iftruefwd .Nothing
+	checkevent EVENT_BEAT_VICTORIA_2
+	iftruefwd .AlreadyBeaten
+
+	setlasttalked FOREST_OLIVE
+	faceplayer
+	opentext
+	writetext .SeenText
+	waitbutton
+	closetext
+	winlosstext .WinText, 0
+; Her Eevee's Hidden Power type counters whichever starter you picked:
+; Squirtle (Water) -> Grass, Charmander (Fire) -> Water, Bulbasaur (Grass) -> Fire.
+	checkevent EVENT_CHOSE_SQUIRTLE
+	iftruefwd .LoadVsSquirtle
+	checkevent EVENT_CHOSE_CHARMANDER
+	iftruefwd .LoadVsCharmander
+	loadtrainer GREEN, 4 ; vs. Bulbasaur
+	sjumpfwd .DoBattle
+.LoadVsSquirtle:
+	loadtrainer GREEN, 2
+	sjumpfwd .DoBattle
+.LoadVsCharmander:
+	loadtrainer GREEN, 3
+.DoBattle:
+; Must be reset explicitly -- VAR_BATTLETYPE is a shared scratch variable,
+; and without this it was silently inheriting BATTLETYPE_CANLOSE left over
+; from the Oak's Lab fight earlier in the same session, which meant losing
+; here never blacked out and instead ran the win text/leave sequence below
+; regardless of the actual result.
+	loadvar VAR_BATTLETYPE, BATTLETYPE_NORMAL
+	startbattle
+; reloadmapafterbattle (not plain reloadmap) is what actually checks the
+; result and redirects to the whiteout/blackout sequence on a loss --
+; plain reloadmap doesn't check anything, which is why losing fell through
+; to the win text/leave sequence below regardless of outcome. On a loss,
+; this jumps away for good and nothing past this point ever runs.
+	reloadmapafterbattle
+	setevent EVENT_BEAT_VICTORIA_2
+	opentext
+	writetext .WinFollowupText
+	waitbutton
+	closetext
+; She leaves for good now, same as the Oak's Lab fight -- reuse the same
+; flag that hides her before Oak's Lab is beaten to also hide her after
+; this rematch is won (native masking only supports one flag, so one flag
+; has to cover both "not revealed yet" and "already left").
+	setevent EVENT_OLIVE_HIDDEN_AT_VIRIDIAN_FOREST_GATE
+	applymovement FOREST_OLIVE, .WalkOutMovement
+	disappear FOREST_OLIVE
+	end
+
+.WalkOutMovement:
+; She's at 3,7; the Pewter-side warp is at 3,5, directly above her.
+	step_up
+	step_up
+	step_end
+
+.AlreadyBeaten:
+; Self-heals a stale save where EVENT_BEAT_VICTORIA_2 got set before she
+; leaves for good (see .DoBattle's win branch) -- rather than chat forever,
+; just have her leave the moment she's next interacted with.
+	setlasttalked FOREST_OLIVE
+	setevent EVENT_OLIVE_HIDDEN_AT_VIRIDIAN_FOREST_GATE
+	applymovement FOREST_OLIVE, .WalkOutMovement
+	disappear FOREST_OLIVE
+	end
+
+.Nothing:
+	end
+
+.SeenText:
+	text "Made it through"
+	line "most of the"
+	cont "forest, huh?"
+
+	para "Let's see if you"
+	line "got any stronger!"
+	done
+
+.WinText:
+	text "You have gotten"
+	line "stronger!"
+	done
+
+.WinFollowupText:
+	text "Well played."
 	done

@@ -36,6 +36,7 @@ KeyItemNames::
 	li "Harsh Lure"
 	li "Potent Lure"
 	li "Malign Lure"
+	li "Hoe"
 	li "Shiny Charm"
 	li "Oval Charm"
 	li "Catch Charm"

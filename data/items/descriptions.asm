@@ -293,6 +293,7 @@ KeyItemDescriptions:
 	dw HarshLureDesc
 	dw PotentLureDesc
 	dw MalignLureDesc
+	dw HoeDesc
 	dw ShinyCharmDesc
 	dw OvalCharmDesc
 	dw CatchCharmDesc
@@ -1664,6 +1665,11 @@ MalignLureDesc:
 LiftKeyDesc:
 	text "Operates the lift"
 	next "in a building."
+	done
+
+HoeDesc:
+	text "Tills soil so"
+	next "seeds can be sown."
 	done
 
 ShinyCharmDesc:

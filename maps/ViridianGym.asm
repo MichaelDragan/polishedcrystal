@@ -17,37 +17,23 @@ ViridianGym_MapScriptHeader:
 	def_object_events
 	object_event  7,  2, SPRITE_OAK, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, 0, OBJECTTYPE_SCRIPT, 0, ViridianGymOakScript, -1
 	object_event  8, 41, SPRITE_GYM_GUY, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, ViridianGymGuyScript, -1
-	object_event  7, 33, SPRITE_ACE_TRAINER_M, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 1, GenericTrainerAceDuoAraandbela1, EVENT_VIRIDIAN_GYM_GAUNTLET_HIDDEN
-	object_event  6, 33, SPRITE_ACE_TRAINER_F, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 1, GenericTrainerAceDuoAraandbela2, EVENT_VIRIDIAN_GYM_GAUNTLET_HIDDEN
-	object_event  3, 32, SPRITE_ACE_TRAINER_F, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 1, GenericTrainerCooltrainerfSalma, EVENT_VIRIDIAN_GYM_GAUNTLET_HIDDEN
-	object_event  3, 18, SPRITE_ACE_TRAINER_F, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 1, GenericTrainerCooltrainerfBonita, EVENT_VIRIDIAN_GYM_GAUNTLET_HIDDEN
-	object_event  6,  8, SPRITE_ACE_TRAINER_M, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 1, GenericTrainerAceDuoElanandida1, EVENT_VIRIDIAN_GYM_GAUNTLET_HIDDEN
-	object_event  7,  8, SPRITE_ACE_TRAINER_F, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 1, GenericTrainerAceDuoElanandida2, EVENT_VIRIDIAN_GYM_GAUNTLET_HIDDEN
+	object_event  4, 36, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 4, GenericTrainerYoungsterMilo, -1
+	object_event  9, 30, SPRITE_LASS, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 4, GenericTrainerLassNadia, -1
+	object_event  4, 24, SPRITE_SCHOOLBOY, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 4, GenericTrainerSchoolboyPercy, -1
 
 	object_const_def
 	const VIRIDIANGYM_OAK
 	const VIRIDIANGYM_GYM_GUY
-	const VIRIDIANGYM_ACEDUO_ARA
-	const VIRIDIANGYM_ACEDUO_BELA
-	const VIRIDIANGYM_COOLTRAINERF_SALMA
-	const VIRIDIANGYM_COOLTRAINERF_BONITA
-	const VIRIDIANGYM_ACEDUO_ELAN
-	const VIRIDIANGYM_ACEDUO_IDA
+	const VIRIDIANGYM_YOUNGSTER_MILO
+	const VIRIDIANGYM_LASS_NADIA
+	const VIRIDIANGYM_SCHOOLBOY_PERCY
 
-; The 6 gym trainers only guard the way to Oak once he's giving out the real
-; Badge (all 7 other Kanto Badges earned) -- during the tutorial phase it's
-; a straight walk up to him.
-ViridianGymCallback_SetupGauntlet:
-	disappear VIRIDIANGYM_ACEDUO_ARA
-	disappear VIRIDIANGYM_ACEDUO_BELA
-	disappear VIRIDIANGYM_COOLTRAINERF_SALMA
-	disappear VIRIDIANGYM_COOLTRAINERF_BONITA
-	disappear VIRIDIANGYM_ACEDUO_ELAN
-	disappear VIRIDIANGYM_ACEDUO_IDA
-; Tutorial phase: Oak meets the player just 5 tiles up from the door instead
+; Oak meets the player partway into the gym during the tutorial phase instead
 ; of all the way at the back of the gym -- less empty floor to walk through
-; with nothing going on yet.
-	moveobject VIRIDIANGYM_OAK, 7, 38
+; with nothing going on yet. Once all 7 other Kanto Badges are earned, he
+; moves to the back for the real fight.
+ViridianGymCallback_SetupGauntlet:
+	moveobject VIRIDIANGYM_OAK, 7, 19
 	turnobject VIRIDIANGYM_OAK, DOWN
 	checkflag ENGINE_BOULDERBADGE
 	iffalsefwd .Skip
@@ -63,12 +49,6 @@ ViridianGymCallback_SetupGauntlet:
 	iffalsefwd .Skip
 	checkflag ENGINE_VOLCANOBADGE
 	iffalsefwd .Skip
-	appear VIRIDIANGYM_ACEDUO_ARA
-	appear VIRIDIANGYM_ACEDUO_BELA
-	appear VIRIDIANGYM_COOLTRAINERF_SALMA
-	appear VIRIDIANGYM_COOLTRAINERF_BONITA
-	appear VIRIDIANGYM_ACEDUO_ELAN
-	appear VIRIDIANGYM_ACEDUO_IDA
 	moveobject VIRIDIANGYM_OAK, 7, 2
 	turnobject VIRIDIANGYM_OAK, DOWN
 .Skip:
@@ -134,10 +114,6 @@ ViridianGymOakScript:
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_BLUE
-	setevent EVENT_BEAT_ACE_DUO_ARA_AND_BELA
-	setevent EVENT_BEAT_COOLTRAINERF_SALMA
-	setevent EVENT_BEAT_COOLTRAINERF_BONITA
-	setevent EVENT_BEAT_ACE_DUO_ELAN_AND_IDA
 	opentext
 	givebadge EARTHBADGE, KANTO_REGION
 	setevent EVENT_FINAL_BATTLE_WITH_LYRA
@@ -185,20 +161,28 @@ LeaderOakTutorialBeforeText:
 	text "Prof.Oak: Ah,"
 	line "<PLAYER>!"
 
-	para "Before you set"
-	line "out, humor an old"
-	cont "man for a bit."
+	para "Blue was supposed"
+	line "to be running this"
+	cont "Gym today."
 
-	para "I want to see how"
-	line "you and your"
-	cont "#mon battle"
-	cont "together."
+	para "Off doing who"
+	line "knows what, as"
+	cont "usual."
 
-	para "Don't expect me to"
-	line "go easy, though --"
+	para "So humor an old"
+	line "man and battle me"
+	cont "instead."
+
+	para "I can't hand you a"
+	line "Badge in his"
+	cont "place, mind you."
+
+	para "But don't expect"
+	line "me to go easy --"
 	cont "a real battle is"
 	cont "the only way to"
-	cont "learn."
+	cont "learn, Badge or"
+	cont "not."
 	done
 
 LeaderOakTutorialWinText:
@@ -206,6 +190,10 @@ LeaderOakTutorialWinText:
 
 	para "Not bad for your"
 	line "first battle!"
+
+	para "Still no Badge"
+	line "from me, though --"
+	cont "that's Blue's job."
 	done
 
 LeaderOakTutorialLossText:
@@ -218,17 +206,19 @@ LeaderOakTutorialLossText:
 
 LeaderOakTutorialAfterText:
 	text "Prof.Oak: Come"
-	line "back and challenge"
-	cont "me again once"
-
-	para "you've earned all"
-	line "seven other Kanto"
+	line "back once you've"
+	cont "earned all seven"
+	cont "other Kanto"
 	cont "Badges."
 
-	para "I promise I'll"
-	line "have a real Badge"
-	cont "waiting for you"
-	cont "then."
+	para "Maybe Blue will"
+	line "have wandered"
+	cont "back by then."
+
+	para "And if not, well…"
+	line "I suppose I'll"
+	cont "hand you his Badge"
+	cont "myself."
 	done
 
 ViridianGymGuyScript:
@@ -243,69 +233,50 @@ ViridianGymGuyScript:
 	line "Looks like you're"
 	cont "on a roll."
 
-	para "The Gym Leader"
-	line "here is Professor"
-	cont "Oak himself!"
+	para "So, funny story."
+	line "Blue's supposed to"
+	cont "be the Gym Leader"
+	cont "here."
 
-	para "Don't let the lab"
-	line "coat fool you --"
-	cont "he's no pushover."
+	para "But he took off"
+	line "again. Typical"
+	cont "Blue."
 
-	para "Give it everything"
-	line "you've got!"
+	para "Prof.Oak's filling"
+	line "in, but he can't"
+	cont "hand out Badges"
+	cont "in Blue's place."
+
+	para "Doesn't mean he'll"
+	line "go easy on you,"
+	cont "though!"
 	done
 
-GenericTrainerAceDuoAraandbela1:
-	generictrainer ACE_DUO, ARAANDBELA1, EVENT_BEAT_ACE_DUO_ARA_AND_BELA, AceDuoAraandbela1SeenText, AceDuoAraandbela1BeatenText
+GenericTrainerYoungsterMilo:
+	generictrainer YOUNGSTER, MILO, EVENT_BEAT_YOUNGSTER_MILO, YoungsterMiloSeenText, YoungsterMiloBeatenText
 
-	text "Ara: Me, I should"
-	line "be a pretty good"
-	cont "practice partner…"
+	text "My Mareep and"
+	line "Growlithe are"
+	cont "still young, but"
+	cont "they're tough!"
 	done
 
-GenericTrainerAceDuoAraandbela2:
-	generictrainer ACE_DUO, ARAANDBELA2, EVENT_BEAT_ACE_DUO_ARA_AND_BELA, AceDuoAraandbela2SeenText, AceDuoAraandbela2BeatenText
+GenericTrainerLassNadia:
+	generictrainer LASS, NADIA, EVENT_BEAT_LASS_NADIA, LassNadiaSeenText, LassNadiaBeatenText
 
-	text "Bela: Our practice"
-	line "battles didn't pre-"
-	cont "pare us for this."
+	text "Water and grass"
+	line "make a great"
+	cont "team, don't you"
+	cont "think?"
 	done
 
-GenericTrainerCooltrainerfSalma:
-	generictrainer COOLTRAINERF, SALMA, EVENT_BEAT_COOLTRAINERF_SALMA, CooltrainerfSalmaSeenText, CooltrainerfSalmaBeatenText
+GenericTrainerSchoolboyPercy:
+	generictrainer SCHOOLBOY, PERCY, EVENT_BEAT_SCHOOLBOY_PERCY, SchoolboyPercySeenText, SchoolboyPercyBeatenText
 
-	text "There are many"
-	line "Gyms in the world,"
-
-	para "but I really like"
-	line "this one!"
-	done
-
-GenericTrainerCooltrainerfBonita:
-	generictrainer COOLTRAINERF, BONITA, EVENT_BEAT_COOLTRAINERF_BONITA, CooltrainerfBonitaSeenText, CooltrainerfBonitaBeatenText
-
-	text "Looks like you've"
-	line "still got some"
-	cont "energy left."
-	done
-
-GenericTrainerAceDuoElanandida1:
-	generictrainer ACE_DUO, ELANANDIDA1, EVENT_BEAT_ACE_DUO_ELAN_AND_IDA, AceDuoElanandida1SeenText, AceDuoElanandida1BeatenText
-
-	text "Elan: You're"
-	line "stronger than we"
-	cont "anticipated!"
-	done
-
-GenericTrainerAceDuoElanandida2:
-	generictrainer ACE_DUO, ELANANDIDA2, EVENT_BEAT_ACE_DUO_ELAN_AND_IDA, AceDuoElanandida2SeenText, AceDuoElanandida2BeatenText
-
-	text "Ida: If all you"
-	line "have is strength,"
-	cont "you won't do well."
-
-	para "Strategy is also"
-	line "important!"
+	text "I raise the same"
+	line "kind of #mon as"
+	cont "my friend Danny"
+	cont "on Route 1!"
 	done
 
 ViridianGymStatue:
@@ -385,73 +356,45 @@ ViridianGymGuyWinText:
 	line "tears to my eyes."
 	done
 
-AceDuoAraandbela1SeenText:
-	text "Ara: Come on,"
-	line "fight us and see"
-	cont "how good we are!"
+YoungsterMiloSeenText:
+	text "Have you heard?"
+	line "Blue's gone AWOL"
+	cont "again!"
+
+	para "No Badges being"
+	line "handed out today,"
+	cont "but I'll still"
+	cont "battle you!"
 	done
 
-AceDuoAraandbela1BeatenText:
-	text "Ara: We were"
-	line "deceived!"
+YoungsterMiloBeatenText:
+	text "Aw, we're not"
+	line "tough enough yet…"
 	done
 
-AceDuoAraandbela2SeenText:
-	text "Bela: Come on,"
-	line "fight us and see"
-	cont "how good we are!"
+LassNadiaSeenText:
+	text "Hey! Wanna see"
+	line "what my #mon"
+	cont "can do?"
 	done
 
-AceDuoAraandbela2BeatenText:
-	text "Bela: We were"
-	line "deceived!"
+LassNadiaBeatenText:
+	text "Guess we need"
+	line "more practice."
 	done
 
-CooltrainerfSalmaSeenText:
-	text "What do you think?"
+SchoolboyPercySeenText:
+	text "Prof.Oak's filling"
+	line "in for Blue"
+	cont "again…"
 
-	para "You've never seen"
-	line "such a wonderful"
-	cont "Gym, have you?"
+	para "Let me show you my"
+	line "#mon while you"
+	cont "wait!"
 	done
 
-CooltrainerfSalmaBeatenText:
-	text "Whatever!"
+SchoolboyPercyBeatenText:
+	text "They're still"
+	line "growing up…"
 	done
 
-CooltrainerfBonitaSeenText:
-	text "Looking around the"
-	line "room, doesn't it"
-	cont "make you dizzy?"
-	done
-
-CooltrainerfBonitaBeatenText:
-	text "All of my #mon…"
-
-	para "All dizzy and"
-	line "fainting…"
-	done
-
-AceDuoElanandida1SeenText:
-	text "Elan: All right,"
-	line "let's get this"
-	cont "fight started!"
-	done
-
-AceDuoElanandida1BeatenText:
-	text "Elan: Well, this"
-	line "is surprising."
-	done
-
-AceDuoElanandida2SeenText:
-	text "Ida: I'm Ida! Next"
-	line "to me is Elan!"
-
-	para "Together, we're an"
-	line "Ace Duo!"
-	done
-
-AceDuoElanandida2BeatenText:
-	text "Ida: Wow. You're"
-	line "really something."
-	done

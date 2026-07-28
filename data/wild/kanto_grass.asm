@@ -395,29 +395,29 @@
 	def_grass_wildmons VIRIDIAN_FOREST
 	db 10 percent ; encounter rate
 	; morn
-	wildmon 10, CATERPIE
-	wildmon 10, WEEDLE
-	wildmon 8, KAKUNA
-	wildmon 8, METAPOD
-	wildmon 9, METAPOD
-	wildmon 11, PICHU
-	wildmon 12, PICHU
-	; day
-	wildmon 10, CATERPIE
-	wildmon 10, WEEDLE
-	wildmon 8, METAPOD
-	wildmon 8, KAKUNA
+	wildmon 11, CATERPIE
+	wildmon 11, WEEDLE
 	wildmon 9, KAKUNA
-	wildmon 11, PICHU
+	wildmon 9, METAPOD
+	wildmon 10, METAPOD
 	wildmon 12, PICHU
+	wildmon 13, PICHU
+	; day
+	wildmon 11, CATERPIE
+	wildmon 11, WEEDLE
+	wildmon 9, METAPOD
+	wildmon 9, KAKUNA
+	wildmon 10, KAKUNA
+	wildmon 12, PICHU
+	wildmon 13, PICHU
 	; nite
-	wildmon 10, HOOTHOOT
-	wildmon 10, SPINARAK
-	wildmon 8, HOOTHOOT
-	wildmon 8, HOOTHOOT
-	wildmon 9, SPINARAK
 	wildmon 11, HOOTHOOT
+	wildmon 11, SPINARAK
+	wildmon 9, HOOTHOOT
+	wildmon 9, HOOTHOOT
+	wildmon 10, SPINARAK
 	wildmon 12, HOOTHOOT
+	wildmon 13, HOOTHOOT
 	end_grass_wildmons
 
 	def_grass_wildmons ROUTE_3

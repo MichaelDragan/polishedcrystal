@@ -123,6 +123,9 @@ endc
 ; MALIGN LURE
 	RGB 12, 12, 12
 	RGB 29, 01, 09
+; HOE
+	RGB 14, 10, 04 ; wood handle
+	RGB 15, 15, 17 ; metal blade
 ; SHINY CHARM
 	RGB 07, 26, 31
 	RGB 10, 15, 29

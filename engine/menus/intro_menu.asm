@@ -130,6 +130,10 @@ DebugGoldVsGreenBattle:
 	ld [wItemQuantityChangeBuffer], a
 	ld hl, wNumItems
 	call ReceiveItem
+
+	ld a, HOE
+	ld [wCurKeyItem], a
+	call ReceiveKeyItem
 	ret
 
 ResetWRAM_NotPlus:

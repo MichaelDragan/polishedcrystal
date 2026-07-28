@@ -295,6 +295,7 @@ KeyItemIconPointers:
 	dba HarshLureIcon
 	dba PotentLureIcon
 	dba MalignLureIcon
+	dba HoeIcon
 	dba ShinyCharmIcon
 	dba OvalCharmIcon
 	dba CatchCharmIcon

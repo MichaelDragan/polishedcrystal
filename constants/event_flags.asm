@@ -964,7 +964,7 @@
 	const EVENT_BEAT_HIKER_STEVE
 	const EVENT_BEAT_HIKER_DERRICK
 	const EVENT_BEAT_HIKER_FLOYD
-	const EVENT_BEAT_HIKER_ROB
+	const EVENT_BEAT_CAMPER_ROB
 ; GruntM
 	const EVENT_BEAT_ROCKET_GRUNTM_2
 	const EVENT_BEAT_ROCKET_GRUNTM_3
@@ -1114,7 +1114,7 @@
 	const EVENT_BEAT_BEAUTY_IOANA
 ; Bug Maniac
 	const EVENT_BEAT_BUG_MANIAC_LOU
-	const EVENT_BEAT_BUG_MANIAC_ED
+	const EVENT_BEAT_POKEFANM_ED
 	const EVENT_BEAT_BUG_MANIAC_DOUG
 	const EVENT_BEAT_BUG_MANIAC_DANE
 	const EVENT_BEAT_BUG_MANIAC_DION
@@ -2455,6 +2455,23 @@
 	const EVENT_CHOSE_CHARMANDER
 	const EVENT_CHOSE_SQUIRTLE
 	const EVENT_VIRIDIAN_GYM_GAUNTLET_HIDDEN
+	const EVENT_BEAT_VICTORIA_2
+	const EVENT_OLIVE_HIDDEN_AT_VIRIDIAN_FOREST_GATE
+	const EVENT_TILLED_PALLET_GARDEN_PLOT_1
+	const EVENT_TILLED_PALLET_GARDEN_PLOT_2
+	const EVENT_TILLED_PALLET_GARDEN_PLOT_3
+	const EVENT_TILLED_PALLET_GARDEN_PLOT_4
+	const EVENT_BEAT_YOUNGSTER_MILO
+	const EVENT_BEAT_LASS_NADIA
+	const EVENT_BEAT_SCHOOLBOY_PERCY
+	const EVENT_BEAT_ROUTE1_YOUNGSTER_JOEY
 
 	const_next $8ff
+
+; Placeholder block id standing in for "tilled soil" until real tile art
+; exists. Block $8b was an unused slot in the Kanto tileset (never
+; referenced by any Kanto map) that we've repurposed: same repeating
+; checker tile as the plain floor block, but recolored with the "brown"
+; palette role instead of "gray", giving a brown/tan dirt-patch look.
+DEF TILLED_SOIL_BLOCK EQU $a8
 DEF NUM_EVENTS EQU const_value ; 2303

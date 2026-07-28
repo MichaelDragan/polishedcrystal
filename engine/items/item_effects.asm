@@ -82,6 +82,7 @@ DoKeyItemEffect::
 	dw SquirtBottle       ; KEYITEMEFFECT_SQUIRTBOTTLE
 	dw CardKey            ; KEYITEMEFFECT_CARD_KEY
 	dw BasementKey        ; KEYITEMEFFECT_BASEMENT_KEY
+	dw HoeFunction        ; KEYITEMEFFECT_HOE
 	assert_table_length NUM_KEY_ITEM_EFFECTS
 
 INCLUDE "data/items/key_effects.asm"
@@ -2385,6 +2386,145 @@ UseRod:
 
 Itemfinder:
 	farjp ItemFinder
+
+HoeFunction:
+; Only Pallet Town has tillable plots right now.
+	ld a, [wMapGroup]
+	cp GROUP_PALLET_TOWN
+	jr nz, .not_a_plot
+	ld a, [wMapNumber]
+	cp MAP_PALLET_TOWN
+	jr nz, .not_a_plot
+
+	call GetFacingTileCoord ; d,e = facing tile x,y (a = tile id, unused)
+	; GetFacingTileCoord's d,e are in the border-padded coordinate frame;
+	; subtract the 4-tile border to get real map tile coords (same
+	; conversion CheckFacingBGEvent does) before converting to blocks.
+	ld a, d
+	sub 4
+	srl a
+	ld b, a ; facing block x
+	ld a, e
+	sub 4
+	srl a
+	ld c, a ; facing block y
+
+	; Garden plots opened up in Pallet Town, in block coordinates.
+	; The 2x2 patch sits at block columns 2-3, rows 4-5.
+	ld a, b
+	cp 2
+	jr nz, .try_plot_2
+	ld a, c
+	cp 4
+	jr z, .plot_1
+.try_plot_2
+	ld a, b
+	cp 3
+	jr nz, .try_plot_3
+	ld a, c
+	cp 4
+	jr z, .plot_2
+.try_plot_3
+	ld a, b
+	cp 2
+	jr nz, .try_plot_4
+	ld a, c
+	cp 5
+	jr z, .plot_3
+.try_plot_4
+	ld a, b
+	cp 3
+	jr nz, .not_a_plot
+	ld a, c
+	cp 5
+	jr z, .plot_4
+	jr .not_a_plot
+
+.plot_1
+	ld de, EVENT_TILLED_PALLET_GARDEN_PLOT_1
+	jr .try_till
+.plot_2
+	ld de, EVENT_TILLED_PALLET_GARDEN_PLOT_2
+	jr .try_till
+.plot_3
+	ld de, EVENT_TILLED_PALLET_GARDEN_PLOT_3
+	jr .try_till
+.plot_4
+	ld de, EVENT_TILLED_PALLET_GARDEN_PLOT_4
+
+.try_till
+	push de
+	ld b, 2 ; check
+	call EventFlagAction
+	pop de
+	jr nz, .already_tilled
+
+	push de
+	ld b, 1 ; set
+	call EventFlagAction
+	pop de
+
+	call GetFacingTileCoord ; refresh d,e -- EventFlagAction clobbered them
+	call GetBlockLocation
+	ld [hl], TILLED_SOIL_BLOCK
+
+	ld hl, HoeTillScript
+	call QueueScript
+	ret
+
+.already_tilled
+	ld hl, HoeAlreadyTilledScript
+	call QueueScript
+	ret
+
+.not_a_plot
+	ld hl, HoeUseScript
+	call QueueScript
+	ret
+
+HoeTillScript:
+	playsound SFX_CUT
+	waitsfx
+	earthquake 20
+	opentext
+	writetext HoeTillText
+	waitbutton
+	closetext
+	end
+
+HoeAlreadyTilledScript:
+	opentext
+	writetext HoeAlreadyTilledText
+	waitbutton
+	closetext
+	end
+
+HoeUseScript:
+	playsound SFX_CUT
+	waitsfx
+	earthquake 20
+	opentext
+	writetext HoeUseText
+	waitbutton
+	closetext
+	end
+
+HoeTillText:
+	text "You tilled the"
+	line "soil! Ready for"
+	cont "planting."
+	done
+
+HoeAlreadyTilledText:
+	text "This soil's"
+	line "already tilled."
+	done
+
+HoeUseText:
+	text "You swing the Hoe,"
+	line "but there's no"
+	cont "soil to till here."
+	done
 
 RestorePPEffect:
 	ld a, [wCurItem]
