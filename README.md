@@ -6,11 +6,13 @@
 
 * Red's origin story.
   * Player starts as Red in lieu of Gold.
+  * Player starts in Kanto
   * Gold appears in Mt Silver instead of Red [TODO].
-* Kanto Start
-  * Guards prevent you from entering the path to the elite 4 until player possesses 8 badges.
-  * Two extra trainers in viridian forest (bird keepers).
+* Game Changes:
   * Dialog prevents player from entering patch of grass in route 1 until player.
+  * Guards prevent player from entering path to the elite 4.
+    * Player is permitted to pass once 8 badges are obtained.
+  * Two extra trainers in viridian forest (bird keepers).
   * Redesign of Viridian's Gym.
 * Younger Oak
   * Oak is the first and last gym leader
@@ -34,7 +36,15 @@
 * Increased difficulty
 *   Brock's ace is lvl 25.
 
-
+Plans
+* Replace HM functionality with farming simulation features.
+  * Pick-axe -> Gets rid of boulders -> Player can collect stones.
+  * Hatchet -> Gets rid of trees -> Player can collect wood.
+* Farming Materials
+  * Stones and Woods can be used to upgrade Gardener Adam's capabilities.
+    * For example, 50 stones + 20 wood allows for silver rated crop.
+    * Discoverable Key items can be given to Adam upgrade beyond built in constraints.
+      * Example: Fertilizer can be given to Adam which allow for gold crop to grow.
 
 
 ## Changes introduced in Polished Crystal
