@@ -31,85 +31,85 @@
 	def_grass_wildmons MOUNT_MOON_1F
 	db 4 percent ; encounter rate
 	; morn
-	wildmon 55, GOLBAT
-	wildmon 56, GRAVELER
-	wildmon 56, SANDSLASH
-	wildmon 56, PARASECT
-	wildmon 57, GRAVELER
-	wildmon 58, CLEFAIRY
-	wildmon 60, CLEFABLE
+	wildmon 20, ZUBAT
+	wildmon 21, GEODUDE
+	wildmon 22, SANDSHREW
+	wildmon 22, PARAS
+	wildmon 23, GEODUDE
+	wildmon 24, CLEFAIRY
+	wildmon 25, CLEFAIRY
 	; day
-	wildmon 55, GOLBAT
-	wildmon 56, GRAVELER
-	wildmon 56, SANDSLASH
-	wildmon 56, PARASECT
-	wildmon 57, GRAVELER
-	wildmon 58, CLEFAIRY
-	wildmon 60, CLEFABLE
+	wildmon 20, ZUBAT
+	wildmon 21, GEODUDE
+	wildmon 22, SANDSHREW
+	wildmon 22, PARAS
+	wildmon 23, GEODUDE
+	wildmon 24, CLEFAIRY
+	wildmon 25, CLEFAIRY
 	; nite
-	wildmon 55, GOLBAT
-	wildmon 56, GRAVELER
-	wildmon 56, CLEFAIRY
-	wildmon 56, PARASECT
-	wildmon 57, GRAVELER
-	wildmon 58, CLEFAIRY
-	wildmon 60, CLEFABLE
+	wildmon 20, ZUBAT
+	wildmon 21, GEODUDE
+	wildmon 22, CLEFAIRY
+	wildmon 22, PARAS
+	wildmon 23, GEODUDE
+	wildmon 24, CLEFAIRY
+	wildmon 25, CLEFAIRY
 	end_grass_wildmons
 
 	def_grass_wildmons MOUNT_MOON_B1F
 	db 4 percent ; encounter rate
 	; morn
-	wildmon 55, GOLBAT
-	wildmon 56, GRAVELER
-	wildmon 56, SANDSLASH
-	wildmon 56, PARASECT
-	wildmon 57, GRAVELER
-	wildmon 58, CLEFAIRY
-	wildmon 60, CLEFABLE
+	wildmon 20, ZUBAT
+	wildmon 21, GEODUDE
+	wildmon 22, SANDSHREW
+	wildmon 22, PARAS
+	wildmon 23, GEODUDE
+	wildmon 24, CLEFAIRY
+	wildmon 25, CLEFAIRY
 	; day
-	wildmon 55, GOLBAT
-	wildmon 56, GRAVELER
-	wildmon 56, SANDSLASH
-	wildmon 56, PARASECT
-	wildmon 57, GRAVELER
-	wildmon 58, CLEFAIRY
-	wildmon 60, CLEFABLE
+	wildmon 20, ZUBAT
+	wildmon 21, GEODUDE
+	wildmon 22, SANDSHREW
+	wildmon 22, PARAS
+	wildmon 23, GEODUDE
+	wildmon 24, CLEFAIRY
+	wildmon 25, CLEFAIRY
 	; nite
-	wildmon 55, GOLBAT
-	wildmon 56, GRAVELER
-	wildmon 56, CLEFAIRY
-	wildmon 56, PARASECT
-	wildmon 57, GRAVELER
-	wildmon 58, CLEFAIRY
-	wildmon 60, CLEFABLE
+	wildmon 20, ZUBAT
+	wildmon 21, GEODUDE
+	wildmon 22, CLEFAIRY
+	wildmon 22, PARAS
+	wildmon 23, GEODUDE
+	wildmon 24, CLEFAIRY
+	wildmon 25, CLEFAIRY
 	end_grass_wildmons
 
 	def_grass_wildmons MOUNT_MOON_B2F
 	db 4 percent ; encounter rate
 	; morn
-	wildmon 55, GOLBAT
-	wildmon 56, GRAVELER
-	wildmon 56, SANDSLASH
-	wildmon 56, PARASECT
-	wildmon 57, GRAVELER
-	wildmon 58, CLEFAIRY
-	wildmon 60, CLEFABLE
+	wildmon 20, ZUBAT
+	wildmon 21, GEODUDE
+	wildmon 22, SANDSHREW
+	wildmon 22, PARAS
+	wildmon 23, GEODUDE
+	wildmon 24, CLEFAIRY
+	wildmon 25, CLEFAIRY
 	; day
-	wildmon 55, GOLBAT
-	wildmon 56, GRAVELER
-	wildmon 56, SANDSLASH
-	wildmon 56, PARASECT
-	wildmon 57, GRAVELER
-	wildmon 58, CLEFAIRY
-	wildmon 60, CLEFABLE
+	wildmon 20, ZUBAT
+	wildmon 21, GEODUDE
+	wildmon 22, SANDSHREW
+	wildmon 22, PARAS
+	wildmon 23, GEODUDE
+	wildmon 24, CLEFAIRY
+	wildmon 25, CLEFAIRY
 	; nite
-	wildmon 55, GOLBAT
-	wildmon 56, GRAVELER
-	wildmon 56, CLEFAIRY
-	wildmon 56, PARASECT
-	wildmon 57, GRAVELER
-	wildmon 58, CLEFAIRY
-	wildmon 60, CLEFABLE
+	wildmon 20, ZUBAT
+	wildmon 21, GEODUDE
+	wildmon 22, CLEFAIRY
+	wildmon 22, PARAS
+	wildmon 23, GEODUDE
+	wildmon 24, CLEFAIRY
+	wildmon 25, CLEFAIRY
 	end_grass_wildmons
 
 	def_grass_wildmons ROCK_TUNNEL_1F
@@ -423,29 +423,29 @@
 	def_grass_wildmons ROUTE_3
 	db 10 percent ; encounter rate
 	; morn
-	wildmon 52, FEAROW
-	wildmon 52, RATICATE
-	wildmon 54, ARBOK, ARBOK_KANTO_FORM
-	wildmon 55, SANDSLASH
-	wildmon 55, ARBOK, ARBOK_KANTO_FORM
-	wildmon 57, JIGGLYPUFF
-	wildmon 55, WIGGLYTUFF
+	wildmon 20, SPEAROW
+	wildmon 20, RATTATA
+	wildmon 22, EKANS
+	wildmon 22, SANDSHREW
+	wildmon 23, EKANS
+	wildmon 24, JIGGLYPUFF
+	wildmon 25, JIGGLYPUFF
 	; day
-	wildmon 52, FEAROW
-	wildmon 52, RATICATE
-	wildmon 54, ARBOK, ARBOK_KANTO_FORM
-	wildmon 55, SANDSLASH
-	wildmon 55, ARBOK, ARBOK_KANTO_FORM
-	wildmon 57, JIGGLYPUFF
-	wildmon 55, WIGGLYTUFF
+	wildmon 20, SPEAROW
+	wildmon 20, RATTATA
+	wildmon 22, EKANS
+	wildmon 22, SANDSHREW
+	wildmon 23, EKANS
+	wildmon 24, JIGGLYPUFF
+	wildmon 25, JIGGLYPUFF
 	; nite
-	wildmon 52, RATICATE
-	wildmon 52, RATICATE
-	wildmon 54, RATICATE
-	wildmon 55, GOLBAT
-	wildmon 55, RATICATE
-	wildmon 57, CLEFAIRY
-	wildmon 55, CLEFABLE
+	wildmon 20, RATTATA
+	wildmon 20, RATTATA
+	wildmon 22, RATTATA
+	wildmon 22, ZUBAT
+	wildmon 23, RATTATA
+	wildmon 24, CLEFAIRY
+	wildmon 25, CLEFAIRY
 	end_grass_wildmons
 
 	def_grass_wildmons ROUTE_4

@@ -307,6 +307,8 @@ DEF BETA EQU __trainer_class__
 	const EASTON
 	const BRYAN
 	const TRENT
+	const PORTER
+	const WESLEY
 
 	trainerclass HIKER
 	const ANTHONY1

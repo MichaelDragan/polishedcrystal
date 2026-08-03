@@ -36,6 +36,8 @@ ViridianForest_MapScriptHeader:
 	object_event 32, 21, SPRITE_BUG_MANIAC, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 4, GenericTrainerBug_maniacStacey, -1
 	object_event 31,  4, SPRITE_BUG_MANIAC, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 3, GenericTrainerBug_maniacEllis, -1
 	object_event  5, 24, SPRITE_BUG_MANIAC, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 4, GenericTrainerBug_maniacAbner, -1
+	object_event 15, 14, SPRITE_BIRD_KEEPER, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 4, GenericTrainerBirdKeeperPorter, -1
+	object_event 18, 14, SPRITE_BIRD_KEEPER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, 0, OBJECTTYPE_GENERICTRAINER, 4, GenericTrainerBirdKeeperWesley, -1
 	itemball_event 14, 31, DIRE_HIT, 1, EVENT_ROUTE_2_DIRE_HIT
 	itemball_event  3, 33, MAX_POTION, 1, EVENT_ROUTE_2_MAX_POTION
 	object_event  3,  7, SPRITE_OLIVE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, PAL_NPC_OLIVE, OBJECTTYPE_SCRIPT, 0, TrainerOliveForestGate, EVENT_OLIVE_HIDDEN_AT_VIRIDIAN_FOREST_GATE
@@ -46,6 +48,8 @@ ViridianForest_MapScriptHeader:
 	const_skip ; Stacey
 	const_skip ; Ellis
 	const_skip ; Abner
+	const_skip ; Porter
+	const_skip ; Wesley
 	const_skip ; Dire Hit ball
 	const_skip ; Max Potion ball
 	const FOREST_OLIVE
@@ -148,6 +152,21 @@ BugManiacEllisBeatenText:
 	line "beautifully!"
 	done
 
+GenericTrainerBirdKeeperPorter:
+	generictrainer BIRD_KEEPER, PORTER, EVENT_BEAT_BUG_CATCHER_PORTER, BirdKeeperPorterSeenText, BirdKeeperPorterBeatenText
+
+	text "My Noctowl sees"
+	line "everything in this"
+	cont "forest!"
+	done
+
+GenericTrainerBirdKeeperWesley:
+	generictrainer BIRD_KEEPER, WESLEY, EVENT_BEAT_YOUNGSTER_WESLEY, BirdKeeperWesleySeenText, BirdKeeperWesleyBeatenText
+
+	text "My #mon rule"
+	line "the skies!"
+	done
+
 BugManiacAbnerSeenText:
 	text "Many people prefer"
 	line "solid bug #mon"
@@ -159,6 +178,27 @@ BugManiacAbnerBeatenText:
 	text "Thanks for your"
 	line "hard work, my"
 	cont "lovely #mon…"
+	done
+
+BirdKeeperPorterSeenText:
+	text "Whoa! A trainer!"
+	line "Let's see what"
+	cont "you've got."
+	done
+
+BirdKeeperPorterBeatenText:
+	text "My #mon need"
+	line "more practice…"
+	done
+
+BirdKeeperWesleySeenText:
+	text "Hey! Wanna battle"
+	line "me and my"
+	cont "#mon?"
+	done
+
+BirdKeeperWesleyBeatenText:
+	text "Aw, shucks."
 	done
 
 ViridianForestSignText1:

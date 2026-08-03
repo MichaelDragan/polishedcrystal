@@ -2,6 +2,7 @@ Route22_MapScriptHeader:
 	def_scene_scripts
 
 	def_callbacks
+	callback MAPCALLBACK_OBJECTS, Route22KantoGuardsCallback
 
 	def_warp_events
 	warp_event  4,  4, POKEMON_LEAGUE_GATE, 1
@@ -16,9 +17,57 @@ Route22_MapScriptHeader:
 	def_object_events
 	object_event 20, 11, SPRITE_KUKUI, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, 0, OBJECTTYPE_SCRIPT, 0, KukuiScript, -1
 	object_event 28,  2, SPRITE_ACE_TRAINER_F, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, 0, OBJECTTYPE_COMMAND, jumptextfaceplayer, Route22CooltrainerfText, -1
+	object_event 25,  5, SPRITE_OFFICER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, Route22KantoGuardScript, -1
+	object_event 25,  4, SPRITE_OFFICER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, Route22KantoGuardScript, -1
 
 	object_const_def
 	const ROUTE22_KUKUI
+	const ROUTE22_COOLTRAINERF
+	const ROUTE22_KANTO_GUARD1
+	const ROUTE22_KANTO_GUARD2
+
+; Blocks the narrow gap in the rock wall near the Viridian City entrance
+; until the player has all 8 Kanto badges -- the Pokemon League Gate at the
+; west end of this route (and Victory Road beyond it) stays inaccessible
+; until Kanto's cleared.
+Route22KantoGuardsCallback:
+	checkflag ENGINE_BOULDERBADGE
+	iffalsefwd .Blocked
+	checkflag ENGINE_CASCADEBADGE
+	iffalsefwd .Blocked
+	checkflag ENGINE_THUNDERBADGE
+	iffalsefwd .Blocked
+	checkflag ENGINE_RAINBOWBADGE
+	iffalsefwd .Blocked
+	checkflag ENGINE_SOULBADGE
+	iffalsefwd .Blocked
+	checkflag ENGINE_MARSHBADGE
+	iffalsefwd .Blocked
+	checkflag ENGINE_VOLCANOBADGE
+	iffalsefwd .Blocked
+	checkflag ENGINE_EARTHBADGE
+	iffalsefwd .Blocked
+	disappear ROUTE22_KANTO_GUARD1
+	disappear ROUTE22_KANTO_GUARD2
+	endcallback
+.Blocked:
+	appear ROUTE22_KANTO_GUARD1
+	appear ROUTE22_KANTO_GUARD2
+	endcallback
+
+Route22KantoGuardScript:
+	jumpthistextfaceplayer
+
+	text "Hold it! Victory"
+	line "Road is off-limits"
+
+	para "until you've"
+	line "cleared all 8"
+	cont "Kanto Badges."
+
+	para "Come back when"
+	line "you're done here."
+	done
 
 KukuiScript:
 	checkevent EVENT_BEAT_KUKUI

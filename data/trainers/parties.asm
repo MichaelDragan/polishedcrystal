@@ -901,23 +901,23 @@ BrockGroup:
 
 	def_trainer_class BROCK
 	def_trainer 1, "Brock"
-	tr_mon 25, GRAVELER, MALE
+	tr_mon 20, GRAVELER, MALE
 		tr_extra ROCK_HEAD
 		tr_evs 96 HP, 64 Atk
 		tr_moves ROCK_BLAST, MAGNITUDE, DEFENSE_CURL, ROLLOUT
-	tr_mon 24, OMANYTE, FEMALE
+	tr_mon 19, OMANYTE, FEMALE
 		tr_extra SHELL_ARMOR
 		tr_evs 64 Def, 64 SDf
 		tr_moves WATER_GUN, ROCK_THROW, BUBBLE_BEAM, MUD_SLAP
-	tr_mon 26, GOLBAT, FEMALE
+	tr_mon 21, GOLBAT, FEMALE
 		tr_extra INNER_FOCUS
 		tr_evs 64 Atk, 96 Spe
 		tr_moves WING_ATTACK, BITE, CONFUSE_RAY, ACID
-	tr_mon 28, SUDOWOODO, MALE
+	tr_mon 23, SUDOWOODO, MALE
 		tr_extra STURDY
 		tr_evs 64 HP, 64 Atk
 		tr_moves ROCK_THROW, LOW_KICK, FEINT_ATTACK, ANCIENTPOWER
-	tr_mon 30, ONIX @ LIFE_ORB, FEMALE
+	tr_mon 25, ONIX @ LIFE_ORB, FEMALE
 		tr_extra STURDY
 		tr_evs 64 HP, 64 Def
 		tr_moves ROCK_THROW, SCREECH, DIG, ANCIENTPOWER
@@ -2554,8 +2554,8 @@ CamperGroup:
 	end_trainer
 
 	def_trainer JERRY, "Jerry"
-	tr_mon 26, MACHOP
-	tr_mon 28, RHYHORN
+	tr_mon 21, MACHOP
+	tr_mon 23, RHYHORN
 	end_trainer
 
 	def_trainer SPENCER, "Spencer"
@@ -3264,6 +3264,18 @@ BirdKeeperGroup:
 	tr_mon 55, PIDGEOT
 	end_trainer
 
+	def_trainer PORTER, "Porter"
+	tr_mon 17, NOCTOWL
+		tr_moves PECK, NIGHT_SHADE, HYPNOSIS, ZEN_HEADBUTT
+	end_trainer
+
+	def_trainer WESLEY, "Wesley"
+	tr_mon 15, HOOTHOOT
+		tr_moves GROWL, PECK, FORESIGHT, NIGHT_SHADE
+	tr_mon 15, SPEAROW
+		tr_moves PECK, GROWL, LEER, FURY_STRIKES
+	end_trainer
+
 
 SECTION "HikerGroup", ROMX
 HikerGroup:
@@ -3397,8 +3409,8 @@ HikerGroup:
 	end_trainer
 
 	def_trainer EDWIN, "Edwin"
-	tr_mon 27, GEODUDE
-	tr_mon 30, WOOPER
+	tr_mon 22, GEODUDE
+	tr_mon 21, WOOPER
 	end_trainer
 
 	def_trainer DEVIN, "Devin"
@@ -3765,9 +3777,9 @@ PokefanMGroup:
 	end_trainer
 
 	def_trainer POKEFAN_ED, "Ed"
-	tr_mon 20, CLEFAIRY
+	tr_mon 18, CLEFAIRY
 		tr_moves DOUBLE_SLAP, SWEET_KISS, MINIMIZE, DIZZY_PUNCH
-	tr_mon 22, SANDSHREW
+	tr_mon 19, SANDSHREW
 		tr_moves PIN_MISSILE, MAGNITUDE, POISON_STING, FURY_STRIKES
 	end_trainer
 
@@ -4377,30 +4389,30 @@ BugManiacGroup:
 	end_trainer
 
 	def_trainer DANE, "Dane"
-	tr_mon 17, CATERPIE
-	tr_mon 17, VENONAT
+	tr_mon 14, CATERPIE
+	tr_mon 14, VENONAT
 	end_trainer
 
 	def_trainer DION, "Dion"
-	tr_mon 17, SPINARAK
-	tr_mon 18, YANMA
+	tr_mon 14, SPINARAK
+	tr_mon 15, YANMA
 	end_trainer
 
 	def_trainer STACEY, "Stacey"
-	tr_mon 17, CATERPIE
-	tr_mon 18, METAPOD
-	tr_mon 20, BUTTERFREE
+	tr_mon 14, CATERPIE
+	tr_mon 15, METAPOD
+	tr_mon 17, BUTTERFREE
 	end_trainer
 
 	def_trainer ELLIS, "Ellis"
-	tr_mon 17, WEEDLE
-	tr_mon 19, KAKUNA
-	tr_mon 21, BEEDRILL
+	tr_mon 14, WEEDLE
+	tr_mon 16, KAKUNA
+	tr_mon 18, BEEDRILL
 	end_trainer
 
 	def_trainer ABNER, "Abner"
-	tr_mon 20, LEDIAN
-	tr_mon 20, ARIADOS
+	tr_mon 17, LEDIAN
+	tr_mon 17, ARIADOS
 	end_trainer
 
 	def_trainer KENTA, "Kenta"
@@ -9463,7 +9475,7 @@ DEF _tr_class = GREEN
 		tr_moves TACKLE, LEER, HEADBUTT, DOUBLE_KICK
 	tr_mon 19, PIDGEOTTO, MALE
 		tr_moves GUST, MUD_SLAP, QUICK_ATTACK, RAGE
-	tr_mon 25, EEVEE, FEMALE
+	tr_mon 20, EEVEE, FEMALE
 		tr_moves HP_GRASS, CHARM, QUICK_ATTACK, BITE
 	end_trainer
 
@@ -9472,7 +9484,7 @@ DEF _tr_class = GREEN
 		tr_moves TACKLE, LEER, HEADBUTT, DOUBLE_KICK
 	tr_mon 19, PIDGEOTTO, MALE
 		tr_moves GUST, MUD_SLAP, QUICK_ATTACK, RAGE
-	tr_mon 25, EEVEE, FEMALE
+	tr_mon 20, EEVEE, FEMALE
 		tr_moves HP_WATER, CHARM, QUICK_ATTACK, BITE
 	end_trainer
 
@@ -9481,6 +9493,6 @@ DEF _tr_class = GREEN
 		tr_moves TACKLE, LEER, HEADBUTT, DOUBLE_KICK
 	tr_mon 19, PIDGEOTTO, MALE
 		tr_moves GUST, MUD_SLAP, QUICK_ATTACK, RAGE
-	tr_mon 25, EEVEE, FEMALE
+	tr_mon 20, EEVEE, FEMALE
 		tr_moves HP_FIRE, CHARM, QUICK_ATTACK, BITE
 	end_trainer
