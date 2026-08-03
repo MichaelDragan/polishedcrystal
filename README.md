@@ -4,11 +4,17 @@
 
 ## Changes
 
-* Kanto Start as Red
-* "Red's origin story"
+* Red's origin story. Player starts as Red in lieu of Gold.
+* Kanto Start
+  * Guards prevent you from entering the path to the elite 4 until player possesses 8 badges.
+  * Two extra trainers in viridian forest (bird keepers).
+  * Dialog prevents player from entering patch of grass in route 1 until player 
 * Young Oak + Olive
   * Oak is covering for Blue in Viridian City's Gym.
   * Redesigned Viridian's Gym.
+  * Oak's team is dependent on what player started with.
+    * If player chose Charmander, Oak has Squirtle and Bulbasaur.
+    * Always starts with a Pikachu (Pokemon Yellow reference).
 * Farming Simulation
   * Added Hoe + tilling (WIP)
 * Increased difficulty
