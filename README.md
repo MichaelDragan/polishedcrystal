@@ -1,21 +1,20 @@
 # Pokémon Crystal Origins
 
-* Fork of Polished Crystal
 
 ## Changes
 
 * Red's origin story.
   * Player starts as Red in lieu of Gold.
-  * Player starts in Kanto
-  * Gold appears in Mt Silver instead of Red [TODO].
+  * Player starts in Kanto in lieu of Johto.
+  * Gold is the final boss in Mt Silver [TODO].
 * Game Changes:
-  * Dialog prevents player from entering patch of grass in route 1 until player.
+  * Dialog prevents player from entering patch of grass in route 1 until player selects a starter.
   * Guards prevent player from entering path to the elite 4.
     * Player is permitted to pass once 8 badges are obtained.
   * Two extra trainers in viridian forest (bird keepers).
   * Redesign of Viridian's Gym.
 * Younger Oak
-  * Oak is the first and last gym leader
+  * Oak is the first and last gym leader in Kanto.
     * Instead of receiving a gym badge, player unlocks farming.
   * Oak's team depends on the player's starter Pokemon.
     * If player chose Charmander, Oak has Squirtle and Bulbasaur.
@@ -23,20 +22,20 @@
 * New Characters
   * Olive:
     * First appearance in Oak's lab.
-    * Gives you 5 pokeballs and 2 oran berries when you defeat her.
+    * Gives you 5 Pokeballs and 2 oran berries when you defeat her.
     * Starts with a level 4 Eevee.
     * Appears again at the end of Viridian Forest.
     * Blocks you from entering Pewter City until you defeat Oak [TODO].
       * She will battle you once Oak is defeated
       * Her Eevee will have hidden power. The type will depend on the player's starter pokemon [DONE].
 * Farming Simulation
-  * Added Hoe + tilling (WIP)
+  * Added hoe + tilling (WIP)
   * Gardener Adam [TODO]
    * Tends to your gardens while player is completing other objectives.
 * Increased difficulty
 *   Brock's ace is lvl 25.
 
-Plans
+## Plans
 * Replace HM functionality with farming simulation features.
   * Pick-axe -> Gets rid of boulders -> Player can collect stones.
   * Hatchet -> Gets rid of trees -> Player can collect wood.
@@ -46,14 +45,12 @@ Plans
     * Discoverable Key items can be given to Adam upgrade beyond built in constraints.
       * Example: Fertilizer can be given to Adam which allow for gold crop to grow.
 
+## How to Build\
 
-## Changes introduced in Polished Crystal
-
-This is a custom Pokémon game based on [the Pokémon Crystal disassembly](https://github.com/pret/pokecrystal).
 
 ## Download and Play
-
-## What’s New in v3.2.3
+ 
+## Changes introduced in Polished Crystal
 
 - **Customizable New Game Setup:** You can now toggle Natures and Abilities on/off, choose how EVs work (classic no-limit, modern 510 limit, or disabled), and configure various other gameplay options before starting a new adventure.
 - **DVs No Longer Determine Natures/Shininess/Gender/Unown Form:** DVs still affect color variation (slightly different hues for the same species), but everything else is now handled separately.
