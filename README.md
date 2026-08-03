@@ -41,7 +41,7 @@ Plans
   * Pick-axe -> Gets rid of boulders -> Player can collect stones.
   * Hatchet -> Gets rid of trees -> Player can collect wood.
 * Farming Materials
-  * Stones and Woods can be used to upgrade Gardener Adam's capabilities.
+  * Stones and Wood can be used to upgrade Gardener Adam's capabilities.
     * For example, 50 stones + 20 wood allows for silver rated crop.
     * Discoverable Key items can be given to Adam upgrade beyond built in constraints.
       * Example: Fertilizer can be given to Adam which allow for gold crop to grow.
