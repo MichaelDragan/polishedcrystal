@@ -1,0 +1,88 @@
+# Crystal Origins — Rolling Release
+# Builds the ROM on every push to main and republishes it as the single
+# "latest" GitHub Release, so there's always a one-click current download.
+name: "Crystal Origins Release"
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  PC_VERSION: "3.2.3"
+  RGBDS_VERSION: "v1.0.1"
+  RELEASE_TAG: "latest"
+  RELEASE_NAME: "Crystal Origins (Latest Build)"
+
+jobs:
+  build-and-release:
+    name: "Build and Release"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - id: set-env-var
+        name: "Set environment variables"
+        run: |
+          echo "SHORT_SHA=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_ENV
+
+      - id: apt-get-depends
+        name: "Install build dependencies"
+        run: |
+          sudo apt-get update
+          sudo apt-get install bison gcc git make libpng-dev -y
+
+      - id: checkout-rgbds
+        name: "Checkout gbdev/rgbds"
+        uses: actions/checkout@v4
+        with:
+          path: rgbds
+          ref: ${{ env.RGBDS_VERSION }}
+          repository: gbdev/rgbds
+
+      - id: install-rgbds
+        name: "Install gbdev/rgbds"
+        working-directory: rgbds
+        run: |
+          sudo make install
+
+      - id: checkout-repo
+        name: "Checkout Crystal Origins"
+        uses: actions/checkout@v4
+
+      - id: build
+        name: "Build the ROM"
+        run: |
+          make -j$(nproc)
+          mkdir build
+          cp polishedcrystal-${{ env.PC_VERSION }}.gbc build/CrystalOrigins.gbc
+
+      - id: delete-old-release
+        name: "Delete previous latest release"
+        uses: cb80/delrel@latest
+        with:
+          tag: ${{ env.RELEASE_TAG }}
+
+      - id: advance-tag
+        name: "Move latest tag to this commit"
+        run: |
+          git tag ${{ env.RELEASE_TAG }} -f
+          git push origin ${{ env.RELEASE_TAG }} -f
+
+      - id: create-release
+        name: "Create latest release"
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.RELEASE_TAG }}
+          name: ${{ env.RELEASE_NAME }}
+          body: |
+            Always-current build of Crystal Origins, rebuilt automatically from the latest commit on `main` (`${{ env.SHORT_SHA }}`).
+
+            Download **CrystalOrigins.gbc** below and load it in an accurate Game Boy Color emulator (e.g. [SameBoy](https://sameboy.github.io/), [mGBA](https://mgba.io/), [BGB](https://bgb.bircd.org/)).
+
+            Save compatibility across updates isn't guaranteed.
+          draft: false
+          prerelease: true
+          files: |
+            build/CrystalOrigins.gbc

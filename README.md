@@ -45,11 +45,22 @@
     * Discoverable Key items can be given to Adam upgrade beyond built in constraints.
       * Example: Fertilizer can be given to Adam which allow for gold crop to grow.
 
-## How to Build\
+## How to Build
 
+Requires [RGBDS 1.0.1](https://rgbds.gbdev.io/) and `make`.
+
+```bash
+git clone https://github.com/MichaelDragan/PokemonCrystalOrigins.git
+cd PokemonCrystalOrigins
+make
+```
+
+Full platform-specific setup (Windows/Mac/Linux) is in [INSTALL.md](INSTALL.md).
 
 ## Download and Play
- 
+
+**[Download the latest build here](https://github.com/MichaelDragan/PokemonCrystalOrigins/releases/tag/latest)** — `CrystalOrigins.gbc`, rebuilt automatically from the newest commit on `main`. Load it in an accurate Game Boy Color emulator (e.g. [SameBoy](https://sameboy.github.io/), [mGBA](https://mgba.io/), [BGB](https://bgb.bircd.org/)).
+
 ## Changes introduced in Polished Crystal
 
 - **Customizable New Game Setup:** You can now toggle Natures and Abilities on/off, choose how EVs work (classic no-limit, modern 510 limit, or disabled), and configure various other gameplay options before starting a new adventure.
