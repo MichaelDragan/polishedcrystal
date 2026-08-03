@@ -61,6 +61,13 @@ Full platform-specific setup (Windows/Mac/Linux) is in [INSTALL.md](INSTALL.md).
 
 **[Download the latest build here](https://github.com/MichaelDragan/PokemonCrystalOrigins/releases/tag/latest)** — `CrystalOrigins.gbc`, rebuilt automatically from the newest commit on `main`. Load it in an accurate Game Boy Color emulator (e.g. [SameBoy](https://sameboy.github.io/), [mGBA](https://mgba.io/), [BGB](https://bgb.bircd.org/)).
 
+## Reference
+
+Living companion docs, updated as the game changes:
+
+- **[Trainer Roster](https://claude.ai/code/artifact/09bea257-d18c-4a5f-9b21-ee4639983125)** — every trainer battle, in walking order.
+- **[Wild Encounters](https://claude.ai/code/artifact/ee6ccff9-640a-4670-b0ac-c25f724a4651)** — wild grass/water tables by species, level, and time of day.
+
 ## Changes introduced in Polished Crystal
 
 - **Customizable New Game Setup:** You can now toggle Natures and Abilities on/off, choose how EVs work (classic no-limit, modern 510 limit, or disabled), and configure various other gameplay options before starting a new adventure.
