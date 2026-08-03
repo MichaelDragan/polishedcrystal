@@ -7,7 +7,7 @@
 * Kanto Start as Red
 * "Red's origin story"
 * Young Oak + Olive
-  * Oak is covering for "Blue" in Viridian City's Gym.
+  * Oak is covering for Blue in Viridian City's Gym.
   * Redesigned Viridian's Gym.
 * Farming Simulation
   * Added Hoe + tilling (WIP)
