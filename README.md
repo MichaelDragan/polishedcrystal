@@ -128,3 +128,36 @@ Additional resource:
 ![soul-house](screenshots/soul-house.png)
 ![cinnabar-island](screenshots/cinnabar-island.png)
 ![seafoam-islands](screenshots/seafoam-islands.png)
+
+---
+
+## DraganIndustries: Project Journal
+
+*This section covers my own fork's work on top of Polished Crystal — not the upstream project above. Notes to myself on the direction, in roughly the order I've been figuring it out.*
+
+### The pitch: a Kanto-first story
+Polished Crystal is built around Johto, with Kanto as postgame content you unlock after the Elite Four — every trainer and wild encounter over there sits at levels 50-70+. I flipped that: the game now starts fresh in **Pallet Town at level 5**, picking one of the three classic Kanto starters, and plays through Kanto as the *first* region rather than the last. Johto presumably comes after, once Kanto's 8 badges are in hand — Route 22 now has a pair of guards blocking Victory Road until then, so the story order is enforced rather than just implied.
+
+That flip means basically the entire Kanto side of the map was tuned for a level-70 postgame visit, not a level-5 opening act. Most of the work so far has been rebalancing it region by region — swapping evolved trainer teams for their unevolved forms (a level-8 Venusaur is not a fair fight for a fresh starter, evolved-or-not) and dragging levels down into a sane early curve, rather than trying to rebalance all of Kanto in one giant pass.
+
+**Rebalanced so far:** Pallet Town, Route 1, Viridian City, Viridian Gym (Oak's tutorial stage), Route 2 (both halves), Viridian Forest, Route 3, Mt. Moon, and the Pewter Gym.
+**Still at old postgame levels, not yet touched:** everything past Pewter — Cerulean and beyond.
+
+### Olive
+Introduced a new companion character, Olive, who meets you in Oak's Lab right at the start — re-themed as a library for this early point in the story rather than a working Pokémon lab (Oak isn't really a professor yet here). She's a friend, not a rival: no ambush battle in the lab, just a chat, and Oak sends you off with a starter kit of Poké Balls and berries. She resurfaces later as a rematch at the Viridian Forest exit, and her Eevee's Hidden Power move is tuned to counter whichever starter you picked (Grass beats Squirtle, Water beats Charmander, Fire beats Bulbasaur) — a small "she's been paying attention" touch.
+
+Gave her a fully custom overworld sprite and palette instead of reusing a stock NPC recolor, and a hand-edited battle portrait (paused for now, no further art changes planned until I pick it back up).
+
+### Viridian Gym: a tutorial stage before it's a real Gym
+Blue is the actual Gym Leader here, but true to character he's usually off adventuring somewhere — not an emergency, just typical Blue. Oak fills in and runs a practice battle (Pikachu plus whichever two starters you *didn't* pick), but he's explicit that he can't hand out a real Badge in Blue's place. The real fight — and the Earth Badge — waits until you've cleared the other 7 Kanto Gyms, at which point Blue's back and the tutorial trainers are swapped out for the real gauntlet. Added three new early trainers here (Youngster Milo, Lass Nadia, Schoolboy Percy) so the gym has some life in it even before the real fight unlocks.
+
+### New trainers throughout
+Beyond the gym, added and reworked a bunch of the wild-route cast: Youngster Joey and retuned teams on Route 1; Camper Rob and a reordered Doug on Route 2 South; Pokéfan Ed on Route 2 North; two new Bird Keepers (Porter with a solo Noctowl, Wesley with Hoothoot/Spearow) in Viridian Forest alongside the existing Bug Maniacs; and a reworked Brock lineup at Pewter (Sudowoodo in, Sandslash out, Onix promoted to a Life Orb-holding ace).
+
+### Smaller systems
+- **Badge-gated level cap**: your Pokémon won't out-level the current badge tier through grinding (cap rises with each Kanto badge, lifted entirely once Kanto's done) — keeps the curve from being trivialized by just grinding wild encounters.
+- **Hoe key item** + tillable garden plots in Pallet Town, with tilled state persisting across map reloads.
+- Route 1's grass entrance is gated until you've actually picked a starter, so you can't wander into wild encounters with an empty party.
+
+### What's next
+Continuing the level-curve rebalance past Pewter City (Mt. Moon is done, Cerulean onward isn't). No decisions yet on what changes on the Johto side once that's reachable — for now the assumption is Johto stays closer to vanilla Polished Crystal, arrived at post-Kanto instead of pre-Kanto.
