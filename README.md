@@ -4,22 +4,26 @@
 
 ## Changes
 
-* Red's origin story. Player starts as Red in lieu of Gold.
+* Red's origin story.
+  * Player starts as Red in lieu of Gold.
+  * Gold appears in Mt Silver instead of Red [TODO].
 * Kanto Start
   * Guards prevent you from entering the path to the elite 4 until player possesses 8 badges.
   * Two extra trainers in viridian forest (bird keepers).
-  * Dialog prevents player from entering patch of grass in route 1 until player 
-* Young Oak + Olive
-  * Oak is covering for Blue in Viridian City's Gym.
-  * Redesigned Viridian's Gym.
-  * Oak's team is dependent on what player started with.
+  * Dialog prevents player from entering patch of grass in route 1 until player.
+  * Redesign of Viridian's Gym.
+* Younger Oak
+  * Oak is the first and last gym leader
+    * Instead of receiving a gym badge, player unlocks farming.
+  * Oak's team depends on the player's starter Pokemon.
     * If player chose Charmander, Oak has Squirtle and Bulbasaur.
     * Always starts with a Pikachu (Pokemon Yellow reference).
 * Farming Simulation
   * Added Hoe + tilling (WIP)
+  * Gardener Adam [TODO]
+   * Tends to your gardens while player is completing other objectives.
 * Increased difficulty
 *   Brock's ace is lvl 25.
-*   More difficult but still enjoyable.
 
 
 
