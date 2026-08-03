@@ -97,6 +97,3 @@ A full list of features is in [FEATURES.md](FEATURES.md). Some highlights:
 - **Music and Graphics** devamped from newer generations.
 
 ---
-
-### What's next
-Continuing the level-curve rebalance past Pewter City (Mt. Moon is done, Cerulean onward isn't). No decisions yet on what changes on the Johto side once that's reachable — for now the assumption is Johto stays closer to vanilla Polished Crystal, arrived at post-Kanto instead of pre-Kanto.
