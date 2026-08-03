@@ -18,6 +18,15 @@
   * Oak's team depends on the player's starter Pokemon.
     * If player chose Charmander, Oak has Squirtle and Bulbasaur.
     * Always starts with a Pikachu (Pokemon Yellow reference).
+* New Characters
+  * Olive:
+    * First appearance in Oak's lab.
+    * Gives you 5 pokeballs and 2 oran berries when you defeat her.
+    * Starts with a level 4 Eevee.
+    * Appears again at the end of Viridian Forest.
+    * Blocks you from entering Pewter City until you defeat Oak [TODO].
+      * She will battle you once Oak is defeated
+      * Her Eevee will have hidden power. The type will depend on the player's starter pokemon [DONE].
 * Farming Simulation
   * Added Hoe + tilling (WIP)
   * Gardener Adam [TODO]
