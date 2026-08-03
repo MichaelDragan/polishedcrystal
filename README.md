@@ -131,7 +131,7 @@ Additional resource:
 
 ---
 
-## DraganIndustries: Project Journal
+## Changes
 
 *This section covers my own fork's work on top of Polished Crystal — not the upstream project above. Notes to myself on the direction, in roughly the order I've been figuring it out.*
 
